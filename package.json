@@ -1,0 +1,19 @@
+{
+  "name": "sandwich-store",
+  "version": "1.0.0",
+  "description": "mock POS sandwich store",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexWetzel/Sandwich-Store.git"
+  },
+  "author": "Alexander Wetzel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexWetzel/Sandwich-Store/issues"
+  },
+  "homepage": "https://github.com/AlexWetzel/Sandwich-Store#readme"
+}
