@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import Item from './components/Item';
-import Order from './components/Order';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Start from './pages/Start';
+import Menu from './pages/Menu';
 import './App.css';
 
 class App extends Component {
 
-  state = {
-    sandwiches: [],
-    cheese: [],
-    vegetables: [],
+  // state = {
+  //   sandwiches: [],
+  //   cheese: [],
+  //   vegetables: [],
 
-    menuItems: []
-  }
+  //   menuItems: []
+  // }
 
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
@@ -25,23 +26,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-8">
-          <h1 classname="m-3" style={{textAlign: 'center'}}>Sandwiches</h1>
-          <div className="p-2">
-            <div className="row">
-
-              <Item />
-              
-            </div>
-          </div>
-        </div>
-        <div className="col-4" >
-          
-          <Order />
-
-        </div>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Start} />
+          <Route exact path="/menu" component={Menu} />
+        </Switch>
+      </Router>
     );
   }
 }
