@@ -9,30 +9,36 @@ class Menu extends Component {
   //   super();
   // }
   state = {
-    ingredients: [],
-    count: 0
+    ingredients: ['Lettuce'],
+    count: 0,
+    order: []
   }
 
-  ingredientToggle = () => {
+  ingredientToggle = name => {
     console.log('click');
+    console.log(name);
   }
 
   render() {
     return(
       <div className="row">
-        <button
-          onClick={this.ingredientToggle}        
-        >click</button>
         <ItemWrapper>
           <Item />
         </ItemWrapper>
 
-        {/* <IngredientWrapper> */}
-          <Ingredient
-            name={'Lettuce'}
-            onClick={this.ingredientToggle}
-          />
-        {/* </IngredientWrapper> */}
+        <IngredientWrapper>
+          {this.state.ingredients.map(ingredient => {
+            return(
+              <Ingredient
+              key={ingredient}
+              name={ingredient}
+              onClick={() => this.ingredientToggle(ingredient)}
+              // isSelected={}
+            />
+            )
+          })}
+ 
+        </IngredientWrapper>
         <div className="col-4">
           
           <Order />
