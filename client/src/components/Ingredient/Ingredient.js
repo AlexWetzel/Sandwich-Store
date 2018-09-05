@@ -20,4 +20,4 @@ class Ingredient extends Component {
   }
 }
 
-export Ingredient;
+export { Ingredient };
