@@ -3,7 +3,7 @@ import Item from './../../components/Item';
 import Order from './../../components/Order';
 
 class Menu extends Component {
-  //Old app stuff goes here
+
   render() {
     return(
       <div className="row">
