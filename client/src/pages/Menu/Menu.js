@@ -14,9 +14,28 @@ class Menu extends Component {
     order: []
   }
 
-  ingredientToggle = name => {
-    console.log('click');
-    console.log(name);
+  ingredientToggle = ingredient => {
+    const i = this.state.order.indexOf(ingredient)
+
+    console.log('The index of',ingredient,'In the order array is:', i);
+
+    if( i === -1 ) {
+      this.addIngredient(ingredient);
+    } else {
+      this.removeIngredient(i)
+    }
+  }
+
+  addIngredient = ingredient => {
+    let newOrder = this.state.order.slice();
+    newOrder.push(ingredient);
+    this.setState({order: newOrder});
+  }
+
+  removeIngredient = i => {
+    let newOrder = this.state.order.slice();
+    newOrder.splice(i, 1);
+    this.setState({order: newOrder})
   }
 
   render() {
@@ -33,7 +52,7 @@ class Menu extends Component {
               key={ingredient}
               name={ingredient}
               onClick={() => this.ingredientToggle(ingredient)}
-              // isSelected={}
+              isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
             />
             )
           })}

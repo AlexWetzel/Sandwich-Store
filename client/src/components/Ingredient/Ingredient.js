@@ -13,6 +13,7 @@ class Ingredient extends Component {
             />
           <div>
             <h1>{this.props.name}</h1>
+            <p>{this.props.isselected}</p>
           </div>
         </div>
       </div>
