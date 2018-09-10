@@ -8,6 +8,7 @@ class Menu extends Component {
   // constructor() {
   //   super();
   // }
+
   state = {
     ingredients: ['Lettuce'],
     count: 0,
@@ -58,10 +59,14 @@ class Menu extends Component {
           })}
  
         </IngredientWrapper>
-        <div className="col-4">
-          
-          <Order />
-
+        <div className="col-4">          
+          <Order>
+            {this.state.order.map(orderItem => {
+              return(
+                <li>{orderItem}</li>
+              )
+            })}
+          </Order>
         </div>
       </div>
     )
