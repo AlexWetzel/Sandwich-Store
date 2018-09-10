@@ -7,12 +7,14 @@ class Menu extends Component {
   
   // constructor() {
   //   super();
+  //   const sequence = ['sadwich', 'veggies'];
   // }
 
   state = {
     ingredients: ['Lettuce'],
     count: 0,
-    order: []
+    order: [],
+    orderPage: 0
   }
 
   ingredientToggle = ingredient => {
@@ -39,26 +41,79 @@ class Menu extends Component {
     this.setState({order: newOrder})
   }
 
+  nextPage = () => {
+    console.log('click');
+    let page = this.state.orderPage
+    page++;
+    this.setState({orderPage: page});
+  }
+
+  previousPage = () => {
+    console.log('click');
+    let page = this.state.orderPage
+    page--;
+    this.setState({orderPage: page});
+  }
+
+  pageRender = () => {
+    switch (this.state.orderPage) {
+      case 0:
+        return(          
+          <ItemWrapper>
+            <Item
+              onClick={() => this.nextPage()}
+            />
+          </ItemWrapper>
+        );
+      case 1:
+        return(
+          <IngredientWrapper 
+            onClick={() => this.nextPage()}
+          >
+            {this.state.ingredients.map(ingredient => {
+              return(
+                <Ingredient
+                key={ingredient}
+                name={ingredient}
+                onClick={() => this.ingredientToggle(ingredient)}
+                isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+              />
+              )
+            })} 
+          </IngredientWrapper>
+        )
+    
+      default:
+        return(
+          <p>Nothing happened</p>
+        );
+    }
+  }
+
+  pageButtons = () => {
+    if (this.state.orderPage !== 0) {
+      return(
+        <div className="row">
+          <div className="col-12">
+            <button onClick={this.previousPage}>Back</button>
+            <button onClick={this.nextPage}>Next</button>
+          </div>
+        </div>
+      )
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return(
       <div className="row">
-        <ItemWrapper>
-          <Item />
-        </ItemWrapper>
+        <div className="col-8">
 
-        <IngredientWrapper>
-          {this.state.ingredients.map(ingredient => {
-            return(
-              <Ingredient
-              key={ingredient}
-              name={ingredient}
-              onClick={() => this.ingredientToggle(ingredient)}
-              isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
-            />
-            )
-          })}
- 
-        </IngredientWrapper>
+          <this.pageRender />
+
+          <this.pageButtons />
+        </div>
         <div className="col-4">          
           <Order>
             {this.state.order.map(orderItem => {
@@ -69,6 +124,7 @@ class Menu extends Component {
           </Order>
         </div>
       </div>
+
     )
   }
 }
