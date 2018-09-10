@@ -3,6 +3,9 @@ import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 
+
+//TODO: React warning when selecting ingredient - needs key
+
 class Menu extends Component {
   
   // constructor() {
@@ -59,67 +62,25 @@ class Menu extends Component {
   }
 
   pageRender = () => {
+    let ingredients;
     switch (this.state.orderPage) {
       case 0:
         return(          
           <ItemWrapper>
             <Item
-
               onClick={() => this.nextPage()}
             />
           </ItemWrapper>
         );
       case 1:
-        return(
-          <IngredientWrapper 
-            onClick={() => this.nextPage()}
-          >
-            {this.state.menu.sauce.map(ingredient => {
-              return(
-                <Ingredient
-                  key={ingredient}
-                  name={ingredient}
-                  onClick={() => this.ingredientToggle(ingredient)}
-                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
-                />
-              )
-            })} 
-          </IngredientWrapper>
-        )    
+        ingredients = this.state.menu.sauce;
+        return(<this.ingredientsRender ingredients={ingredients}/>)
       case 2:
-        return(
-          <IngredientWrapper 
-            onClick={() => this.nextPage()}
-          >
-            {this.state.menu.cheese.map(ingredient => {
-              return(
-                <Ingredient
-                  key={ingredient}
-                  name={ingredient}
-                  onClick={() => this.ingredientToggle(ingredient)}
-                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
-                />
-              )
-            })} 
-          </IngredientWrapper>
-        )    
+        ingredients = this.state.menu.cheese;
+        return(<this.ingredientsRender ingredients={ingredients}/>)
       case 3:
-        return(
-          <IngredientWrapper 
-            onClick={() => this.nextPage()}
-          >
-            {this.state.menu.veggies.map(ingredient => {
-              return(
-                <Ingredient
-                  key={ingredient}
-                  name={ingredient}
-                  onClick={() => this.ingredientToggle(ingredient)}
-                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
-                />
-              )
-            })} 
-          </IngredientWrapper>
-        )    
+        ingredients = this.state.menu.veggies;
+        return(<this.ingredientsRender ingredients={ingredients}/>)
       default:
         return(
           <p>Nothing happened</p>
@@ -127,6 +88,27 @@ class Menu extends Component {
     }
   }
 
+  ingredientsRender = props => {
+
+    console.log(props.ingredients);
+    return(
+      <IngredientWrapper 
+        onClick={() => this.nextPage()}
+      >
+        {props.ingredients.map(ingredient => {
+          return(
+            <Ingredient
+              key={ingredient}
+              name={ingredient}
+              onClick={() => this.ingredientToggle(ingredient)}
+              isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+            />
+          )
+        })} 
+      </IngredientWrapper>
+    )
+  }
+ 
   pageButtons = () => {
     if (this.state.orderPage !== 0) {
       return(
