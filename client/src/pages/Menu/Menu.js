@@ -74,6 +74,40 @@ class Menu extends Component {
           <IngredientWrapper 
             onClick={() => this.nextPage()}
           >
+            {this.state.menu.sauce.map(ingredient => {
+              return(
+                <Ingredient
+                  key={ingredient}
+                  name={ingredient}
+                  onClick={() => this.ingredientToggle(ingredient)}
+                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+                />
+              )
+            })} 
+          </IngredientWrapper>
+        )    
+      case 2:
+        return(
+          <IngredientWrapper 
+            onClick={() => this.nextPage()}
+          >
+            {this.state.menu.cheese.map(ingredient => {
+              return(
+                <Ingredient
+                  key={ingredient}
+                  name={ingredient}
+                  onClick={() => this.ingredientToggle(ingredient)}
+                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+                />
+              )
+            })} 
+          </IngredientWrapper>
+        )    
+      case 3:
+        return(
+          <IngredientWrapper 
+            onClick={() => this.nextPage()}
+          >
             {this.state.menu.veggies.map(ingredient => {
               return(
                 <Ingredient
