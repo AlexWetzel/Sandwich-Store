@@ -11,8 +11,13 @@ class Menu extends Component {
   // }
 
   state = {
+    menu: {
+      sandwiches: ["Roast Beef", "Turkey", "Ham", "Ultimate", "Italian"],
+      sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
+      cheese: ["Cheddar", "Swiss", "Provolone", "American"],
+      veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
+    },
     ingredients: ['Lettuce'],
-    count: 0,
     order: [],
     orderPage: 0
   }
@@ -42,14 +47,12 @@ class Menu extends Component {
   }
 
   nextPage = () => {
-    console.log('click');
     let page = this.state.orderPage
     page++;
     this.setState({orderPage: page});
   }
 
   previousPage = () => {
-    console.log('click');
     let page = this.state.orderPage
     page--;
     this.setState({orderPage: page});
@@ -61,6 +64,7 @@ class Menu extends Component {
         return(          
           <ItemWrapper>
             <Item
+
               onClick={() => this.nextPage()}
             />
           </ItemWrapper>
@@ -70,19 +74,18 @@ class Menu extends Component {
           <IngredientWrapper 
             onClick={() => this.nextPage()}
           >
-            {this.state.ingredients.map(ingredient => {
+            {this.state.menu.veggies.map(ingredient => {
               return(
                 <Ingredient
-                key={ingredient}
-                name={ingredient}
-                onClick={() => this.ingredientToggle(ingredient)}
-                isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
-              />
+                  key={ingredient}
+                  name={ingredient}
+                  onClick={() => this.ingredientToggle(ingredient)}
+                  isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+                />
               )
             })} 
           </IngredientWrapper>
-        )
-    
+        )    
       default:
         return(
           <p>Nothing happened</p>
