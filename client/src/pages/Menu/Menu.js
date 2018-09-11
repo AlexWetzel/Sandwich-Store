@@ -5,7 +5,6 @@ import Order from './../../components/Order';
 
 
 //TODO:
-// React warning when selecting ingredient - needs key
 //Render each sandwich on the menu
 //Add complete order page
 
@@ -23,7 +22,6 @@ class Menu extends Component {
       cheese: ["Cheddar", "Swiss", "Provolone", "American"],
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
-    ingredients: ['Lettuce'],
     order: [],
     orderPage: 0
   }
@@ -70,16 +68,15 @@ class Menu extends Component {
       case 0:
         return(          
           <ItemWrapper>
-
-                {this.state.menu.sandwiches.map(sandwich => {
-                  return(
-                    <Item
-                      key={sandwich}
-                      name={sandwich}
-                      onClick={() => this.nextPage()}
-                    />
-                  )
-                })}
+            {this.state.menu.sandwiches.map(sandwich => {
+              return(
+                <Item
+                  key={sandwich}
+                  name={sandwich}
+                  onClick={() => this.nextPage()}
+                />
+              )
+            })}
           </ItemWrapper>
         );
       case 1:
@@ -93,7 +90,10 @@ class Menu extends Component {
         return(<this.ingredientsRender ingredients={ingredients}/>)
       default:
         return(
-          <p>Nothing happened</p>
+          <div>
+            <p>Something Went Wrong!</p>
+            <button onClick={this.reset}>Return</button>
+          </div>
         );
     }
   }
@@ -132,6 +132,13 @@ class Menu extends Component {
     } else {
       return null;
     }
+  }
+
+  reset = () => {
+    this.setState({
+      order: [],
+      orderPage: 0
+    })
   }
 
   render() {
