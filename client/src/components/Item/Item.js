@@ -9,14 +9,17 @@ class Item extends Component {
   render() {
     return (
       <div className="col-6">
-        <div className="media bg-light m-3" {... this.props}>
+        <div
+          className="media bg-light m-3"
+          onClick={this.props.onClick}
+        >
           <img
             src="https://cdn.winsightmedia.com/platform/files/public/800x1000/subway-footlong-roast-turkey-sub_0_0.jpg"
             alt="sandwich"
             style={{height: '100px'}}
             />
           <div>
-            <h1>Sandwich</h1>
+            <h1>{this.props.name}</h1>
           </div>
         </div>
       </div>

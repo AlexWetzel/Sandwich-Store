@@ -4,7 +4,10 @@ import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 
 
-//TODO: React warning when selecting ingredient - needs key
+//TODO:
+// React warning when selecting ingredient - needs key
+//Render each sandwich on the menu
+//Add complete order page
 
 class Menu extends Component {
   
@@ -67,9 +70,16 @@ class Menu extends Component {
       case 0:
         return(          
           <ItemWrapper>
-            <Item
-              onClick={() => this.nextPage()}
-            />
+
+                {this.state.menu.sandwiches.map(sandwich => {
+                  return(
+                    <Item
+                      key={sandwich}
+                      name={sandwich}
+                      onClick={() => this.nextPage()}
+                    />
+                  )
+                })}
           </ItemWrapper>
         );
       case 1:
@@ -137,7 +147,9 @@ class Menu extends Component {
           <Order>
             {this.state.order.map(orderItem => {
               return(
-                <li>{orderItem}</li>
+                <li key={orderItem}>
+                  {orderItem}
+                </li>
               )
             })}
           </Order>

@@ -5,7 +5,10 @@ class Ingredient extends Component {
   render() {
     return (
       <div className="col-6">
-        <div className="media bg-light m-3" {...this.props}>
+        <div
+          className="media bg-light m-3"
+          onClick={this.props.onClick}
+        >
           <img
             src="https://cdn.shopify.com/s/files/1/0156/0137/products/Lettuce_refill_1200x960.jpg?v=1502103479"
             alt="Lettuce"
