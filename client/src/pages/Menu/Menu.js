@@ -5,8 +5,11 @@ import Order from './../../components/Order';
 
 
 //TODO:
-//Render each sandwich on the menu
 //Add complete order page
+//Add button to start page
+//Add prices to menu items
+//Structure each sandwich as a new object?
+//
 
 class Menu extends Component {
   
