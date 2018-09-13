@@ -20,6 +20,7 @@ class Item extends Component {
             />
           <div>
             <h1>{this.props.name}</h1>
+            <h3>{this.props.price}</h3>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ class Order extends Component {
     return(
       <div className="jumbotron" style={{height: '900px', lineSpacing: 1}}>
         {this.props.children}
+        <h4>Total: {this.props.total}</h4>
       </div>
     )
   }

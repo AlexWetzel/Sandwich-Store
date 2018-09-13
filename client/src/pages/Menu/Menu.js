@@ -18,13 +18,20 @@ class Menu extends Component {
 
   state = {
     menu: {
-      sandwiches: ["Roast Beef", "Turkey", "Ham", "Ultimate", "Italian"],
+      sandwiches: [
+        {type: "Roast Beef", price: 5.99},
+        {type: "Turkey", price: 5.99},
+        {type: "Ham", price: 5.99},
+        {type: "Ultimate", price: 5.99},
+        {type: "Italian", price: 5.99},  
+      ],
       sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
       cheese: ["Cheddar", "Swiss", "Provolone", "American"],
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
-    orderPage: 0,    
+    orderPage: 0,
+    total: 0,   
   }
 
   ingredientToggle = ingredient => {
@@ -39,24 +46,29 @@ class Menu extends Component {
     };
   }
 
-  addSandwich = type => {
-    let sandwich = {
-      type: type,
+  addOrderItem = item => {
+    let orderItem = {
+      type: item.type,
       ingredients: [],
-      price: 0
+      price: item.price
     };
 
-    let newSandwich = this.state.order.slice();
-    newSandwich.push(sandwich);
-    this.setState({order: newSandwich});
+    let updateTotal = this.state.total;
+    updateTotal += orderItem.price;
+    let updateOrder = this.state.order.slice();
+    updateOrder.push(orderItem);
+    this.setState({
+      order: updateOrder,
+      total: updateTotal
+    });
 
     this.nextPage();
   }
 
   removeSandwich = () => {
-    let newSandwich = this.state.order.slice();
-    newSandwich.pop();
-    this.setState({order: newSandwich});
+    let updateOrder = this.state.order.slice();
+    updateOrder.pop();
+    this.setState({order: updateOrder});
   }
 
   addIngredient = ingredient => {
@@ -116,9 +128,10 @@ class Menu extends Component {
             {this.state.menu.sandwiches.map(sandwich => {
               return(
                 <Item
-                  key={sandwich}
-                  name={sandwich}
-                  onClick={() => this.addSandwich(sandwich)}
+                  key={sandwich.type}
+                  name={sandwich.type}
+                  price={sandwich.price}
+                  onClick={() => this.addOrderItem(sandwich)}
                 />
               )
             })}
@@ -198,14 +211,13 @@ class Menu extends Component {
           <this.pageButtons />
         </div>
         <div className="col-4">          
-          <Order>
+          <Order total={this.state.total}>
             {this.state.order.map((orderItem, index) => {
               const ingredients = orderItem.ingredients;
               return(
                 <div key={orderItem.type + index}> 
-                  <p>
-                    {orderItem.type}
-                  </p>
+                  <p>{orderItem.type}</p>
+                  <p>{orderItem.price}</p>
                   <ul>
                     {ingredients.map(ingredient => {
                       return(
