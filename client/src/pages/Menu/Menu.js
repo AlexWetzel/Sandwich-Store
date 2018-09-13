@@ -6,17 +6,17 @@ import Order from './../../components/Order';
 
 //TODO:
 //Add complete order page
-//Add button to start page
 //Add prices to menu items
 //Structure each sandwich as a new object?
-//
+//Add sandwich to order panel
 
 class Menu extends Component {
   
-  // constructor() {
-  //   super();
-  //   const sequence = ['sadwich', 'veggies'];
-  // }
+  constructor() {
+    super();
+    this.orderID = 0;
+    this.orderSize = 0;
+  }
 
   state = {
     menu: {
@@ -26,11 +26,11 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
-    orderPage: 0
+    orderPage: 0,    
   }
 
   ingredientToggle = ingredient => {
-    const i = this.state.order.indexOf(ingredient)
+    const i = this.state.order[this.orderSize].ingredients.indexOf(ingredient)
 
     console.log('The index of',ingredient,'In the order array is:', i);
 
@@ -41,16 +41,44 @@ class Menu extends Component {
     }
   }
 
+  addSandwich = type => {
+    let sandwich = {
+      type: type,
+      ingredients: [],
+      price: 0
+    }
+
+    let newSandwich = this.state.order.slice();
+    newSandwich.push(sandwich);
+    this.setState({order: newSandwich});
+
+    this.nextPage()
+  }
+
+  removeSandwich = () => {
+    let newSandwich = this.state.order.slice();
+    newSandwich.pop();
+    this.setState({order: newSandwich});
+  }
+
   addIngredient = ingredient => {
     let newOrder = this.state.order.slice();
-    newOrder.push(ingredient);
+    const size = this.orderSize;
+
+    newOrder[size].ingredients.push(ingredient);
     this.setState({order: newOrder});
+
+    console.log(newOrder);
   }
 
   removeIngredient = i => {
     let newOrder = this.state.order.slice();
-    newOrder.splice(i, 1);
+    const size = this.orderSize;
+
+    newOrder[size].ingredients.splice(i, 1);
     this.setState({order: newOrder})
+
+    console.log(newOrder);
   }
 
   nextPage = () => {
@@ -61,6 +89,9 @@ class Menu extends Component {
 
   previousPage = () => {
     let page = this.state.orderPage
+    if (page === 1){
+      this.removeSandwich();
+    }
     page--;
     this.setState({orderPage: page});
   }
@@ -76,7 +107,7 @@ class Menu extends Component {
                 <Item
                   key={sandwich}
                   name={sandwich}
-                  onClick={() => this.nextPage()}
+                  onClick={() => this.addSandwich(sandwich)}
                 />
               )
             })}
@@ -109,12 +140,13 @@ class Menu extends Component {
         onClick={() => this.nextPage()}
       >
         {props.ingredients.map(ingredient => {
+          const ing = this.state.order[this.orderSize].ingredients;
           return(
             <Ingredient
               key={ingredient}
               name={ingredient}
               onClick={() => this.ingredientToggle(ingredient)}
-              isselected={this.state.order.indexOf(ingredient) > -1 ? 'selected' : ''}
+              isselected={ing.indexOf(ingredient) > -1 ? 'selected' : ''}
             />
           )
         })} 
@@ -157,15 +189,17 @@ class Menu extends Component {
           <Order>
             {this.state.order.map(orderItem => {
               return(
-                <li key={orderItem}>
-                  {orderItem}
-                </li>
+                <p key={orderItem.type}>
+                  {orderItem.type}
+                </p>
+                // <ul>
+                //   {this.}
+                // </ul>
               )
             })}
           </Order>
         </div>
       </div>
-
     )
   }
 }
