@@ -188,14 +188,21 @@ class Menu extends Component {
         <div className="col-4">          
           <Order>
             {this.state.order.map(orderItem => {
+              const ingredients = orderItem.ingredients;
               return(
-                <p key={orderItem.type}>
-                  {orderItem.type}
-                </p>
-                // <ul>
-                //   {this.}
-                // </ul>
-              )
+                <div key={orderItem.type}> 
+                  <p>
+                    {orderItem.type}
+                  </p>
+                  <ul>
+                    {ingredients.map(ingredient => {
+                      return(
+                        <li key={ingredient + this.orderSize}>{ingredient}</li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
             })}
           </Order>
         </div>
