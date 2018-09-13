@@ -7,8 +7,6 @@ import Order from './../../components/Order';
 //TODO:
 //Add complete order page
 //Add prices to menu items
-//Structure each sandwich as a new object?
-//Add sandwich to order panel
 
 class Menu extends Component {
   
@@ -30,15 +28,15 @@ class Menu extends Component {
   }
 
   ingredientToggle = ingredient => {
-    const i = this.state.order[this.orderSize].ingredients.indexOf(ingredient)
+    const i = this.state.order[this.orderSize].ingredients.indexOf(ingredient);
 
     console.log('The index of',ingredient,'In the order array is:', i);
 
     if( i === -1 ) {
       this.addIngredient(ingredient);
     } else {
-      this.removeIngredient(i)
-    }
+      this.removeIngredient(i);
+    };
   }
 
   addSandwich = type => {
@@ -46,13 +44,13 @@ class Menu extends Component {
       type: type,
       ingredients: [],
       price: 0
-    }
+    };
 
     let newSandwich = this.state.order.slice();
     newSandwich.push(sandwich);
     this.setState({order: newSandwich});
 
-    this.nextPage()
+    this.nextPage();
   }
 
   removeSandwich = () => {
@@ -76,24 +74,36 @@ class Menu extends Component {
     const size = this.orderSize;
 
     newOrder[size].ingredients.splice(i, 1);
-    this.setState({order: newOrder})
+    this.setState({order: newOrder});
 
     console.log(newOrder);
   }
 
   nextPage = () => {
-    let page = this.state.orderPage
+    let page = this.state.orderPage;
     page++;
     this.setState({orderPage: page});
   }
 
   previousPage = () => {
-    let page = this.state.orderPage
+    let page = this.state.orderPage;
     if (page === 1){
       this.removeSandwich();
     }
     page--;
     this.setState({orderPage: page});
+  }
+
+  moreFood = () => {
+    this.setState({ orderPage: 0});
+    this.orderSize++
+  }
+  
+  reset = () => {
+    this.setState({
+      order: [],
+      orderPage: 0
+    });
   }
 
   pageRender = () => {
@@ -122,6 +132,14 @@ class Menu extends Component {
       case 3:
         ingredients = this.state.menu.veggies;
         return(<this.ingredientsRender ingredients={ingredients}/>)
+      case 4:
+        return(
+          <div>
+            <button onClick={this.moreFood}>Add More</button>
+            <button onClick={this.reset}>Return</button>
+            <button>Finish</button>
+          </div>
+        )
       default:
         return(
           <div>
@@ -167,13 +185,6 @@ class Menu extends Component {
     } else {
       return null;
     }
-  }
-
-  reset = () => {
-    this.setState({
-      order: [],
-      orderPage: 0
-    })
   }
 
   render() {
