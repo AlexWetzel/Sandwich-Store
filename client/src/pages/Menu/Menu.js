@@ -100,6 +100,7 @@ class Menu extends Component {
   }
   
   reset = () => {
+    this.orderSize = 0;
     this.setState({
       order: [],
       orderPage: 0
