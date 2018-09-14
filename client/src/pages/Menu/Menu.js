@@ -6,7 +6,6 @@ import Order from './../../components/Order';
 
 //TODO:
 //Add complete order page
-//Add prices to menu items
 
 class Menu extends Component {
   
@@ -34,11 +33,11 @@ class Menu extends Component {
     total: 0,   
   }
 
+  // For ingredients added to a sandwich, add and remove to the order on click
   ingredientToggle = ingredient => {
     const i = this.state.order[this.orderSize].ingredients.indexOf(ingredient);
-
-    console.log('The index of',ingredient,'In the order array is:', i);
-
+    
+    // Check the order for the selected ingredient
     if( i === -1 ) {
       this.addIngredient(ingredient);
     } else {
@@ -46,6 +45,7 @@ class Menu extends Component {
     };
   }
 
+  // Add an item to the order
   addOrderItem = item => {
     let orderItem = {
       type: item.type,
@@ -53,10 +53,14 @@ class Menu extends Component {
       price: item.price
     };
 
+    // Add the item's price to the total price
     let updateTotal = this.state.total;
     updateTotal += orderItem.price;
+    // Add the item to the order
     let updateOrder = this.state.order.slice();
     updateOrder.push(orderItem);
+
+    // Update the state
     this.setState({
       order: updateOrder,
       total: updateTotal
@@ -65,11 +69,13 @@ class Menu extends Component {
     this.nextPage();
   }
 
+  // Remove a sandwich from an order
   removeSandwich = () => {
     let updateOrder = this.state.order.slice();
     updateOrder.pop();
     this.setState({order: updateOrder});
   }
+
 
   addIngredient = ingredient => {
     let newOrder = this.state.order.slice();
@@ -111,6 +117,7 @@ class Menu extends Component {
     this.orderSize++
   }
   
+  // Re-initialize the menu page
   reset = () => {
     this.orderSize = 0;
     this.setState({
@@ -119,6 +126,7 @@ class Menu extends Component {
     });
   }
 
+  // Determine what gets rendered based on the orderPage variable
   pageRender = () => {
     let ingredients;
     switch (this.state.orderPage) {
