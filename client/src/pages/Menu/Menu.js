@@ -80,15 +80,20 @@ class Menu extends Component {
     this.setState({order: updateOrder});
   }
 
-  deleteSandwich = i => {
+  deleteSandwich = (i, price) => {
     let updateOrder = this.state.order.slice();
+    let updateTotal = this.state.total;
     // If the item being deleted is in the process of being customized, if it is last in the array
     if( i === (this.state.order.length - 1)) {
       // Display the first order page
       this.setState({orderPage: 0})
-    }   
+    }
     updateOrder.splice(i, 1);
-    this.setState({order: updateOrder});
+    updateTotal = updateTotal - price;
+    this.setState({
+      order: updateOrder,
+      total: updateTotal
+    });
   }
 
   addIngredient = ingredient => {
@@ -250,7 +255,7 @@ class Menu extends Component {
                   <p>
                     {orderItem.type}
                     <button 
-                      onClick={() => this.deleteSandwich(index)}
+                      onClick={() => this.deleteSandwich(index, orderItem.price)}
                       >delete
                     </button>
                   </p>
