@@ -6,13 +6,14 @@ import Order from './../../components/Order';
 
 //TODO:
 //Add complete order page
+// Refactor code to replace orderSize with order array length
 
 class Menu extends Component {
   
   constructor() {
     super();
     this.orderID = 0;
-    this.orderSize = 0;
+    // this.orderSize = 0;
   }
 
   state = {
@@ -35,7 +36,8 @@ class Menu extends Component {
 
   // For ingredients added to a sandwich, add and remove to the order on click
   ingredientToggle = ingredient => {
-    const i = this.state.order[this.orderSize].ingredients.indexOf(ingredient);
+    const size = this.state.order.length - 1
+    const i = this.state.order[size].ingredients.indexOf(ingredient);
     
     // Check the order for the selected ingredient
     if( i === -1 ) {
@@ -76,9 +78,15 @@ class Menu extends Component {
     this.setState({order: updateOrder});
   }
 
+  deleteSandwich = i => {
+    let updateOrder = this.state.order.slice();
+    updateOrder.splice(i, 1);
+    this.setState({order: updateOrder});
+  }
+
   addIngredient = ingredient => {
     let newOrder = this.state.order.slice();
-    const size = this.orderSize;
+    const size = this.state.order.length - 1;
 
     newOrder[size].ingredients.push(ingredient);
     this.setState({order: newOrder});
@@ -88,7 +96,7 @@ class Menu extends Component {
 
   removeIngredient = i => {
     let newOrder = this.state.order.slice();
-    const size = this.orderSize;
+    const size = this.state.order.length - 1;
 
     newOrder[size].ingredients.splice(i, 1);
     this.setState({order: newOrder});
@@ -126,12 +134,10 @@ class Menu extends Component {
 
   moreFood = () => {
     this.setState({ orderPage: 0});
-    this.orderSize++
   }
   
   // Re-initialize the menu page
   reset = () => {
-    this.orderSize = 0;
     this.setState({
       order: [],
       orderPage: 0
@@ -192,7 +198,7 @@ class Menu extends Component {
         onClick={() => this.nextPage()}
       >
         {props.ingredients.map(ingredient => {
-          const ing = this.state.order[this.orderSize].ingredients;
+          const ing = this.state.order[this.state.order.length - 1].ingredients;
           return(
             <Ingredient
               key={ingredient}
@@ -241,10 +247,11 @@ class Menu extends Component {
                   <ul>
                     {ingredients.map(ingredient => {
                       return(
-                        <li
-                          key={ingredient + index}
-                          onClick={() => this.deleteIngredient(ingredient, index)}
-                        >{ingredient}</li>
+                        <li key={ingredient + index}>{ingredient}
+                          <button
+                            onClick={() => this.deleteIngredient(ingredient, index)}
+                          >Delete</button>
+                        </li>
                       );
                     })}
                   </ul>
