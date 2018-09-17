@@ -7,6 +7,8 @@ import Order from './../../components/Order';
 //TODO:
 //Add complete order page
 // Refactor code to replace orderSize with order array length
+// Display only two decimal spaces
+// remove sandwich cost from total when removing it
 
 class Menu extends Component {
   
@@ -80,6 +82,11 @@ class Menu extends Component {
 
   deleteSandwich = i => {
     let updateOrder = this.state.order.slice();
+    // If the item being deleted is in the process of being customized, if it is last in the array
+    if( i === (this.state.order.length - 1)) {
+      // Display the first order page
+      this.setState({orderPage: 0})
+    }   
     updateOrder.splice(i, 1);
     this.setState({order: updateOrder});
   }
@@ -105,8 +112,6 @@ class Menu extends Component {
   }
 
   deleteIngredient = (ingredient, i) => {
-    
-
     const j = this.state.order[i].ingredients.indexOf(ingredient);
     let newOrder = this.state.order.slice();
 
@@ -242,7 +247,13 @@ class Menu extends Component {
               const ingredients = orderItem.ingredients;
               return(
                 <div key={orderItem.type + index}> 
-                  <p>{orderItem.type}</p>
+                  <p>
+                    {orderItem.type}
+                    <button 
+                      onClick={() => this.deleteSandwich(index)}
+                      >delete
+                    </button>
+                  </p>
                   <p>{orderItem.price}</p>
                   <ul>
                     {ingredients.map(ingredient => {
