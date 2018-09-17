@@ -76,7 +76,6 @@ class Menu extends Component {
     this.setState({order: updateOrder});
   }
 
-
   addIngredient = ingredient => {
     let newOrder = this.state.order.slice();
     const size = this.orderSize;
@@ -95,6 +94,19 @@ class Menu extends Component {
     this.setState({order: newOrder});
 
     console.log(newOrder);
+  }
+
+  deleteIngredient = (ingredient, i) => {
+    
+
+    const j = this.state.order[i].ingredients.indexOf(ingredient);
+    let newOrder = this.state.order.slice();
+
+    console.log("Ingredient ", ingredient, " is nunber ", j, " on item number ", i);
+
+    // newOrder[i].ingredients.splice(ingredient, 1);
+    newOrder[i].ingredients.splice(j, 1);
+    this.setState({order: newOrder});
   }
 
   nextPage = () => {
@@ -229,7 +241,10 @@ class Menu extends Component {
                   <ul>
                     {ingredients.map(ingredient => {
                       return(
-                        <li key={ingredient + index}>{ingredient}</li>
+                        <li
+                          key={ingredient + index}
+                          onClick={() => this.deleteIngredient(ingredient, index)}
+                        >{ingredient}</li>
                       );
                     })}
                   </ul>
