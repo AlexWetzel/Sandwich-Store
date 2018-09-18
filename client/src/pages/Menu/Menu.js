@@ -8,7 +8,6 @@ import Order from './../../components/Order';
 //Add complete order page
 // Refactor code to replace orderSize with order array length
 // Display only two decimal spaces
-// remove sandwich cost from total when removing it
 
 class Menu extends Component {
   
@@ -74,25 +73,23 @@ class Menu extends Component {
   }
 
   // Remove a sandwich from an order
-  removeSandwich = () => {
-    let updateOrder = this.state.order.slice();
-    updateOrder.pop();
-    this.setState({order: updateOrder});
-  }
 
-  deleteSandwich = (i, price) => {
+  // removeSandwich = () => {
+  //   let updateOrder = this.state.order.slice();
+  //   updateOrder.pop();
+  //   this.setState({order: updateOrder});
+  // }
+
+  deleteSandwich = i => {
     let updateOrder = this.state.order.slice();
-    let updateTotal = this.state.total;
     // If the item being deleted is in the process of being customized, if it is last in the array
     if( i === (this.state.order.length - 1)) {
       // Display the first order page
       this.setState({orderPage: 0})
     }
     updateOrder.splice(i, 1);
-    updateTotal = updateTotal - price;
     this.setState({
-      order: updateOrder,
-      total: updateTotal
+      order: updateOrder
     });
   }
 
@@ -102,8 +99,6 @@ class Menu extends Component {
 
     newOrder[size].ingredients.push(ingredient);
     this.setState({order: newOrder});
-
-    console.log(newOrder);
   }
 
   removeIngredient = i => {
@@ -112,8 +107,6 @@ class Menu extends Component {
 
     newOrder[size].ingredients.splice(i, 1);
     this.setState({order: newOrder});
-
-    console.log(newOrder);
   }
 
   deleteIngredient = (ingredient, i) => {
@@ -127,6 +120,15 @@ class Menu extends Component {
     this.setState({order: newOrder});
   }
 
+  calculateTotal = () => {
+    let total = 0;
+    this.state.order.forEach(item => {
+      total += item.price;
+    });
+
+    return total.toFixed(2);
+  }
+
   nextPage = () => {
     let page = this.state.orderPage;
     page++;
@@ -136,7 +138,9 @@ class Menu extends Component {
   previousPage = () => {
     let page = this.state.orderPage;
     if (page === 1){
-      this.removeSandwich();
+      const index = this.state.order.length - 1;
+      this.deleteSandwich(index);
+      // this.removeSandwich();
     }
     page--;
     this.setState({orderPage: page});
@@ -202,7 +206,6 @@ class Menu extends Component {
 
   ingredientsRender = props => {
 
-    console.log(props.ingredients);
     return(
       <IngredientWrapper 
         onClick={() => this.nextPage()}
@@ -247,7 +250,7 @@ class Menu extends Component {
           <this.pageButtons />
         </div>
         <div className="col-4">          
-          <Order total={this.state.total}>
+          <Order total={this.calculateTotal()}>
             {this.state.order.map((orderItem, index) => {
               const ingredients = orderItem.ingredients;
               return(
@@ -255,11 +258,11 @@ class Menu extends Component {
                   <p>
                     {orderItem.type}
                     <button 
-                      onClick={() => this.deleteSandwich(index, orderItem.price)}
+                      onClick={() => this.deleteSandwich(index)}
                       >delete
                     </button>
                   </p>
-                  <p>{orderItem.price}</p>
+                  <p>{orderItem.price.toFixed(2)}</p>
                   <ul>
                     {ingredients.map(ingredient => {
                       return(
