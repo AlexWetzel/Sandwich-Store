@@ -6,8 +6,6 @@ import Order from './../../components/Order';
 
 //TODO:
 //Add complete order page
-// Refactor code to replace orderSize with order array length
-// Display only two decimal spaces
 
 class Menu extends Component {
   
@@ -226,7 +224,7 @@ class Menu extends Component {
   }
  
   pageButtons = () => {
-    if (this.state.orderPage !== 0) {
+    if (this.state.orderPage !== 0 && this.state.orderPage !== 4 ) {
       return(
         <div className="row">
           <div className="col-12">
@@ -249,35 +247,14 @@ class Menu extends Component {
 
           <this.pageButtons />
         </div>
-        <div className="col-4">          
-          <Order total={this.calculateTotal()}>
-            {this.state.order.map((orderItem, index) => {
-              const ingredients = orderItem.ingredients;
-              return(
-                <div key={orderItem.type + index}> 
-                  <p>
-                    {orderItem.type}
-                    <button 
-                      onClick={() => this.deleteSandwich(index)}
-                      >delete
-                    </button>
-                  </p>
-                  <p>{orderItem.price.toFixed(2)}</p>
-                  <ul>
-                    {ingredients.map(ingredient => {
-                      return(
-                        <li key={ingredient + index}>{ingredient}
-                          <button
-                            onClick={() => this.deleteIngredient(ingredient, index)}
-                          >Delete</button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
-          </Order>
+        <div className="col-4">   
+
+          <Order
+            order={this.state.order}
+            total={this.calculateTotal()}
+            delSandwich={this.deleteSandwich}
+            delIngredient={this.deleteIngredient}
+            />         
         </div>
       </div>
     )
