@@ -15,6 +15,12 @@ class IngredientWrapper extends Component {
             {this.props.children}
           </div>
         </div>
+        <div className="row">
+          <div className="col-12">
+            <button onClick={this.props.previous}>Back</button>
+            <button onClick={this.props.next}>Next</button>
+          </div>
+        </div>
       </div>
     )
   }

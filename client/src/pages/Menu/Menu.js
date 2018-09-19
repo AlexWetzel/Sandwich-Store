@@ -206,7 +206,8 @@ class Menu extends Component {
 
     return(
       <IngredientWrapper 
-        onClick={() => this.nextPage()}
+        next={this.nextPage}
+        previous={this.previousPage}
       >
         {props.ingredients.map(ingredient => {
           const ing = this.state.order[this.state.order.length - 1].ingredients;
@@ -221,34 +222,15 @@ class Menu extends Component {
         })} 
       </IngredientWrapper>
     )
-  }
- 
-  pageButtons = () => {
-    if (this.state.orderPage !== 0 && this.state.orderPage !== 4 ) {
-      return(
-        <div className="row">
-          <div className="col-12">
-            <button onClick={this.previousPage}>Back</button>
-            <button onClick={this.nextPage}>Next</button>
-          </div>
-        </div>
-      )
-    } else {
-      return null;
-    }
-  }
+  } 
 
   render() {
     return(
       <div className="row">
         <div className="col-8">
-
           <this.pageRender />
-
-          <this.pageButtons />
         </div>
-        <div className="col-4">   
-
+        <div className="col-4">
           <Order
             order={this.state.order}
             total={this.calculateTotal()}

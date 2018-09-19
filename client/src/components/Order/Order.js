@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 
 class Order extends Component {
-  
-  // deleteSandwich = index => {
-  //   this.props.delSandwich(index);
-  // }
-
-  // deleteIngredient = (ingredient, index) => {
-  //   this.props.delIngredient(ingredient, index);
-  // }
-
   render() {
     return(
       <div className="jumbotron" style={{height: '900px', lineSpacing: 1}}>
