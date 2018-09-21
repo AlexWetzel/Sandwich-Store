@@ -203,7 +203,6 @@ class Menu extends Component {
   }
 
   ingredientsRender = props => {
-
     return(
       <IngredientWrapper 
         next={this.nextPage}
@@ -226,11 +225,11 @@ class Menu extends Component {
 
   render() {
     return(
-      <div className="row">
+      <div className="row justify-content-start" style={{margin: '0px'}}>
         <div className="col-8">
           <this.pageRender />
         </div>
-        <div className="col-4">
+        <div>
           <Order
             order={this.state.order}
             total={this.calculateTotal()}

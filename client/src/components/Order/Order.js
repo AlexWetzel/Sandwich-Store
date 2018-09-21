@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import './order.css';
 
 class Order extends Component {
   render() {
     return(
-      <div className="jumbotron" style={{height: '900px', lineSpacing: 1}}>
+      <div id="Order" className="jumbotron" style={{height: '900px', lineSpacing: 1}}>
         {this.props.order.map((orderItem, index) => {
           const ingredients = orderItem.ingredients;
           return(
