@@ -7,14 +7,6 @@ import './App.css';
 
 class App extends Component {
 
-  // state = {
-  //   sandwiches: [],
-  //   cheese: [],
-  //   vegetables: [],
-
-  //   menuItems: []
-  // }
-
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
   //2. A list of menu items displays different sandwiches that are available. Clicking a sandwich lets you customize with different toppings.

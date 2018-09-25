@@ -3,7 +3,6 @@ import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 
-
 //TODO:
 //Add complete order page
 
@@ -25,7 +24,7 @@ class Menu extends Component {
         {type: "Italian", price: 5.99},  
       ],
       sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
-      cheese: ["Cheddar", "Swiss", "Provolone", "American"],
+      cheese: ["Cheddar", "Swiss", "Provolone"],
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
@@ -161,6 +160,14 @@ class Menu extends Component {
     });
   }
 
+  nameToImgSrc = name => {
+    let src = name;
+    src = src.replace(" ", "_");
+    src = "./images/" + src + ".png";
+
+    return src;
+  }
+
   // Determine what gets rendered based on the orderPage variable
   pageRender = () => {
     let ingredients;
@@ -174,6 +181,7 @@ class Menu extends Component {
                   key={sandwich.type}
                   name={sandwich.type}
                   price={sandwich.price}
+                  imgSrc={this.nameToImgSrc(sandwich.type)}
                   onClick={() => this.addOrderItem(sandwich)}
                 />
               )
@@ -219,6 +227,7 @@ class Menu extends Component {
             <Ingredient
               key={ingredient}
               name={ingredient}
+              imgSrc={this.nameToImgSrc(ingredient)}
               onClick={() => this.ingredientToggle(ingredient)}
               isselected={ing.indexOf(ingredient) > -1 ? 'selected' : ''}
             />
@@ -230,7 +239,7 @@ class Menu extends Component {
 
   render() {
     return(
-      <div className="row justify-content-start" style={{margin: '0px'}}>
+      <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
         <div className="col-8">
           <this.pageRender />
         </div>

@@ -14,7 +14,7 @@ class Item extends Component {
           onClick={this.props.onClick}
         >
           <img
-            src="https://cdn.winsightmedia.com/platform/files/public/800x1000/subway-footlong-roast-turkey-sub_0_0.jpg"
+            src={this.props.imgSrc}
             alt="sandwich"
             style={{height: '100px'}}
             />
