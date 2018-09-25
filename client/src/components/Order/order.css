@@ -6,6 +6,10 @@
   z-index: 1;
 }
 
+#Order ul {
+  list-style: none;
+}
+
 #Order.side-bar {
   width: 32%;
 

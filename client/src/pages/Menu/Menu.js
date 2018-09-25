@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
+import { OrderItem, OrderCustom } from './../../components/OrderItem';
 
 //TODO:
 //Add complete order page
@@ -245,13 +246,32 @@ class Menu extends Component {
         </div>
         <div>
           <Order
-            order={this.state.order}
             orderStyle={this.state.orderPage !== 5 ? 'side-bar' : 'checkout'}
             total={this.calculateTotal()}
             back={this.previousPage}
-            delSandwich={this.deleteSandwich}
-            delIngredient={this.deleteIngredient}
-            />         
+          >
+            {this.state.order.map((orderItem, index) => {
+              const ingredients = orderItem.ingredients;
+              return(
+                <OrderItem
+                  name={orderItem.type}
+                  key={orderItem.type + index}
+                  price={orderItem.price.toFixed(2)}
+                  onClick={() => this.deleteSandwich(index)}
+                >
+                  {ingredients.map(ingredient => {
+                    return(
+                      <OrderCustom
+                        key={ingredient}
+                        name={ingredient}
+                        onClick={() => this.deleteIngredient(ingredient, index)}
+                      />
+                    );
+                  })}
+                </OrderItem>
+              );
+            })}
+          </Order>         
         </div>
       </div>
     )
