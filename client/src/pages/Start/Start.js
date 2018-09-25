@@ -7,7 +7,7 @@ class Start extends Component {
     return (
       <div>
         <h1>Start screen</h1>
-        <button><Link to="/menu">Start</Link></button>
+        <Link to="/menu"><button>Start</button></Link>
       </div>
     )
   }
