@@ -1,7 +1,19 @@
 #Order {
-  width: 32%;
   position: fixed;
   right: 0;
   top: 0;
   bottom: 0;
+  z-index: 1;
+}
+
+#Order.side-bar {
+  width: 32%;
+
+}
+#Order.side-bar > .checkout-button {
+  display: none;
+}
+
+#Order.checkout {
+  width: 100%;
 }

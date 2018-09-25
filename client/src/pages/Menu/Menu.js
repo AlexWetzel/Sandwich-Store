@@ -144,8 +144,13 @@ class Menu extends Component {
     this.setState({orderPage: page});
   }
 
+  // checkout = () => {
+  //   this.setState({orderPage: 99});
+  // }
+
+
   moreFood = () => {
-    this.setState({ orderPage: 0});
+    this.setState({orderPage: 0});
   }
   
   // Re-initialize the menu page
@@ -189,7 +194,7 @@ class Menu extends Component {
           <div>
             <button onClick={this.moreFood}>Add More</button>
             <button onClick={this.reset}>Return</button>
-            <button>Finish</button>
+            <button onClick={this.nextPage}>Check Out</button>
           </div>
         )
       default:
@@ -232,7 +237,9 @@ class Menu extends Component {
         <div>
           <Order
             order={this.state.order}
+            orderStyle={this.state.orderPage !== 5 ? 'side-bar' : 'checkout'}
             total={this.calculateTotal()}
+            back={this.previousPage}
             delSandwich={this.deleteSandwich}
             delIngredient={this.deleteIngredient}
             />         
