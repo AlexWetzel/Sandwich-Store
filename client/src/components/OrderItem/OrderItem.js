@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import './orderItem.css';
 
 class OrderItem extends Component {
   render() {
     return(
-      <div> 
-        <p>
-          {this.props.name}          
-        </p>
-        <button onClick={this.props.onClick}>delete</button>
-        <p>{this.props.price}</p>
-        <ul>
-          {this.props.children}
-        </ul>
+      <div className="OrderItem">
+        <div className="item">
+          <span className="name">
+            {this.props.name + " Sandwich"}          
+          </span>
+          <button className="delete-btn" onClick={this.props.onClick}>delete</button>
+          <p className="price">{this.props.price}</p>
+          <ul>
+            {this.props.children}
+          </ul>
+        </div>
       </div>
     )
   }

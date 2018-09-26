@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './ingredientWrapper.css';
 
 class IngredientWrapper extends Component {
   
@@ -8,18 +9,22 @@ class IngredientWrapper extends Component {
 
   render() {
     return (
-      <div>
-        <h1 className="m-3" style={{textAlign: 'center'}}>Choose Your Ingredients</h1>
+      <div id="IngredientWrapper">
+        <h1 className="m-3 text-center">Choose Your Ingredients</h1>
         <div className="p-2">
           <div className="row">
             {this.props.children}
           </div>
         </div>
         <div className="row">
-          <div className="col-12">
-            <button onClick={this.props.previous}>Back</button>
-            <button onClick={this.props.next}>Next</button>
-          </div>
+
+            <div className="col-3 offset-3">
+              <div className="menu-btn" onClick={this.props.previous}>Back</div>
+            </div>            
+            <div className="col-3">
+              <div className="menu-btn" onClick={this.props.next}>Next</div>
+            </div>
+            
         </div>
       </div>
     )

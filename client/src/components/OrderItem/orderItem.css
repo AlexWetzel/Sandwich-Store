@@ -1,0 +1,7 @@
+.item>name {
+  float: left;
+}
+
+.item>.delete-btn, .item>.price {
+  float: right;
+}

@@ -1,0 +1,16 @@
+#IngredientWrapper .menu-btn {
+  text-align: center;
+  background-color: rgb(113, 120, 226);
+  color: white;
+  /* float: left; */
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 25px;
+  margin: auto;
+}
+
+/* #IngredientWrapper .btn-box {
+  width: px;
+  margin: auto;
+} */
