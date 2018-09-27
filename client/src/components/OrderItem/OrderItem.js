@@ -5,16 +5,14 @@ class OrderItem extends Component {
   render() {
     return(
       <div className="OrderItem">
-        <div className="item">
-          <span className="name">
-            {this.props.name + " Sandwich"}          
-          </span>
-          <button className="delete-btn" onClick={this.props.onClick}>delete</button>
-          <p className="price">{this.props.price}</p>
-          <ul>
-            {this.props.children}
-          </ul>
-        </div>
+        <span className="name">
+          {this.props.name + " Sandwich"}          
+        </span>
+        <button className="delete-btn" onClick={this.props.onClick}>delete</button>
+        <p className="price">{this.props.price}</p>
+        <ul>
+          {this.props.children}
+        </ul>
       </div>
     )
   }

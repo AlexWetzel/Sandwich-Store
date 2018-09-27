@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './item.css'
 
 class Item extends Component {
 
@@ -10,7 +11,7 @@ class Item extends Component {
     return (
       <div className="col-6">
         <div
-          className="media bg-light m-3"
+          className="Item media m-3"
           onClick={this.props.onClick}
         >
           <img

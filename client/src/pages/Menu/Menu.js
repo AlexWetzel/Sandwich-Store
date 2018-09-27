@@ -3,7 +3,7 @@ import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 import { OrderItem, OrderCustom } from './../../components/OrderItem';
-
+import './menu.css';
 //TODO:
 //Add complete order page
 
@@ -241,7 +241,7 @@ class Menu extends Component {
   render() {
     return(
       <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
-        <div className="col-6 offset-1">
+        <div className="main col-8">
           <this.pageRender />
         </div>
         <div>

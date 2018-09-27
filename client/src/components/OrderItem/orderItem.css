@@ -1,7 +1,7 @@
-.item>name {
+.OrderItem>name {
   float: left;
 }
 
-.item>.delete-btn, .item>.price {
+.OrderItem>.delete-btn, .OrderItem>.price {
   float: right;
 }
