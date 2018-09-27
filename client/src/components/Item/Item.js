@@ -11,17 +11,16 @@ class Item extends Component {
     return (
       <div className="col-6">
         <div
-          className="Item media m-3"
+          className="Item media m-3 shadow"
           onClick={this.props.onClick}
         >
           <img
             src={this.props.imgSrc}
-            alt="sandwich"
-            style={{height: '100px'}}
+            alt={this.props.name + " sandwich"}
             />
-          <div>
+          <div className="media-body">
             <h1>{this.props.name}</h1>
-            <h3>{this.props.price}</h3>
+            <h3>{"$" + this.props.price}</h3>
           </div>
         </div>
       </div>

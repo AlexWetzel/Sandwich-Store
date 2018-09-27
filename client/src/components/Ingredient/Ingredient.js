@@ -12,7 +12,7 @@ class Ingredient extends Component {
         >
           <img
             src={this.props.imgSrc}
-            alt="Lettuce"
+            alt={this.props.name}
             style={{height: '100px'}}
           />          
           <h3>{this.props.name}</h3>

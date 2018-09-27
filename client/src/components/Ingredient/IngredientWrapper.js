@@ -10,7 +10,7 @@ class IngredientWrapper extends Component {
   render() {
     return (
       <div id="IngredientWrapper">
-        <h1 className="m-3 text-center">Choose Your Ingredients</h1>
+        <h1 className="m-3 text-center display-4">Choose Your Ingredients</h1>
         <div className="p-2">
           <div className="row">
             {this.props.children}
