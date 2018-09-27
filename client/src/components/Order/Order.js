@@ -5,7 +5,7 @@ import './order.css';
 class Order extends Component {
   render() {
     return(
-      <div id="Order" className={"jumbotron " + this.props.orderStyle} style={{height: '900px', lineSpacing: 1}}>
+      <div id="Order" className={this.props.orderStyle}>
         {this.props.children}
         <h4>Total: {this.props.total}</h4>
         <button className="checkout-button" onClick={this.props.back}>Back</button>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import './ingredient.css';
 
 class Ingredient extends Component {
 
   render() {
     return (
-      <div className="col-6">
+      <div className="col-4">
         <div
-          className="media bg-light m-3"
+          className="Ingredient m-3 shadow text-center"
           onClick={this.props.onClick}
         >
           <img
@@ -15,7 +16,7 @@ class Ingredient extends Component {
             style={{height: '100px'}}
             />
           <div>
-            <h1>{this.props.name}</h1>
+            <h3>{this.props.name}</h3>
             <p>{this.props.isselected}</p>
           </div>
         </div>

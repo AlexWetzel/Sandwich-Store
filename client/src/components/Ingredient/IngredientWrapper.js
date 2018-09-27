@@ -17,14 +17,12 @@ class IngredientWrapper extends Component {
           </div>
         </div>
         <div className="row">
-
-            <div className="col-3 offset-3">
-              <div className="menu-btn" onClick={this.props.previous}>Back</div>
-            </div>            
-            <div className="col-3">
-              <div className="menu-btn" onClick={this.props.next}>Next</div>
-            </div>
-            
+          <div className="col-3 offset-3">
+            <div className="menu-btn shadow-sm" onClick={this.props.previous}>Back</div>
+          </div>            
+          <div className="col-3">
+            <div className="menu-btn shadow-sm" onClick={this.props.next}>Next</div>
+          </div>          
         </div>
       </div>
     )

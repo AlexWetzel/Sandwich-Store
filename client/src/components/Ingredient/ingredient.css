@@ -1,0 +1,19 @@
+.Ingredient {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  height: 200px;
+  padding: 2px;
+}
+
+.Ingredient > img {
+  display: block;
+  margin: auto;
+  width: 150px;
+  height: 90px;
+  margin: 10px auto;
+
+  /* margin: auto;
+  border-radius: 10px;
+  width: 100%;
+  height: auto; */
+}

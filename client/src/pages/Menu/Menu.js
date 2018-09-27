@@ -241,7 +241,7 @@ class Menu extends Component {
   render() {
     return(
       <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
-        <div className="col-8">
+        <div className="col-6 offset-1">
           <this.pageRender />
         </div>
         <div>
