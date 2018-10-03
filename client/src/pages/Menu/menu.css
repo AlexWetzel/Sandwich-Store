@@ -3,3 +3,23 @@
   /* margin: 0px 50px; */
   padding-top: 40px;
 }
+
+.panel {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  height: 180px;
+  /* padding: 2px; */
+}
+
+.panel > img {
+  display: block;
+  margin: auto;
+  width: 150px;
+  height: 90px;
+  margin: 10px auto;
+
+  /* margin: auto;
+  border-radius: 10px;
+  width: 100%;
+  height: auto; */
+}

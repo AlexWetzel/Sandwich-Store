@@ -29,7 +29,7 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
-    orderPage: 0,
+    orderPage: 4,
     total: 0,   
   }
 
@@ -200,10 +200,47 @@ class Menu extends Component {
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 4:
         return(
-          <div>
-            <button onClick={this.moreFood}>Add More</button>
+          <div className="row">
+            <div className="col-4 offset-2" style={{marginTop: "100px"}}>
+              <div
+                className="Ingredient m-3 shadow text-center"
+                onClick={this.moreFood}                
+              >
+                <img
+                  src={this.nameToImgSrc('turkey')}
+                  alt="Add More"
+                />          
+                <h2>Add More</h2>
+              </div>
+            </div>
+            <div className="col-4" style={{marginTop: "100px"}}>
+              <div
+                className="Ingredient m-3 shadow text-center"
+                onClick={this.nextPage}
+              >
+                <img
+                  src={this.nameToImgSrc('turkey')}
+                  alt="Add More"
+                />          
+                <h2>Check Out</h2>
+              </div>
+            </div>
+            <div className="col-4 offset-2">
+              <div
+                className="Ingredient m-3 shadow text-center"
+                onClick={this.reset}                
+              >
+                <img
+                  src={this.nameToImgSrc('turkey')}
+                  alt="Add More"
+                />          
+                <h2>Reset</h2>
+              </div>
+            </div>
+
+            {/* <button onClick={this.moreFood}>Add More</button>
             <button onClick={this.reset}>Return</button>
-            <button onClick={this.nextPage}>Check Out</button>
+            <button onClick={this.nextPage}>Check Out</button> */}
           </div>
         )
       default:

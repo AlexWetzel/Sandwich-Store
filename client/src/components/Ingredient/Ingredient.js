@@ -15,7 +15,7 @@ class Ingredient extends Component {
             alt={this.props.name}
             style={{height: '100px'}}
           />          
-          <h3>{this.props.name}</h3>
+          <h2>{this.props.name}</h2>
         </div>
       </div>
     );
