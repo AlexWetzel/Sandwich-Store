@@ -203,7 +203,7 @@ class Menu extends Component {
           <div className="row">
             <div className="col-4 offset-2" style={{marginTop: "100px"}}>
               <div
-                className="Ingredient m-3 shadow text-center"
+                className="panel m-3 shadow text-center"
                 onClick={this.moreFood}                
               >
                 <img
@@ -215,32 +215,28 @@ class Menu extends Component {
             </div>
             <div className="col-4" style={{marginTop: "100px"}}>
               <div
-                className="Ingredient m-3 shadow text-center"
+                className="panel m-3 shadow text-center"
                 onClick={this.nextPage}
               >
                 <img
                   src={this.nameToImgSrc('turkey')}
-                  alt="Add More"
+                  alt="Check Out"
                 />          
                 <h2>Check Out</h2>
               </div>
             </div>
             <div className="col-4 offset-2">
               <div
-                className="Ingredient m-3 shadow text-center"
+                className="panel m-3 shadow text-center"
                 onClick={this.reset}                
               >
                 <img
                   src={this.nameToImgSrc('turkey')}
-                  alt="Add More"
+                  alt="Reset"
                 />          
                 <h2>Reset</h2>
               </div>
             </div>
-
-            {/* <button onClick={this.moreFood}>Add More</button>
-            <button onClick={this.reset}>Return</button>
-            <button onClick={this.nextPage}>Check Out</button> */}
           </div>
         )
       default:

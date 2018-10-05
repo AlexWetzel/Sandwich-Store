@@ -8,8 +8,8 @@ class OrderItem extends Component {
         <span className="name">
           {this.props.name + " Sandwich"}          
         </span>
-        <button className="delete-btn" onClick={this.props.onClick}>delete</button>
-        <p className="price">{this.props.price}</p>
+        <span className="delete-btn ml-3" onClick={this.props.onClick}>X</span>
+        <span className="price">{this.props.price}</span>
         <ul>
           {this.props.children}
         </ul>
