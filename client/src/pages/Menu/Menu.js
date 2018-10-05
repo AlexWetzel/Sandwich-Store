@@ -29,6 +29,57 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
+
+    // order: [{
+    //   type: "test",
+    //   ingredients: [
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient",
+    //     "ingredient"
+    // ],
+    //   price: 9999.99
+
+
+    // }],
+
+
     orderPage: 4,
     total: 0,   
   }

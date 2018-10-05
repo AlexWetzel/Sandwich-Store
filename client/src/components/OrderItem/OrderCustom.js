@@ -5,7 +5,7 @@ class OrderCustom extends Component {
     return(
       <li>
         {this.props.name}
-        <button onClick={this.props.onClick}>Delete</button>
+        {/* <button onClick={this.props.onClick}>Delete</button> */}
       </li>
     )
   }
