@@ -11,6 +11,10 @@
   height: 100%;
 }
 
+#order-body {
+  height: inherit;
+}
+
 #order-items {
   overflow-y: scroll;
   top: 0px;
@@ -31,10 +35,15 @@
   width: 25%;
 
 }
-#Order.side-bar > .checkout-button {
+#Order.side-bar .checkout-button {
   display: none;
 }
 
 #Order.checkout {
   width: 100%;
+}
+
+#Order.checkout > #order-body {
+  width: 800px;
+  margin: auto;
 }

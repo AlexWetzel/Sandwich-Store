@@ -3,6 +3,7 @@ import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 import { OrderItem, OrderCustom } from './../../components/OrderItem';
+import { Redirect } from 'react-router';
 import './menu.css';
 //TODO:
 //Add complete order page
@@ -29,6 +30,7 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
+    timeOver: false,
 
     // order: [{
     //   type: "test",
@@ -212,12 +214,24 @@ class Menu extends Component {
     });
   }
 
+  checkout = () => {
+    this.nextPage();
+
+    setTimeout(() => {
+      this.setState({timeOver: true});
+    }, 5000)
+  }
+
   nameToImgSrc = name => {
     let src = name;
     src = src.replace(" ", "_");
     src = "./images/" + src + ".png";
 
     return src;
+  }
+
+    orderNumber = () => {
+    return Math.floor(Math.random() * 100) + 1;
   }
 
   // Determine what gets rendered based on the orderPage variable
@@ -267,7 +281,7 @@ class Menu extends Component {
             <div className="col-4" style={{marginTop: "100px"}}>
               <div
                 className="panel m-3 shadow text-center"
-                onClick={this.nextPage}
+                onClick={this.checkout}
               >
                 <img
                   src={this.nameToImgSrc('turkey')}
@@ -290,6 +304,13 @@ class Menu extends Component {
             </div>
           </div>
         )
+      case 5:
+        return(
+          <div id="Submit">
+            <h1>Your order number is:</h1>
+            <h1>{'#' + this.orderNumber()}</h1>
+          </div>
+        );
       default:
         return(
           <div>
@@ -323,6 +344,10 @@ class Menu extends Component {
   } 
 
   render() {
+    if (this.state.timeOver === true) {
+      return(<Redirect to='/' />);
+    }
+
     return(
       <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
         <div className="main col-7 offset-1">
@@ -330,7 +355,8 @@ class Menu extends Component {
         </div>
         <div>
           <Order
-            orderStyle={this.state.orderPage !== 5 ? 'side-bar' : 'checkout'}
+            orderStyle={'side-bar'}
+            // orderStyle={this.state.orderPage !== 5 ? 'side-bar' : 'checkout'}
             total={this.calculateTotal()}
             back={this.previousPage}
           >

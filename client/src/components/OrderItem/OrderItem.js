@@ -6,10 +6,12 @@ class OrderItem extends Component {
     return(
       <div className="OrderItem">
         <span className="name">
-          {this.props.name + " Sandwich"}          
+          <strong>
+            {this.props.name + " Sandwich"}
+          </strong>         
         </span>
         <span className="delete-btn ml-3" onClick={this.props.onClick}>X</span>
-        <span className="price">{this.props.price}</span>
+        <span className="price"><strong>{this.props.price}</strong></span>
         <ul>
           {this.props.children}
         </ul>
