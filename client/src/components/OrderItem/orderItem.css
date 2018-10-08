@@ -1,15 +1,42 @@
-.OrderItem>name {
+.Order-Item {
+  width: 100%;
+}
+
+.Order-Item>.order-item-info {
+  background-color: blanchedalmond;
+  /* width: 100%; */
+  margin-bottom: 16px;
+  margin-left: 36px;
+
+}
+
+.Order-Item>.delete-btn {
   float: left;
 }
 
-.OrderItem>.delete-btn, .OrderItem>.price {
+.Order-Item .price {  
   float: right;
 }
 
-.OrderItem>.delete-btn {
+.Order-Item>.delete-btn {
+  position: relative;
+  width: 30px;
+  height: 30px;
   color: white;
   background-color: red;
-  border-radius: 4px;
-  padding: 4px;
+  border-radius: 15px;
   font-size: 10px;
+}
+
+.Order-Item .oi-x {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.Order-Item ul {
+  margin: 0;
 }

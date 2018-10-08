@@ -1,5 +1,5 @@
 .Ingredient {
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   border-radius: 10px;
   height: 180px;
   /* padding: 2px; */
@@ -19,5 +19,5 @@
 }
 
 .Ingredient.selected {
-  background-color: aquamarine;
+  background-color: blanchedalmond;
 }

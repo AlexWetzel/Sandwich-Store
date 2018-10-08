@@ -31,58 +31,7 @@ class Menu extends Component {
     },
     order: [],
     timeOver: false,
-
-    // order: [{
-    //   type: "test",
-    //   ingredients: [
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient",
-    //     "ingredient"
-    // ],
-    //   price: 9999.99
-
-
-    // }],
-
-
-    orderPage: 4,
+    orderPage: 0,
     total: 0,   
   }
 
@@ -196,11 +145,6 @@ class Menu extends Component {
     page--;
     this.setState({orderPage: page});
   }
-
-  // checkout = () => {
-  //   this.setState({orderPage: 99});
-  // }
-
 
   moreFood = () => {
     this.setState({orderPage: 0});
