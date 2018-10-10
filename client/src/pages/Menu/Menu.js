@@ -30,17 +30,6 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
-    // order: [
-    //   {type: "test", ingredients: [
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
-    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"
-    //   ], price: 50}
-    // ],
     timeOver: false,
     orderPage: 0,
     total: 0,   
@@ -261,9 +250,12 @@ class Menu extends Component {
         )
       case 5:
         return(
-          <div id="Submit">
-            <h1>Your order number is:</h1>
-            <h1>{'#' + this.orderNumber()}</h1>
+          <div id="submit" className="text-center">
+            <h1 className="display-3 mb-5">Thank You!</h1>
+            <div id="order-num-panel" className="shadow p-3">
+              <h1>Your order number is:</h1>
+              <h1 id="order-num" className="display-3">{'#' + this.orderNumber()}</h1>
+            </div>
           </div>
         );
       default:
@@ -311,7 +303,6 @@ class Menu extends Component {
         <div>
           <Order
             orderStyle={'side-bar'}
-            // orderStyle={this.state.orderPage !== 5 ? 'side-bar' : 'checkout'}
             total={this.calculateTotal()}
             back={this.previousPage}
           >

@@ -24,10 +24,7 @@ class Order extends Component {
         <div id="order-items" ref={(el) => {this.orderItems = el;}}>
           {this.props.children}
         </div>
-        <h4 id="total">Total: {this.props.total}</h4>
-        {/* <button className="checkout-button" onClick={this.props.back}>Back</button> */}
-        <button onClick={this.bottom}>bottom</button>
-        <Link className="checkout-button" to='/submit'><button>Submit Order</button></Link>
+        <h2 id="total" className="mr-4">Total: {this.props.total}</h2>
       </div>
     )
   }

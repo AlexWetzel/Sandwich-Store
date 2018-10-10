@@ -1,6 +1,5 @@
-
 #Menu > .main{
-  /* margin: 0px 50px; */
+  position: relative;
   padding-top: 40px;
 }
 
@@ -8,7 +7,6 @@
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   height: 180px;
-  /* padding: 2px; */
 }
 
 .panel > img {
@@ -17,9 +15,18 @@
   width: 150px;
   height: 90px;
   margin: 10px auto;
+}
 
-  /* margin: auto;
-  border-radius: 10px;
-  width: 100%;
-  height: auto; */
+#submit {
+  padding-top: 20%;
+}
+
+#order-num-panel {
+  background-color: white;
+  border-radius: 20px;
+}
+
+#order-num {
+  margin: 0px 200px;
+  background-color: blanchedalmond;
 }
