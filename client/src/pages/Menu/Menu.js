@@ -30,6 +30,17 @@ class Menu extends Component {
       veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     },
     order: [],
+    // order: [
+    //   {type: "test", ingredients: [
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", 
+    //     "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"
+    //   ], price: 50}
+    // ],
     timeOver: false,
     orderPage: 0,
     total: 0,   
