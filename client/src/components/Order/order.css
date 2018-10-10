@@ -11,10 +11,6 @@
   height: 100%;
 }
 
-/* #order-body {
-  height: inherit;
-} */
-
 #order-items {
   overflow-y: scroll;
   top: 0px;
