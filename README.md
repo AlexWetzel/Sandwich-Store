@@ -20,8 +20,8 @@ Clicking the red button next to an item on the order panel will remove it.
 
 After navigating through each ingredient page, You'll have 3 options:
 
-*Add More: Add more sandwiches to your order  
-*Check Out: Finish your order  
-*Reset: Erase your order and go back to the start screen  
+  *Add More: Add more sandwiches to your order  
+  *Check Out: Finish your order  
+  *Reset: Erase your order and go back to the start screen  
 
 Once you hit 'Check Out', the page will display your order number and reset the app after 5 seconds.
