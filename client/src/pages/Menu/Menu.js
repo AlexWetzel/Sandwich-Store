@@ -6,7 +6,6 @@ import { OrderItem, OrderCustom } from './../../components/OrderItem';
 import { Redirect } from 'react-router';
 import './menu.css';
 //TODO:
-//Add complete order page
 
 class Menu extends Component {
   
@@ -83,7 +82,8 @@ class Menu extends Component {
   deleteSandwich = i => {
     let updateOrder = this.state.order.slice();
     // If the item being deleted is in the process of being customized, if it is last in the array
-    if( i === (this.state.order.length - 1)) {
+    
+    if( (i === (this.state.order.length - 1)) ) {
       // Display the first order page
       this.setState({orderPage: 0})
     }
@@ -140,7 +140,6 @@ class Menu extends Component {
     if (page === 1){
       const index = this.state.order.length - 1;
       this.deleteSandwich(index);
-      // this.removeSandwich();
     }
     page--;
     this.setState({orderPage: page});

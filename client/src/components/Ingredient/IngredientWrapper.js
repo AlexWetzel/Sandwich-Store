@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './ingredientWrapper.css';
 
 class IngredientWrapper extends Component {
-  
-  // constructor(props) {
-  //   super(props);
-  // }
 
   render() {
     return (
@@ -16,7 +12,7 @@ class IngredientWrapper extends Component {
             {this.props.children}
           </div>
         </div>
-        <div className="row">
+        <div id="ingredient-btns" className="row">
           <div className="col-3 offset-3">
             <div className="menu-btn shadow-sm" onClick={this.props.previous}>Back</div>
           </div>            

@@ -29,17 +29,4 @@
 
 #Order.side-bar {
   width: 25%;
-
-}
-#Order.side-bar .checkout-button {
-  display: none;
-}
-
-#Order.checkout {
-  width: 100%;
-}
-
-#Order.checkout > #order-body {
-  width: 800px;
-  margin: auto;
 }

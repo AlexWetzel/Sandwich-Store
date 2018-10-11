@@ -7,9 +7,5 @@
   font-size: 30px;
   border-radius: 25px;
   margin: auto;
+  cursor: pointer;
 }
-
-/* #IngredientWrapper .btn-box {
-  width: px;
-  margin: auto;
-} */

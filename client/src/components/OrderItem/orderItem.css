@@ -4,7 +4,6 @@
 
 .Order-Item>.order-item-info {
   background-color: blanchedalmond;
-  /* width: 100%; */
   margin-bottom: 16px;
   margin-left: 36px;
 
@@ -26,6 +25,7 @@
   background-color: red;
   border-radius: 15px;
   font-size: 10px;
+  cursor: pointer;
 }
 
 .Order-Item .oi-x {

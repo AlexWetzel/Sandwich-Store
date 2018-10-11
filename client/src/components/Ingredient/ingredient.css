@@ -2,7 +2,7 @@
   background-color: white;
   border-radius: 10px;
   height: 180px;
-  /* padding: 2px; */
+  cursor: pointer;
 }
 
 .Ingredient > img {
@@ -11,11 +11,6 @@
   width: 150px;
   height: 90px;
   margin: 10px auto;
-
-  /* margin: auto;
-  border-radius: 10px;
-  width: 100%;
-  height: auto; */
 }
 
 .Ingredient.selected {

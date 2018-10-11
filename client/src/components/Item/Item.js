@@ -3,10 +3,6 @@ import './item.css'
 
 class Item extends Component {
 
-  // constructor() {
-  //   super()
-  // }
-
   render() {
     return (
       <div className="col-6">

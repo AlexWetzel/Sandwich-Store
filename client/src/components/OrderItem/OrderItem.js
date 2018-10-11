@@ -18,7 +18,7 @@ class OrderItem extends Component {
             </strong>         
           </span>
   
-          <span className="price h5"><strong>{this.props.price}</strong></span>
+          <span className="price h5"><strong>{"$" + this.props.price}</strong></span>
           
           <ul>
             {this.props.children}

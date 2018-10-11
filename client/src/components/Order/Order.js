@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './order.css';
 
 class Order extends Component {
@@ -24,7 +23,7 @@ class Order extends Component {
         <div id="order-items" ref={(el) => {this.orderItems = el;}}>
           {this.props.children}
         </div>
-        <h2 id="total" className="mr-4">Total: {this.props.total}</h2>
+        <h2 id="total" className="mr-4">Total: {"$" + this.props.total}</h2>
       </div>
     )
   }
