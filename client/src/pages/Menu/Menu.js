@@ -208,7 +208,7 @@ class Menu extends Component {
                 onClick={this.moreFood}                
               >
                 <img
-                  src={this.nameToImgSrc('turkey')}
+                  src={this.nameToImgSrc('Turkey')}
                   alt="Add More"
                 />          
                 <h2>Add More</h2>
@@ -220,7 +220,7 @@ class Menu extends Component {
                 onClick={this.checkout}
               >
                 <img
-                  src={this.nameToImgSrc('turkey')}
+                  src={this.nameToImgSrc('Turkey')}
                   alt="Check Out"
                 />          
                 <h2>Check Out</h2>
@@ -232,7 +232,7 @@ class Menu extends Component {
                 // onClick={this.reset}                
               >
                 <img
-                  src={this.nameToImgSrc('turkey')}
+                  src={this.nameToImgSrc('Turkey')}
                   alt="Reset"
                 />          
                 <h2>Reset</h2>
