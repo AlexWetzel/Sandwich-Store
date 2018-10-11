@@ -18,8 +18,9 @@ class App extends Component {
   //8. After the user submits their order, a thank you message is displayed, and the app returns to the start screen.
 
   render() {
+
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/menu" component={Menu} />

@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 import { OrderItem, OrderCustom } from './../../components/OrderItem';
 import { Redirect } from 'react-router';
 import './menu.css';
-//TODO:
 
 class Menu extends Component {
   
   constructor() {
     super();
     this.orderID = 0;
-    // this.orderSize = 0;
   }
 
   state = {
@@ -72,25 +71,19 @@ class Menu extends Component {
   }
 
   // Remove a sandwich from an order
-
-  // removeSandwich = () => {
-  //   let updateOrder = this.state.order.slice();
-  //   updateOrder.pop();
-  //   this.setState({order: updateOrder});
-  // }
-
   deleteSandwich = i => {
     let updateOrder = this.state.order.slice();
     // If the item being deleted is in the process of being customized, if it is last in the array
-    
-    if( (i === (this.state.order.length - 1)) ) {
-      // Display the first order page
-      this.setState({orderPage: 0})
-    }
+ 
     updateOrder.splice(i, 1);
     this.setState({
       order: updateOrder
     });
+
+    if( i === (this.state.order.length - 1) && this.state.orderPage < 4 ) {
+      // Display the first order page
+      this.setState({orderPage: 0})
+    }
   }
 
   addIngredient = ingredient => {
@@ -234,16 +227,16 @@ class Menu extends Component {
               </div>
             </div>
             <div className="col-4 offset-2">
-              <div
+              <Link to="/"><div
                 className="panel m-3 shadow text-center"
-                onClick={this.reset}                
+                // onClick={this.reset}                
               >
                 <img
                   src={this.nameToImgSrc('turkey')}
                   alt="Reset"
                 />          
                 <h2>Reset</h2>
-              </div>
+              </div></Link>
             </div>
           </div>
         )
