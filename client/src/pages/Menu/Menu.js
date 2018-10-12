@@ -74,15 +74,16 @@ class Menu extends Component {
   deleteSandwich = i => {
     let updateOrder = this.state.order.slice();
     // If the item being deleted is in the process of being customized, if it is last in the array
- 
     updateOrder.splice(i, 1);
     this.setState({
       order: updateOrder
     });
-
-    if( i === (this.state.order.length - 1) && this.state.orderPage < 4 ) {
+    // Conditions for returning to the first page after removing an item from the order
+    // -When the user removes the item they are customizing
+    // -When the order is emptied
+    if( (i === (this.state.order.length - 1) && this.state.orderPage < 4) || updateOrder.length === 0 ){
       // Display the first order page
-      this.setState({orderPage: 0})
+      this.setState({orderPage: 0});
     }
   }
 
