@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Item, ItemWrapper } from './../../components/Item';
 import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
@@ -106,10 +106,6 @@ class Menu extends Component {
   deleteIngredient = (ingredient, i) => {
     const j = this.state.order[i].ingredients.indexOf(ingredient);
     let newOrder = this.state.order.slice();
-
-    console.log("Ingredient ", ingredient, " is nunber ", j, " on item number ", i);
-
-    // newOrder[i].ingredients.splice(ingredient, 1);
     newOrder[i].ingredients.splice(j, 1);
     this.setState({order: newOrder});
   }
@@ -124,6 +120,12 @@ class Menu extends Component {
   }
 
   nextPage = () => {
+
+    if(this.state.orderPage === 3) {
+      this.setState({orderPage: 0});
+      return;
+    }
+
     let page = this.state.orderPage;
     page++;
     this.setState({orderPage: page});
@@ -152,7 +154,7 @@ class Menu extends Component {
   }
 
   checkout = () => {
-    this.nextPage();
+    this.setState({orderPage: 5})   
 
     setTimeout(() => {
       this.setState({timeOver: true});
@@ -177,7 +179,10 @@ class Menu extends Component {
     switch (this.state.orderPage) {
       case 0:
         return(          
-          <ItemWrapper>
+          <ItemWrapper
+            buttonDisplay={this.state.order.length === 0 ? '' : ''}
+            onClick={this.checkout}
+          >
             {this.state.menu.sandwiches.map(sandwich => {
               return(
                 <Item
@@ -200,47 +205,48 @@ class Menu extends Component {
       case 3:
         ingredients = this.state.menu.veggies;
         return(<this.ingredientsRender ingredients={ingredients}/>)
-      case 4:
-        return(
-          <div className="row">
-            <div className="col-4 offset-2" style={{marginTop: "100px"}}>
-              <div
-                className="panel m-3 shadow text-center"
-                onClick={this.moreFood}                
-              >
-                <img
-                  src={this.nameToImgSrc('Turkey')}
-                  alt="Add More"
-                />          
-                <h2>Add More</h2>
-              </div>
-            </div>
-            <div className="col-4" style={{marginTop: "100px"}}>
-              <div
-                className="panel m-3 shadow text-center"
-                onClick={this.checkout}
-              >
-                <img
-                  src={this.nameToImgSrc('Turkey')}
-                  alt="Check Out"
-                />          
-                <h2>Check Out</h2>
-              </div>
-            </div>
-            <div className="col-4 offset-2">
-              <Link to="/"><div
-                className="panel m-3 shadow text-center"
-                // onClick={this.reset}                
-              >
-                <img
-                  src={this.nameToImgSrc('Turkey')}
-                  alt="Reset"
-                />          
-                <h2>Reset</h2>
-              </div></Link>
-            </div>
-          </div>
-        )
+      // case 4:
+
+        // return(
+        //   <div className="row">
+        //     <div className="col-4 offset-2" style={{marginTop: "100px"}}>
+        //       <div
+        //         className="panel m-3 shadow text-center"
+        //         onClick={this.moreFood}                
+        //       >
+        //         <img
+        //           src={this.nameToImgSrc('Turkey')}
+        //           alt="Add More"
+        //         />          
+        //         <h2>Add More</h2>
+        //       </div>
+        //     </div>
+        //     <div className="col-4" style={{marginTop: "100px"}}>
+        //       <div
+        //         className="panel m-3 shadow text-center"
+        //         onClick={this.checkout}
+        //       >
+        //         <img
+        //           src={this.nameToImgSrc('Turkey')}
+        //           alt="Check Out"
+        //         />          
+        //         <h2>Check Out</h2>
+        //       </div>
+        //     </div>
+        //     <div className="col-4 offset-2">
+        //       <Link to="/"><div
+        //         className="panel m-3 shadow text-center"
+        //         // onClick={this.reset}                
+        //       >
+        //         <img
+        //           src={this.nameToImgSrc('Turkey')}
+        //           alt="Reset"
+        //         />          
+        //         <h2>Reset</h2>
+        //       </div></Link>
+        //     </div>
+        //   </div>
+        // )
       case 5:
         return(
           <div id="submit" className="text-center">
@@ -275,6 +281,7 @@ class Menu extends Component {
               name={ingredient}
               imgSrc={this.nameToImgSrc(ingredient)}
               onClick={() => this.ingredientToggle(ingredient)}
+              // finish={() => this.setState({orderPage: 0})}
               isselected={ing.indexOf(ingredient) > -1 ? 'selected' : ''}
             />
           )
@@ -290,8 +297,10 @@ class Menu extends Component {
 
     return(
       <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
-        <div className="main col-7 offset-1">
+        <div className="col-9">
+          <div id="menu-container">
           <this.pageRender />
+          </div>
         </div>
         <div>
           <Order

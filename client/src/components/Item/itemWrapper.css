@@ -1,0 +1,15 @@
+#cancel-btn {
+  /* height: 100px; */
+  /* width: 300px; */
+  border-radius: 25px;
+  color: white;
+  background-color: red;
+}
+
+#submit-btn {
+  /* height: 100px; */
+  /* width: 300px; */
+  border-radius: 25px;
+  color: white;
+  background-color: rgb(113, 120, 226);
+}
