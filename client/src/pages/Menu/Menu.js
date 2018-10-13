@@ -180,7 +180,7 @@ class Menu extends Component {
       case 0:
         return(          
           <ItemWrapper
-            buttonDisplay={this.state.order.length === 0 ? '' : ''}
+            buttonDisplay={this.state.order.length === 0 ? 'd-none' : ''}
             onClick={this.checkout}
           >
             {this.state.menu.sandwiches.map(sandwich => {
@@ -205,48 +205,6 @@ class Menu extends Component {
       case 3:
         ingredients = this.state.menu.veggies;
         return(<this.ingredientsRender ingredients={ingredients}/>)
-      // case 4:
-
-        // return(
-        //   <div className="row">
-        //     <div className="col-4 offset-2" style={{marginTop: "100px"}}>
-        //       <div
-        //         className="panel m-3 shadow text-center"
-        //         onClick={this.moreFood}                
-        //       >
-        //         <img
-        //           src={this.nameToImgSrc('Turkey')}
-        //           alt="Add More"
-        //         />          
-        //         <h2>Add More</h2>
-        //       </div>
-        //     </div>
-        //     <div className="col-4" style={{marginTop: "100px"}}>
-        //       <div
-        //         className="panel m-3 shadow text-center"
-        //         onClick={this.checkout}
-        //       >
-        //         <img
-        //           src={this.nameToImgSrc('Turkey')}
-        //           alt="Check Out"
-        //         />          
-        //         <h2>Check Out</h2>
-        //       </div>
-        //     </div>
-        //     <div className="col-4 offset-2">
-        //       <Link to="/"><div
-        //         className="panel m-3 shadow text-center"
-        //         // onClick={this.reset}                
-        //       >
-        //         <img
-        //           src={this.nameToImgSrc('Turkey')}
-        //           alt="Reset"
-        //         />          
-        //         <h2>Reset</h2>
-        //       </div></Link>
-        //     </div>
-        //   </div>
-        // )
       case 5:
         return(
           <div id="submit" className="text-center">
