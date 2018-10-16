@@ -18,10 +18,8 @@ Your order will be displayed on the right, along with the total cost.
 
 Clicking the red button next to an item on the order panel will remove it.
 
-After navigating through each ingredient page, You'll have 3 options:
+After navigating through each ingredient page, You'll return to the menu page. You can now submit your order or cancel it by clicking either button on the bottom of the page.
 
-1.Add More: Add more sandwiches to your order  
-2.Check Out: Finish your order  
-3.Reset: Erase your order and go back to the start screen  
+If you hit 'Submit Order', the page will display your order number and reset the app after 5 seconds.
 
-Once you hit 'Check Out', the page will display your order number and reset the app after 5 seconds.
+If you hit 'Cancel Order', you will return to the start page.
