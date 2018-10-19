@@ -1,4 +1,4 @@
-.Item {
+.name {
   max-height: 150px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
@@ -7,7 +7,7 @@
   cursor: pointer;
 }
 
-.Item > img {
+.image {
   display: block;
   margin: auto;
   width: 200px;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
-import Submit from './pages/Submit';
 import './App.css';
 
 class App extends Component {
@@ -24,7 +23,6 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/menu" component={Menu} />
-          <Route exact path="/submit" component={Submit} />
         </Switch>
       </Router>
     );

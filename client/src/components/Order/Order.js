@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './order.css';
+import style from './Order.module.css';
 
 class Order extends Component {
   componentDidMount() {
@@ -19,11 +19,11 @@ class Order extends Component {
 
   render() {
     return(
-      <div id="Order" className={this.props.orderStyle}>
-        <div id="order-items" ref={(el) => {this.orderItems = el;}}>
+      <div className={style.order_panel}>
+        <div className={style.order_items} ref={(el) => {this.orderItems = el;}}>
           {this.props.children}
         </div>
-        <h2 id="total" className="mr-4">Total: {"$" + this.props.total}</h2>
+        <h2 className={`${style.total} mr-4`}>Total: {"$" + this.props.total}</h2>
       </div>
     )
   }

@@ -5,7 +5,8 @@ import { Ingredient, IngredientWrapper } from './../../components/Ingredient';
 import Order from './../../components/Order';
 import { OrderItem, OrderCustom } from './../../components/OrderItem';
 import { Redirect } from 'react-router';
-import './menu.css';
+import style from './Menu.module.css';
+import ingrStyle from './../../components/Ingredient/Ingredient.module.css'
 
 class Menu extends Component {
   
@@ -207,11 +208,11 @@ class Menu extends Component {
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 5:
         return(
-          <div id="submit" className="text-center">
+          <div className={`${style.submit} text-center`}>
             <h1 className="display-3 mb-5">Thank You!</h1>
-            <div id="order-num-panel" className="shadow p-3">
+            <div className={`${style.order_num_panel} shadow p-3`}>
               <h1>Your order number is:</h1>
-              <h1 id="order-num" className="display-3">{'#' + this.orderNumber()}</h1>
+              <h1 className={`${style.order_num} display-3`}>{'#' + this.orderNumber()}</h1>
             </div>
           </div>
         );
@@ -239,8 +240,7 @@ class Menu extends Component {
               name={ingredient}
               imgSrc={this.nameToImgSrc(ingredient)}
               onClick={() => this.ingredientToggle(ingredient)}
-              // finish={() => this.setState({orderPage: 0})}
-              isselected={ing.indexOf(ingredient) > -1 ? 'selected' : ''}
+              isselected={ing.indexOf(ingredient) > -1 ? ingrStyle.selected : ''}
             />
           )
         })} 
@@ -254,15 +254,14 @@ class Menu extends Component {
     }
 
     return(
-      <div id="Menu" className="row justify-content-start" style={{margin: '0px'}}>
+      <div className="row justify-content-start" style={{margin: '0px'}}>
         <div className="col-9">
-          <div id="menu-container">
+          <div className={style.menu_container}>
           <this.pageRender />
           </div>
         </div>
         <div>
           <Order
-            orderStyle={'side-bar'}
             total={this.calculateTotal()}
             back={this.previousPage}
           >

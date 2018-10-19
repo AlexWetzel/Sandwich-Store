@@ -1,4 +1,4 @@
-#Start {
+.start {
   position: absolute;
   top: 35%;
   left: 50%;
@@ -6,7 +6,7 @@
   transform: translate(-50%, -50%);
 }
 
-#Start .start-btn {
+.start_btn {
   text-align: center;
   background-color: rgb(113, 120, 226);
   color: white;
@@ -16,8 +16,4 @@
   border-radius: 40px;
   margin: auto;
   cursor: pointer;
-}
-
-#Start a {
-  text-decoration: none;
 }

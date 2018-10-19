@@ -1,11 +1,11 @@
-.Ingredient {
+.panel {
   background-color: white;
   border-radius: 10px;
   height: 180px;
   cursor: pointer;
 }
 
-.Ingredient > img {
+.image {
   display: block;
   margin: auto;
   width: 150px;
@@ -13,6 +13,6 @@
   margin: 10px auto;
 }
 
-.Ingredient.selected {
+.selected {
   background-color: blanchedalmond;
 }

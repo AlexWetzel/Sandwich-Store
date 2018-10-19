@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './item.css'
+import style from './Item.module.css'
 
 class Item extends Component {
 
@@ -7,10 +7,11 @@ class Item extends Component {
     return (
       <div className="col-6">
         <div
-          className="Item media m-3 shadow"
+          className={`${style.name} media m-3 shadow`}
           onClick={this.props.onClick}
         >
           <img
+            className={style.image}
             src={this.props.imgSrc}
             alt={this.props.name + " sandwich"}
             />
