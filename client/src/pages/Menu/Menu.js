@@ -165,7 +165,7 @@ class Menu extends Component {
   nameToImgSrc = name => {
     let src = name;
     src = src.replace(" ", "_");
-    src = "./images/" + src + ".png";
+    src = "./images/" + src + "_200x120.png";
 
     return src;
   }
