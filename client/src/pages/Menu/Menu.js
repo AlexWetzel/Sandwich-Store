@@ -23,6 +23,8 @@ class Menu extends Component {
         {type: "Ham", price: 5.99},
         {type: "Ultimate", price: 5.99},
         {type: "Italian", price: 5.99},  
+        {type: "Italian", price: 5.99},  
+        {type: "Italian", price: 5.99},  
       ],
       sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
       cheese: ["Cheddar", "Swiss", "Provolone"],
@@ -254,40 +256,40 @@ class Menu extends Component {
     }
 
     return(
-      <div className="row justify-content-start" style={{margin: '0px'}}>
+      <div className="row justify-content-start">
         <div className="col-9">
           <div className={style.menu_container}>
           <this.pageRender />
           </div>
         </div>
-        <div>
-          <Order
-            total={this.calculateTotal()}
-            back={this.previousPage}
-          >
-            {this.state.order.map((orderItem, index) => {
-              const ingredients = orderItem.ingredients;
-              return(
-                <OrderItem
-                  name={orderItem.type}
-                  key={orderItem.type + index}
-                  price={orderItem.price.toFixed(2)}
-                  onClick={() => this.deleteSandwich(index)}
-                >
-                  {ingredients.map(ingredient => {
-                    return(
-                      <OrderCustom
-                        key={ingredient}
-                        name={ingredient}
-                        onClick={() => this.deleteIngredient(ingredient, index)}
-                      />
-                    );
-                  })}
-                </OrderItem>
-              );
-            })}
-          </Order>         
-        </div>
+        
+        <Order
+          total={this.calculateTotal()}
+          back={this.previousPage}
+        >
+          {this.state.order.map((orderItem, index) => {
+            const ingredients = orderItem.ingredients;
+            return(
+              <OrderItem
+                name={orderItem.type}
+                key={orderItem.type + index}
+                price={orderItem.price.toFixed(2)}
+                onClick={() => this.deleteSandwich(index)}
+              >
+                {ingredients.map(ingredient => {
+                  return(
+                    <OrderCustom
+                      key={ingredient}
+                      name={ingredient}
+                      onClick={() => this.deleteIngredient(ingredient, index)}
+                    />
+                  );
+                })}
+              </OrderItem>
+            );
+          })}
+        </Order>         
+        
       </div>
     )
   }
