@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
+
 
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
@@ -15,6 +17,18 @@ class App extends Component {
   //6. Once the user copletes the order for one sandwich, they are prompted to either order another sandwich or submit their order
   //7. A confirmation screen is displayed for the user to confirm or edit their order if needed.
   //8. After the user submits their order, a thank you message is displayed, and the app returns to the start screen.
+
+  componentDidMount() {
+    this.serverConnect();
+  }
+  
+  serverConnect = () => {
+    axios.get("/api/testconnection")
+    .then(res => {
+      console.log(res);
+    }).catch( err => console.log(err));
+  }
+
 
   render() {
 
