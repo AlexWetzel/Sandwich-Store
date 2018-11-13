@@ -22,9 +22,7 @@ class Menu extends Component {
         {type: "Turkey", price: 5.99},
         {type: "Ham", price: 5.99},
         {type: "Ultimate", price: 5.99},
-        {type: "Italian", price: 5.99},  
-        {type: "Italian", price: 5.99},  
-        {type: "Italian", price: 5.99},  
+        {type: "Italian", price: 5.99}
       ],
       sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
       cheese: ["Cheddar", "Swiss", "Provolone"],
