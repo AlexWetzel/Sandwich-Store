@@ -14,12 +14,8 @@ const User = sequelize.define('user', {
   permissionLVL: {
     type: Sequelize.STRING
   },
-  dateCreated: {
-    type: Sequelize.DATE
-  },
-  dateTerminated: {
-    type: Sequelize.DATE
-  }
+}, {
+  timestamps: false
 });
 
 User.sync({force: true}).then(() => {
