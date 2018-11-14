@@ -8,7 +8,11 @@ Sandwich.sync({force: true}).then(() => {
     {name: "Ham", price: 5.99},
     {name: "Ultimate", price: 5.99},
     {name: "Italian", price: 5.99}
-  ])
+  ]).then( res => {
+
+  })
 }).catch( err => {
   console.log(err);
 });
+
+console.log("It never ends")
