@@ -1,6 +1,8 @@
+require('dotenv').config({ debug: process.env.DEBUG })
+
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('Sandwich_Store_db', 'root', 'RootPass', {
-  host: 'localhost',
+const sequelize = new Sequelize('Sandwich_Store_db', process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: 'mysql',
   operatorsAliases: false,
 
