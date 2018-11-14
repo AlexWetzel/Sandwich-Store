@@ -18,9 +18,4 @@ const User = sequelize.define('user', {
   timestamps: false
 });
 
-User.sync({force: true}).then(() => {
-  console.log('Synch successful!')
-}).catch( err => {
-  console.log(err);
-});
-
+module.exports = User;
