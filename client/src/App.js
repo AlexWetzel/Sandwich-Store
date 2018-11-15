@@ -7,9 +7,8 @@ import axios from 'axios';
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.data = '';
+  state = {
+    data: null
   }
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
@@ -29,11 +28,19 @@ class App extends Component {
     axios.get("/api/testconnection")
     .then(res => {
       console.log(res.data);
-      this.data = res.data;
+      this.setState({
+        data: res.data
+      });
     }).catch( err => console.log(err));
   }
 
-  
+  menuRender = (props) => {
+    if (this.state.data) {
+      return <Menu {...props} menuData={this.state.data}/>
+    }
+
+    return <h1>{'Loading ....'}</h1>
+  }
 
   render() {
 
@@ -43,7 +50,7 @@ class App extends Component {
           <Route exact path="/" component={Start} />
           <Route 
             exact path="/menu" 
-            render={(props) => <Menu {...props} menuData={this.data}/>} />
+            render={(props) => this.menuRender(props)} />
           {/* <Route exact path="/menu" component={Menu} /> */}
         </Switch>
       </Router>
