@@ -75,9 +75,6 @@ class Menu extends Component {
         veggies: veggies,
       }
     })
-
-
-
   }
 
   // For ingredients added to a sandwich, add and remove to the order on click
