@@ -7,7 +7,10 @@ import axios from 'axios';
 
 class App extends Component {
 
-
+  constructor() {
+    super();
+    this.data = '';
+  }
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
   //2. A list of menu items displays different sandwiches that are available. Clicking a sandwich lets you customize with different toppings.
@@ -25,7 +28,8 @@ class App extends Component {
   serverConnect = () => {
     axios.get("/api/testconnection")
     .then(res => {
-      console.log(res);
+      console.log(res.data);
+      this.data = res.data;
     }).catch( err => console.log(err));
   }
 
@@ -36,7 +40,10 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />
-          <Route exact path="/menu" component={Menu} />
+          <Route 
+            exact path="/menu" 
+            render={(props) => <Menu {...props} menuData={this.data}/>} />
+          {/* <Route exact path="/menu" component={Menu} /> */}
         </Switch>
       </Router>
     );

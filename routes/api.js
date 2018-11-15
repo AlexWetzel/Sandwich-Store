@@ -10,7 +10,7 @@ router.get("/api/testconnection", (req, res) => {
 
     const sandwiches = data[0].map( sandwich => {
       let sandwichData = sandwich.dataValues;
-      return {name: sandwichData.name, price: sandwichData.price};
+      return {type: sandwichData.name, price: sandwichData.price};
     })
     const ingredients = data[1].map( ingredient => {
       let ingredientData = ingredient.dataValues;

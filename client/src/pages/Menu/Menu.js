@@ -17,21 +17,67 @@ class Menu extends Component {
 
   state = {
     menu: {
-      sandwiches: [
-        {type: "Roast Beef", price: 5.99},
-        {type: "Turkey", price: 5.99},
-        {type: "Ham", price: 5.99},
-        {type: "Ultimate", price: 5.99},
-        {type: "Italian", price: 5.99}
-      ],
-      sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
-      cheese: ["Cheddar", "Swiss", "Provolone"],
-      veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
+      sandwiches: [],
+      sauce: [],
+      cheese: [],
+      veggies: [],
     },
+    // menu: {
+    //   sandwiches: [
+    //     {type: "Roast Beef", price: 5.99},
+    //     {type: "Turkey", price: 5.99},
+    //     {type: "Ham", price: 5.99},
+    //     {type: "Ultimate", price: 5.99},
+    //     {type: "Italian", price: 5.99}
+    //   ],
+    //   sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
+    //   cheese: ["Cheddar", "Swiss", "Provolone"],
+    //   veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
+    // },
     order: [],
     timeOver: false,
     orderPage: 0,
     total: 0,   
+  }
+
+  componentDidMount() {
+    console.log(this.props.menuData);
+    const data = this.props.menuData;
+    const sandwiches = data.sandwiches;
+    console.log('Sandwiches:', sandwiches)
+    let sauce = [], cheese = [], veggies = [];
+    data.ingredients.forEach(ingredient => {
+      console.log(ingredient.name)
+      switch (ingredient.type) {
+        case 'sauce':
+          sauce.push(ingredient.name);
+          break;
+        case 'cheese':
+          cheese.push(ingredient.name);
+          break;
+        case 'veggies':
+          veggies.push(ingredient.name);
+          break;
+      
+        default:
+          break;
+      }
+    });
+    console.log("Sauce:", sauce)
+    console.log("Cheese:", cheese)
+    console.log("Veggies:", veggies)
+
+    this.setState({
+      menu: {
+        sandwiches: sandwiches,
+        sauce: sauce,
+        cheese: cheese,
+        veggies: veggies,
+      }
+    })
+
+
+
   }
 
   // For ingredients added to a sandwich, add and remove to the order on click
