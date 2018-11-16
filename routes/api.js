@@ -14,7 +14,7 @@ router.get("/api/testconnection", (req, res) => {
     })
     const ingredients = data[1].map( ingredient => {
       let ingredientData = ingredient.dataValues;
-      return {name: ingredientData.name, type: ingredientData.type};
+      return {name: ingredientData.name, type: ingredientData.type, stock: ingredientData.stock};
     })
 
     res.json({

@@ -41,31 +41,25 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.menuData);
     const data = this.props.menuData;
     const sandwiches = data.sandwiches;
-    console.log('Sandwiches:', sandwiches)
     let sauce = [], cheese = [], veggies = [];
     data.ingredients.forEach(ingredient => {
-      console.log(ingredient.name)
       switch (ingredient.type) {
         case 'sauce':
-          sauce.push(ingredient.name);
+          sauce.push({ name: ingredient.name, stock: ingredient.stock });
           break;
         case 'cheese':
-          cheese.push(ingredient.name);
+          cheese.push({ name: ingredient.name, stock: ingredient.stock });
           break;
         case 'veggies':
-          veggies.push(ingredient.name);
+          veggies.push({ name: ingredient.name, stock: ingredient.stock });
           break;
       
         default:
           break;
       }
     });
-    console.log("Sauce:", sauce)
-    console.log("Cheese:", cheese)
-    console.log("Veggies:", veggies)
 
     this.setState({
       menu: {
@@ -279,10 +273,11 @@ class Menu extends Component {
           const ing = this.state.order[this.state.order.length - 1].ingredients;
           return(
             <Ingredient
-              key={ingredient}
-              name={ingredient}
-              imgSrc={this.nameToImgSrc(ingredient)}
+              key={ingredient.name}
+              name={ingredient.name}
+              imgSrc={this.nameToImgSrc(ingredient.name)}
               onClick={() => this.ingredientToggle(ingredient)}
+              inStock={ingredient.stock > 0 ? 'inStock' : 'outOfStock'}
               isselected={ing.indexOf(ingredient) > -1 ? ingrStyle.selected : ''}
             />
           )
@@ -320,9 +315,9 @@ class Menu extends Component {
                 {ingredients.map(ingredient => {
                   return(
                     <OrderCustom
-                      key={ingredient}
-                      name={ingredient}
-                      onClick={() => this.deleteIngredient(ingredient, index)}
+                      key={ingredient.name}
+                      name={ingredient.name}
+                      onClick={() => this.deleteIngredient(ingredient.name, index)}
                     />
                   );
                 })}

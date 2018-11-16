@@ -7,6 +7,10 @@ const Ingredient = sequelize.define('ingredient', {
   },
   type: {
     type: Sequelize.STRING
+  },
+  stock: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 }, {
   timestamps: false
