@@ -73,15 +73,18 @@ class Menu extends Component {
 
   // For ingredients added to a sandwich, add and remove to the order on click
   ingredientToggle = ingredient => {
-    const size = this.state.order.length - 1
-    const i = this.state.order[size].ingredients.indexOf(ingredient);
-    
-    // Check the order for the selected ingredient
-    if( i === -1 ) {
-      this.addIngredient(ingredient);
-    } else {
-      this.removeIngredient(i);
-    };
+
+    if (ingredient.stock > 0){
+      const size = this.state.order.length - 1
+      const i = this.state.order[size].ingredients.indexOf(ingredient);
+      
+      // Check the order for the selected ingredient
+      if( i === -1 ) {
+        this.addIngredient(ingredient);
+      } else {
+        this.removeIngredient(i);
+      };
+    }
   }
 
   // Add an item to the order
@@ -276,9 +279,9 @@ class Menu extends Component {
               key={ingredient.name}
               name={ingredient.name}
               imgSrc={this.nameToImgSrc(ingredient.name)}
-              onClick={() => this.ingredientToggle(ingredient)}
-              inStock={ingredient.stock > 0 ? 'inStock' : 'outOfStock'}
+              isInStock={ingredient.stock > 0 ? 'inStock' : ingrStyle.outOfStock}
               isselected={ing.indexOf(ingredient) > -1 ? ingrStyle.selected : ''}
+              onClick={() => this.ingredientToggle(ingredient)}
             />
           )
         })} 

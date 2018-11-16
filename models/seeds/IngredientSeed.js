@@ -3,7 +3,7 @@ const Ingredient = require('../ingredients');
 Ingredient.sync({force: true}).then( () => {
   console.log('Synch successful!')
   return Ingredient.bulkCreate([
-    {name: 'Mayonnaise', type: 'sauce'},
+    {name: 'Mayonnaise', type: 'sauce' , stock: 1},
     {name: 'Yellow Mustard', type: 'sauce'},
     {name: 'Honey Mustard', type: 'sauce'},
     {name: 'Dijon Mustard', type: 'sauce'},
