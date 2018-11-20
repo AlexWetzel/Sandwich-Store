@@ -69,7 +69,6 @@ router.post("/api/order", (req, res) => {
 
     })
   }).then( () => {
-    console.log(changedValues);
   }).catch( err => console.log(err));
 })
 
