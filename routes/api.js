@@ -16,6 +16,7 @@ ingredientCount = order => {
     })
   })
   console.log(ingrdtCount);
+  return ingrdtCount
 }
 
 router.get("/api/menu", (req, res) => {
@@ -44,31 +45,32 @@ router.get("/api/menu", (req, res) => {
 router.post("/api/order", (req, res) => {
   res.send();
 
-  console.log(req.body);
-
   const order = req.body;
 
-  ingredientCount(order);
+  const count = ingredientCount(order);
 
+  console.log(count);
 
+  db.Ingredient.findAll({})
+  .then( (data) => {
+    let newData = data
 
-  // order.ingredients.forEach( ingredient => {
-    
-  // });
+    count.forEach(ingredient => {
 
-  // db.Ingredient.findAll({})
-  // .then( (data) => {
-  //   let newData = data
-  //   console.log(newData)
-  // })
-  // db.Ingredient.update(
-  //   {stock: 200},
-  //   {where: {name: 'Lettuce'}}
-  // ).then( newValue => {
-  //   console.log(newValue);
-  // }).catch( err => {
-  //   console.log(err);
-  // })
+      let newEntry = newData.find( entry => entry.name === ingredient.name);
+      newEntry.stock -= ingredient.count;
+      console.log(newEntry.dataValues);
+
+      db.Ingredient.update(
+        {stock: newEntry.stock},
+        {where: {name: newEntry.name}}
+      ).then(() => console.log('success'))
+      .catch( err => console.log(err))
+
+    })
+  }).then( () => {
+    console.log(changedValues);
+  }).catch( err => console.log(err));
 })
 
 console.log("Routes working");
