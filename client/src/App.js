@@ -25,7 +25,7 @@ class App extends Component {
   }
   
   serverConnect = () => {
-    axios.get("/api/testconnection")
+    axios.get("/api/menu")
     .then(res => {
       console.log(res.data);
       this.setState({

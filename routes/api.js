@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const db = require('../models');
 
-router.get("/api/testconnection", (req, res) => {
+router.get("/api/menu", (req, res) => {
   Promise.all([
     db.Sandwich.findAll({}),
     db.Ingredient.findAll({})
@@ -22,7 +22,11 @@ router.get("/api/testconnection", (req, res) => {
       ingredients: ingredients
     });
   })
+})
 
+router.post("/api/order", (req, res) => {
+  console.log(req.body);
+  res.send();
 })
 
 console.log("Routes working");

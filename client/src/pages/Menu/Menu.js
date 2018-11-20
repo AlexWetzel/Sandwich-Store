@@ -6,7 +6,8 @@ import Order from './../../components/Order';
 import { OrderItem, OrderCustom } from './../../components/OrderItem';
 import { Redirect } from 'react-router';
 import style from './Menu.module.css';
-import ingrStyle from './../../components/Ingredient/Ingredient.module.css'
+import ingrStyle from './../../components/Ingredient/Ingredient.module.css';
+import axios from 'axios';
 
 class Menu extends Component {
   
@@ -195,11 +196,26 @@ class Menu extends Component {
   }
 
   checkout = () => {
-    this.setState({orderPage: 5})   
+    const data = this.state.order;
 
-    setTimeout(() => {
-      this.setState({timeOver: true});
-    }, 5000)
+    axios.post("/api/order", data).then( () => {
+      console.log("Data sent")
+      this.setState({orderPage: 5})   
+
+      setTimeout(() => {
+        this.setState({timeOver: true});
+      }, 5000)
+    }).catch( err => {
+      console.log(err);
+    })
+
+
+
+    // this.setState({orderPage: 5})   
+
+    // setTimeout(() => {
+    //   this.setState({timeOver: true});
+    // }, 5000)
   }
 
   nameToImgSrc = name => {
@@ -210,7 +226,7 @@ class Menu extends Component {
     return src;
   }
 
-    orderNumber = () => {
+  orderNumber = () => {
     return Math.floor(Math.random() * 100) + 1;
   }
 
