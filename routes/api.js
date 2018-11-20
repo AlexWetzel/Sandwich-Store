@@ -2,21 +2,20 @@ const router = require("express").Router();
 const db = require('../models');
 
 ingredientCount = order => {
-  let ingrdtCount = [];
+  const ingrdtCount = [];
 
   order.forEach( item => {
     item.ingredients.forEach( ingredient => {
-      let counter = ingrdtCount.find(ing => ing.name === ingredient.name)
+      const counter = ingrdtCount.find(ing => ing.name === ingredient)
 
       if (counter === undefined) {
-        ingrdtCount.push({name: ingredient.name, count: 1})
-        console.log(ingrdtCount)
+        ingrdtCount.push({name: ingredient, count: 1})
       } else {
         counter.count++;
-        console.log(counter);
       }
     })
   })
+  console.log(ingrdtCount);
 }
 
 router.get("/api/menu", (req, res) => {
@@ -46,7 +45,6 @@ router.post("/api/order", (req, res) => {
   res.send();
 
   console.log(req.body);
-  console.log(req.body[0].ingredients);
 
   const order = req.body;
 
