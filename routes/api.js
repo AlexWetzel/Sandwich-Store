@@ -1,6 +1,24 @@
 const router = require("express").Router();
 const db = require('../models');
 
+ingredientCount = order => {
+  let ingrdtCount = [];
+
+  order.forEach( item => {
+    item.ingredients.forEach( ingredient => {
+      let counter = ingrdtCount.find(ing => ing.name === ingredient.name)
+
+      if (counter === undefined) {
+        ingrdtCount.push({name: ingredient.name, count: 1})
+        console.log(ingrdtCount)
+      } else {
+        counter.count++;
+        console.log(counter);
+      }
+    })
+  })
+}
+
 router.get("/api/menu", (req, res) => {
   Promise.all([
     db.Sandwich.findAll({}),
@@ -25,8 +43,34 @@ router.get("/api/menu", (req, res) => {
 })
 
 router.post("/api/order", (req, res) => {
-  console.log(req.body);
   res.send();
+
+  console.log(req.body);
+  console.log(req.body[0].ingredients);
+
+  const order = req.body;
+
+  ingredientCount(order);
+
+
+
+  // order.ingredients.forEach( ingredient => {
+    
+  // });
+
+  // db.Ingredient.findAll({})
+  // .then( (data) => {
+  //   let newData = data
+  //   console.log(newData)
+  // })
+  // db.Ingredient.update(
+  //   {stock: 200},
+  //   {where: {name: 'Lettuce'}}
+  // ).then( newValue => {
+  //   console.log(newValue);
+  // }).catch( err => {
+  //   console.log(err);
+  // })
 })
 
 console.log("Routes working");

@@ -77,7 +77,7 @@ class Menu extends Component {
 
     if (ingredient.stock > 0){
       const size = this.state.order.length - 1
-      const i = this.state.order[size].ingredients.indexOf(ingredient);
+      const i = this.state.order[size].ingredients.indexOf(ingredient.name);
       
       // Check the order for the selected ingredient
       if( i === -1 ) {
@@ -133,7 +133,7 @@ class Menu extends Component {
     let newOrder = this.state.order.slice();
     const size = this.state.order.length - 1;
 
-    newOrder[size].ingredients.push(ingredient);
+    newOrder[size].ingredients.push(ingredient.name);
     this.setState({order: newOrder});
   }
 
@@ -296,7 +296,7 @@ class Menu extends Component {
               name={ingredient.name}
               imgSrc={this.nameToImgSrc(ingredient.name)}
               isInStock={ingredient.stock > 0 ? 'inStock' : ingrStyle.outOfStock}
-              isselected={ing.indexOf(ingredient) > -1 ? ingrStyle.selected : ''}
+              isselected={ing.indexOf(ingredient.name) > -1 ? ingrStyle.selected : ''}
               onClick={() => this.ingredientToggle(ingredient)}
             />
           )
@@ -334,8 +334,8 @@ class Menu extends Component {
                 {ingredients.map(ingredient => {
                   return(
                     <OrderCustom
-                      key={ingredient.name}
-                      name={ingredient.name}
+                      key={ingredient}
+                      name={ingredient}
                       onClick={() => this.deleteIngredient(ingredient.name, index)}
                     />
                   );

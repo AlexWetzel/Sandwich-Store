@@ -31,7 +31,6 @@
 }
 
 .outOfStock p {
-  text-emphasis: bold;
   color: #ee5e5e;
   visibility: visible;
 }
