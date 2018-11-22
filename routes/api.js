@@ -20,11 +20,34 @@ ingredientCount = order => {
 }
 
 router.get("/api/menu", (req, res) => {
+
+  db.Sandwich.belongsToMany( db.Ingredient, {
+    as: 'sandwiches',
+    through: db.SandwichIngredients,
+    foreignKey: 'sandwichId'
+  });
+  
+  db.Ingredient.belongsToMany( db.Sandwich, {
+    as: 'meats',
+    through: db.SandwichIngredients,
+    foreignKey: 'ingredientId'
+  });
+
+
+
   Promise.all([
-    db.Sandwich.findAll({}),
+    db.Sandwich.findAll({
+      include: [{
+        model: db.Ingredient,
+        as: 'sandwiches',
+        through: {
+          attributes: [],
+        }
+      }]
+    }),
     db.Ingredient.findAll({})
   ]).then( data => {
-    // console.log(data[0][0].dataValues);
+    // console.log();
 
     const sandwiches = data[0].map( sandwich => {
       let sandwichData = sandwich.dataValues;
@@ -35,10 +58,12 @@ router.get("/api/menu", (req, res) => {
       return {name: ingredientData.name, type: ingredientData.type, stock: ingredientData.stock};
     })
 
-    res.json({
-      sandwiches: sandwiches,
-      ingredients: ingredients
-    });
+    res.json(data);
+
+    // res.json({
+    //   sandwiches: sandwiches,
+    //   ingredients: ingredients
+    // });
   })
 })
 
