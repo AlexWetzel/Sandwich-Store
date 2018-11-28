@@ -1,6 +1,36 @@
 const router = require("express").Router();
 const db = require('../models');
 
+  //TODO: Move associations somewhere else?
+  db.Sandwich.belongsToMany( db.Ingredient, {
+    as: 'meats',
+    through: db.SandwichIngredients,
+    foreignKey: 'sandwichId'
+  })
+  
+  db.Ingredient.belongsToMany( db.Sandwich, {
+    as: 'sandwiches',
+    through: db.SandwichIngredients,
+    foreignKey: 'ingredientId'
+  });
+
+  // db.Sandwich.find({
+  //   where: {
+  //     name: 'italian'
+  //   },
+  //   attributes: ['name', 'price'],
+  //   include: [{
+  //     model: db.Ingredient,
+  //     as: 'meats',
+  //     through: {
+  //       attributes: ['quantity'],
+  //     }
+  //   }]
+  // }).then( res => {
+  //   console.log(res.meats[0].sandwichIngredient)
+  // })
+
+//TODO: consider putting this in a helper file
 ingredientCount = order => {
   const ingrdtCount = [];
 
@@ -21,49 +51,36 @@ ingredientCount = order => {
 
 router.get("/api/menu", (req, res) => {
 
-  db.Sandwich.belongsToMany( db.Ingredient, {
-    as: 'sandwiches',
-    through: db.SandwichIngredients,
-    foreignKey: 'sandwichId'
-  });
-  
-  db.Ingredient.belongsToMany( db.Sandwich, {
-    as: 'meats',
-    through: db.SandwichIngredients,
-    foreignKey: 'ingredientId'
-  });
-
-
-
   Promise.all([
     db.Sandwich.findAll({
+      attributes: ['name', 'price'],
       include: [{
         model: db.Ingredient,
-        as: 'sandwiches',
+        as: 'meats',
+        attributes: ['name'],
         through: {
-          attributes: [],
+          attributes: ['quantity']
         }
       }]
     }),
-    db.Ingredient.findAll({})
+    db.Ingredient.findAll({
+      attributes: ['name', 'stock']
+    })
   ]).then( data => {
-    // console.log();
 
-    const sandwiches = data[0].map( sandwich => {
-      let sandwichData = sandwich.dataValues;
-      return {type: sandwichData.name, price: parseFloat(sandwichData.price)};
+    const sandwiches = data[0].map( sandwich => {      
+      const meats = sandwich.meats.map( meat => {
+        return {name: meat.name, quantity: meat.sandwichIngredient.quantity}
+      })
+      
+      return {type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
     })
-    const ingredients = data[1].map( ingredient => {
-      let ingredientData = ingredient.dataValues;
-      return {name: ingredientData.name, type: ingredientData.type, stock: ingredientData.stock};
-    })
+    const ingredients = data[1]
 
-    res.json(data);
-
-    // res.json({
-    //   sandwiches: sandwiches,
-    //   ingredients: ingredients
-    // });
+    res.json({
+      sandwiches: sandwiches,
+      ingredients: ingredients
+    });
   })
 })
 

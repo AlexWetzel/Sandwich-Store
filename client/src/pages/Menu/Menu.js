@@ -42,7 +42,9 @@ class Menu extends Component {
   }
 
   componentDidMount() {
+    
     const data = this.props.menuData;
+    console.log(data);
     const sandwiches = data.sandwiches;
     let sauce = [], cheese = [], veggies = [];
     data.ingredients.forEach(ingredient => {
