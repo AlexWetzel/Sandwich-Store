@@ -19,6 +19,8 @@ class Menu extends Component {
   state = {
     menu: {
       sandwiches: [],
+      // Meat array is for comparing stock to determine availability of sandwiches
+      meat: [],
       sauce: [],
       cheese: [],
       veggies: [],
@@ -31,6 +33,7 @@ class Menu extends Component {
     //     {type: "Ultimate", price: 5.99},
     //     {type: "Italian", price: 5.99}
     //   ],
+    //   
     //   sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
     //   cheese: ["Cheddar", "Swiss", "Provolone"],
     //   veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
@@ -42,13 +45,16 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    
+    // Organize the data into the menu page state
     const data = this.props.menuData;
     console.log(data);
     const sandwiches = data.sandwiches;
-    let sauce = [], cheese = [], veggies = [];
+    let sauce = [], cheese = [], veggies = [], meat = [];
     data.ingredients.forEach(ingredient => {
       switch (ingredient.type) {
+        // case 'meat':
+        //   meat.push({ name: ingredient.name, stock: ingredient.stock });
+        //   break;
         case 'sauce':
           sauce.push({ name: ingredient.name, stock: ingredient.stock });
           break;

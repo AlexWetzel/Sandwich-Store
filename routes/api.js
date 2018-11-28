@@ -64,7 +64,7 @@ router.get("/api/menu", (req, res) => {
       }]
     }),
     db.Ingredient.findAll({
-      attributes: ['name', 'stock']
+      attributes: ['name', 'type', 'stock']
     })
   ]).then( data => {
 
