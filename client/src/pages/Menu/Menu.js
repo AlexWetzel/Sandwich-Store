@@ -12,6 +12,7 @@ import axios from 'axios';
 // TODO: 
 // * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
 // * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
+// * Remove the state and use props, and format the data in the App
 
 class Menu extends Component {
   
@@ -23,12 +24,17 @@ class Menu extends Component {
   state = {
     menu: {
       sandwiches: [],
-      // Meat array is for comparing stock to determine availability of sandwiches
-      meat: [],
-      sauce: [],
-      cheese: [],
-      veggies: [],
+      ingredients: [],
     },
+    // menu: {
+    //   sandwiches: [],
+    //   // Meat array is for comparing stock to determine availability of sandwiches
+    //   meat: [],
+    //   sauce: [],
+    //   cheese: [],
+    //   veggies: [],
+    // },
+
     // menu: {
     //   sandwiches: [
     //     {type: "Roast Beef", price: 5.99},
@@ -42,6 +48,7 @@ class Menu extends Component {
     //   cheese: ["Cheddar", "Swiss", "Provolone"],
     //   veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
     // },
+
     order: [],
     timeOver: false,
     orderPage: 0,
@@ -52,38 +59,56 @@ class Menu extends Component {
     // Organize the data into the menu page state
     const data = this.props.menuData;
     console.log(data);
-    const sandwiches = data.sandwiches;
-    let sauce = [], cheese = [], veggies = [], meat = [];
-    data.ingredients.forEach(ingredient => {
-      switch (ingredient.type) {
-        case 'meat':
-          meat.push({ name: ingredient.name, stock: ingredient.stock });
-          break;
-        case 'sauce':
-          sauce.push({ name: ingredient.name, stock: ingredient.stock });
-          break;
-        case 'cheese':
-          cheese.push({ name: ingredient.name, stock: ingredient.stock });
-          break;
-        case 'veggies':
-          veggies.push({ name: ingredient.name, stock: ingredient.stock });
-          break;
-      
-        default:
-          break;
+
+
+    // TODO: Get rid of this later, reference props instead
+    this.setState({
+      menu: {
+        sandwiches: data.sandwiches,
+        ingredients: data.ingredients
       }
     });
 
-    this.setState({
-      menu: {
-        sandwiches: sandwiches,
-        meat: meat,
-        // sauce: sauce,
-        sauce: [{ name: 'Yellow Mustard', stock: 1}],
-        cheese: cheese,
-        veggies: veggies,
-      }
-    })
+
+
+
+    // Old
+    // const sandwiches = data.sandwiches;
+    // let sauce = [], cheese = [], veggies = [], meat = [];
+    // data.ingredients.forEach(ingredient => {
+    //   switch (ingredient.type) {
+    //     case 'meat':
+    //       meat.push({ name: ingredient.name, stock: ingredient.stock });
+    //       break;
+    //     case 'sauce':
+    //       sauce.push({ name: ingredient.name, stock: ingredient.stock });
+    //       break;
+    //     case 'cheese':
+    //       cheese.push({ name: ingredient.name, stock: ingredient.stock });
+    //       break;
+    //     case 'veggies':
+    //       veggies.push({ name: ingredient.name, stock: ingredient.stock });
+    //       break;
+      
+    //     default:
+    //       break;
+    //   }
+    // });
+
+    // this.setState({
+    //   menu: {
+    //     sandwiches: sandwiches,
+    //     meat: meat,
+    //     // sauce: sauce,
+    //     sauce: [{ name: 'Yellow Mustard', stock: 1}],
+    //     cheese: cheese,
+    //     veggies: veggies,
+    //   }
+    // })
+  }
+  // When the order panel updates, tally the ingredients in the order, and update the stock
+  updateStock = () => {
+
   }
 
   // Add or remove an ingredient from a sandwich being customized
@@ -98,11 +123,9 @@ class Menu extends Component {
       // Check if the item is in stock
       if (ingredient.stock > 0){
         this.addIngredient(ingredient);
-        ingredient.stock -= 1;
       }
     } else {
       this.removeIngredient(i);
-      ingredient.stock += 1;
     };
 
     // Old
@@ -291,14 +314,28 @@ class Menu extends Component {
           </ItemWrapper>
         );
       case 1:
-        ingredients = this.state.menu.sauce;
+        ingredients = this.state.menu.ingredients
+          .filter(ingredient => ingredient.type === 'sauce');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 2:
-        ingredients = this.state.menu.cheese;
+        ingredients = this.state.menu.ingredients
+          .filter(ingredient => ingredient.type === 'cheese');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 3:
-        ingredients = this.state.menu.veggies;
+        ingredients = this.state.menu.ingredients
+          .filter(ingredient => ingredient.type === 'veggies');
         return(<this.ingredientsRender ingredients={ingredients}/>)
+
+      // Old
+      // case 1:
+      //   ingredients = this.state.menu.sauce;
+      //   return(<this.ingredientsRender ingredients={ingredients}/>)
+      // case 2:
+      //   ingredients = this.state.menu.cheese;
+      //   return(<this.ingredientsRender ingredients={ingredients}/>)
+      // case 3:
+      //   ingredients = this.state.menu.veggies;
+      //   return(<this.ingredientsRender ingredients={ingredients}/>)
       case 5:
         return(
           <div className={`${style.submit} text-center`}>
