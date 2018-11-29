@@ -14,6 +14,7 @@ const db = require('../models');
     foreignKey: 'ingredientId'
   });
 
+  // Some test code
   // db.Sandwich.find({
   //   where: {
   //     name: 'italian'
@@ -84,6 +85,9 @@ router.get("/api/menu", (req, res) => {
   })
 })
 
+// The order is sent to this route to update the stock of the ingredients
+// The logic assumes only one user at a time, as multiple users at a time may cause errors with stock calculation.
+// TODO: Add a method that checks the database before attempting to write
 router.post("/api/order", (req, res) => {
   res.send();
 
@@ -93,16 +97,19 @@ router.post("/api/order", (req, res) => {
 
   console.log(count);
 
+  // Query the ingredient table to get the stock
   db.Ingredient.findAll({})
   .then( (data) => {
     let newData = data
 
+    // Subtract ingredients in the order from the stock
     count.forEach(ingredient => {
 
       let newEntry = newData.find( entry => entry.name === ingredient.name);
       newEntry.stock -= ingredient.count;
       console.log(newEntry.dataValues);
 
+      // Update ingredient table
       db.Ingredient.update(
         {stock: newEntry.stock},
         {where: {name: newEntry.name}}
@@ -113,7 +120,5 @@ router.post("/api/order", (req, res) => {
   }).then( () => {
   }).catch( err => console.log(err));
 })
-
-console.log("Routes working");
 
 module.exports = router;

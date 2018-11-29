@@ -9,6 +9,7 @@ import style from './Menu.module.css';
 import ingrStyle from './../../components/Ingredient/Ingredient.module.css';
 import axios from 'axios';
 
+// TODO: Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
 class Menu extends Component {
   
   constructor() {
@@ -52,9 +53,9 @@ class Menu extends Component {
     let sauce = [], cheese = [], veggies = [], meat = [];
     data.ingredients.forEach(ingredient => {
       switch (ingredient.type) {
-        // case 'meat':
-        //   meat.push({ name: ingredient.name, stock: ingredient.stock });
-        //   break;
+        case 'meat':
+          meat.push({ name: ingredient.name, stock: ingredient.stock });
+          break;
         case 'sauce':
           sauce.push({ name: ingredient.name, stock: ingredient.stock });
           break;
@@ -73,7 +74,9 @@ class Menu extends Component {
     this.setState({
       menu: {
         sandwiches: sandwiches,
-        sauce: sauce,
+        meat: meat,
+        // sauce: sauce,
+        sauce: [{ name: 'mustard', stock: 1}],
         cheese: cheese,
         veggies: veggies,
       }
@@ -94,6 +97,11 @@ class Menu extends Component {
         this.removeIngredient(i);
       };
     }
+  }
+
+  // Determine if an ingredient or sandwich should be available to purchase based off the stock
+  itemInStock = () => {
+
   }
 
   // Add an item to the order
@@ -136,7 +144,7 @@ class Menu extends Component {
       this.setState({orderPage: 0});
     }
   }
-
+  // Adds ingredient to the order
   addIngredient = ingredient => {
     let newOrder = this.state.order.slice();
     const size = this.state.order.length - 1;
@@ -144,7 +152,7 @@ class Menu extends Component {
     newOrder[size].ingredients.push(ingredient.name);
     this.setState({order: newOrder});
   }
-
+  // Removes ingredient from the order by toggling off from the menu
   removeIngredient = i => {
     let newOrder = this.state.order.slice();
     const size = this.state.order.length - 1;
@@ -152,7 +160,7 @@ class Menu extends Component {
     newOrder[size].ingredients.splice(i, 1);
     this.setState({order: newOrder});
   }
-
+  // Removes ingredient from order by hitting delete button in the order panel
   deleteIngredient = (ingredient, i) => {
     const j = this.state.order[i].ingredients.indexOf(ingredient);
     let newOrder = this.state.order.slice();
@@ -160,6 +168,7 @@ class Menu extends Component {
     this.setState({order: newOrder});
   }
 
+  // Determine the price of the order
   calculateTotal = () => {
     let total = 0;
     this.state.order.forEach(item => {
@@ -191,6 +200,7 @@ class Menu extends Component {
     this.setState({orderPage: page});
   }
 
+  // Resets the menu page to order another item
   moreFood = () => {
     this.setState({orderPage: 0});
   }
@@ -203,6 +213,7 @@ class Menu extends Component {
     });
   }
 
+  // Submit an order
   checkout = () => {
     const data = this.state.order;
 
@@ -217,13 +228,6 @@ class Menu extends Component {
       console.log(err);
     })
 
-
-
-    // this.setState({orderPage: 5})   
-
-    // setTimeout(() => {
-    //   this.setState({timeOver: true});
-    // }, 5000)
   }
 
   nameToImgSrc = name => {
@@ -234,7 +238,9 @@ class Menu extends Component {
     return src;
   }
 
+  // Gives a number for the order.
   orderNumber = () => {
+    // Order number is a random placeholder number for now
     return Math.floor(Math.random() * 100) + 1;
   }
 
