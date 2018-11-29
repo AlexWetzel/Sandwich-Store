@@ -9,7 +9,10 @@ import style from './Menu.module.css';
 import ingrStyle from './../../components/Ingredient/Ingredient.module.css';
 import axios from 'axios';
 
-// TODO: Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
+// TODO: 
+// * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
+// * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
+
 class Menu extends Component {
   
   constructor() {
@@ -76,27 +79,47 @@ class Menu extends Component {
         sandwiches: sandwiches,
         meat: meat,
         // sauce: sauce,
-        sauce: [{ name: 'mustard', stock: 1}],
+        sauce: [{ name: 'Yellow Mustard', stock: 1}],
         cheese: cheese,
         veggies: veggies,
       }
     })
   }
 
-  // For ingredients added to a sandwich, add and remove to the order on click
+  // Add or remove an ingredient from a sandwich being customized
   ingredientToggle = ingredient => {
 
-    if (ingredient.stock > 0){
-      const size = this.state.order.length - 1
-      const i = this.state.order[size].ingredients.indexOf(ingredient.name);
-      
-      // Check the order for the selected ingredient
-      if( i === -1 ) {
+    const size = this.state.order.length - 1
+    // Check if the ingredient is selected for the current item
+    const i = this.state.order[size].ingredients.indexOf(ingredient.name);
+
+    // Check the order for the selected ingredient
+    if( i === -1 ) {
+      // Check if the item is in stock
+      if (ingredient.stock > 0){
         this.addIngredient(ingredient);
-      } else {
-        this.removeIngredient(i);
-      };
-    }
+        ingredient.stock -= 1;
+      }
+    } else {
+      this.removeIngredient(i);
+      ingredient.stock += 1;
+    };
+
+    // Old
+    // if (ingredient.stock > 0){
+    //   const size = this.state.order.length - 1
+    //   // Check if the ingredient is selected for the current item
+    //   const i = this.state.order[size].ingredients.indexOf(ingredient.name);
+      
+    //   // Check the order for the selected ingredient
+    //   if( i === -1 ) {
+    //     this.addIngredient(ingredient);
+    //     ingredient.stock -= 1;
+    //   } else {
+    //     this.removeIngredient(i);
+    //     ingredient.stock += 1;
+    //   };
+    // }
   }
 
   // Determine if an ingredient or sandwich should be available to purchase based off the stock

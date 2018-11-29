@@ -5,7 +5,7 @@
   cursor: pointer;
 }
 
-.panel p {
+.panel p, .outOfStock.selected p{
   visibility: hidden;
 }
 
@@ -17,13 +17,18 @@
   margin: 10px auto;
 }
 
-.selected {
+.selected, .outOfStock.selected {
   background-color: blanchedalmond;
+  cursor: pointer;
 }
 
 .outOfStock {
   background-color: rgb(226, 226, 226);
   cursor: auto;
+}
+
+.outOfStock.selected img {
+  opacity: 1;
 }
 
 .outOfStock img {

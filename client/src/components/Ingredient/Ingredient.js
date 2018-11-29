@@ -7,7 +7,7 @@ class Ingredient extends Component {
     return (
       <div className="col-4">
         <div
-          className={`${style.panel} m-3 shadow text-center ${this.props.isselected} ${this.props.isInStock}`}
+          className={`${style.panel} m-3 shadow text-center ${this.props.isInStock} ${this.props.isselected}`}
           onClick={this.props.onClick}
         >
           <img
