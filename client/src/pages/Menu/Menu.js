@@ -10,15 +10,38 @@ import ingrStyle from './../../components/Ingredient/Ingredient.module.css';
 import axios from 'axios';
 
 // TODO: 
+// * Make terms more consistent:
+// * - References to 'item' needs to be changed to 'sandwich'
+// * - non-meat ingredients should be 'toppings'
+// * - ingredients sould refer to meat and toppings
 // * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
 // * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
-// * Remove the state and use props, and format the data in the App
+// * Remove the state and use props where a state would be redundant
 
 class Menu extends Component {
   
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.orderID = 0;
+
+
+    // // Organize the data into the menu page state
+    // const data = props.menuData;
+    // console.log(data);
+    // const inventory = data.ingredients.slice();
+
+    // this.inventory = inventory;
+
+    // // TODO: Remove menu state, reference props instead
+
+
+    
+    // this.state.menu = {
+    //     sandwiches: data.sandwiches,
+    //     ingredients: data.ingredients
+    //   };
+    // this.state.newStock = inventory;
+        
   }
 
   state = {
@@ -26,15 +49,7 @@ class Menu extends Component {
       sandwiches: [],
       ingredients: [],
     },
-    // menu: {
-    //   sandwiches: [],
-    //   // Meat array is for comparing stock to determine availability of sandwiches
-    //   meat: [],
-    //   sauce: [],
-    //   cheese: [],
-    //   veggies: [],
-    // },
-
+    newStock: [],
     // menu: {
     //   sandwiches: [
     //     {type: "Roast Beef", price: 5.99},
@@ -59,14 +74,22 @@ class Menu extends Component {
     // Organize the data into the menu page state
     const data = this.props.menuData;
     console.log(data);
+    
+    const inventory = this.cloneIngredients(data.ingredients)
+    
 
 
-    // TODO: Get rid of this later, reference props instead
+    // TODO: Remove menu state, reference props instead
     this.setState({
       menu: {
         sandwiches: data.sandwiches,
         ingredients: data.ingredients
-      }
+      },
+      secretMenu: {
+        sandwiches: data.sandwiches,
+        ingredients: data.ingredients
+      },
+      newStock: inventory
     });
 
 
@@ -106,10 +129,67 @@ class Menu extends Component {
     //   }
     // })
   }
-  // When the order panel updates, tally the ingredients in the order, and update the stock
-  updateStock = () => {
+
+  cloneIngredients = ingredients => {
+    const ingrClone = ingredients.map( ingredient => {
+      return Object.assign({}, ingredient);
+    });
+
+    return ingrClone
+  }
+
+  // When the order panel updates, tally the ingredients in the order, and update the new stock
+  calculateNewStock = () => {
+
+    // let lessMoney = this.state.total;
+    // const Money = this.state.total;
+
+    // lessMoney = -100;
+
+    // console.log(lessMoney)
+    // console.log(Money)
+
+
+    // const dataOne = this.state.menu;
+    // let stuff = this.state.newStock;
+    
+    // stuff[0].stock = 90;
+
+    // const oldStock = this.state.newStock
+    const ingredients = this.state.menu.ingredients
+    const newStock = this.cloneIngredients(ingredients);
+    const order = this.state.order;
+    console.log(order);
+    console.log(newStock);
+
+    order.forEach( sandwich => {
+      const meats = sandwich.meat;
+      const toppings = sandwich.ingredients;
+      meats.forEach( meat => {
+        let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
+        meatStock.stock -= meat.quantity;
+        console.log(meatStock.name, meatStock.stock);
+      });
+      toppings.forEach( topping => {
+        let ingredientStock = newStock.find( ingredient => ingredient.name === topping );
+        ingredientStock.stock--;
+        console.log(ingredientStock.name, ingredientStock.stock);
+      });
+    });
+
+   
+
+    // this.setState({
+    //   // menu: data,
+    //   newStock: [{name: 'lettuce', type: 'veggies', stock: 99}]
+    // });
+    this.setState({
+      newStock: newStock
+    });
 
   }
+
+
 
   // Add or remove an ingredient from a sandwich being customized
   ingredientToggle = ingredient => {
@@ -150,10 +230,11 @@ class Menu extends Component {
 
   }
 
-  // Add an item to the order
+  // Add an item to the order (sandwiches are items. 'Item' is nonspecific)
   addOrderItem = item => {
     let orderItem = {
       type: item.type,
+      meat: item.meat,
       ingredients: [],
       price: item.price
     };
@@ -227,6 +308,7 @@ class Menu extends Component {
   nextPage = () => {
 
     if(this.state.orderPage === 3) {
+      this.calculateNewStock();
       this.setState({orderPage: 0});
       return;
     }
@@ -248,6 +330,7 @@ class Menu extends Component {
 
   // Resets the menu page to order another item
   moreFood = () => {
+
     this.setState({orderPage: 0});
   }
   
@@ -295,11 +378,12 @@ class Menu extends Component {
     let ingredients;
     switch (this.state.orderPage) {
       case 0:
-        return(          
+        return(
+               
           <ItemWrapper
             buttonDisplay={this.state.order.length === 0 ? 'd-none' : ''}
             onClick={this.checkout}
-          >
+          >     
             {this.state.menu.sandwiches.map(sandwich => {
               return(
                 <Item
@@ -386,6 +470,7 @@ class Menu extends Component {
 
     return(
       <div className="row justify-content-start">
+                <button onClick={() => this.calculateNewStock()}>count</button>
         <div className="col-9">
           <div className={style.menu_container}>
           <this.pageRender />
