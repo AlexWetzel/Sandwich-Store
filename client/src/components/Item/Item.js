@@ -7,7 +7,7 @@ class Item extends Component {
     return (
       <div className="col-6">
         <div
-          className={`${style.name} media m-2 shadow`}
+          className={`${style.name} media m-2 shadow ${this.props.isInStock}`}
           onClick={this.props.onClick}
         >
           <img
