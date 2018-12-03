@@ -49,7 +49,7 @@ class Menu extends Component {
       sandwiches: [],
       ingredients: [],
     },
-    newStock: [],
+    inventory: [],
     // menu: {
     //   sandwiches: [
     //     {type: "Roast Beef", price: 5.99},
@@ -79,8 +79,6 @@ class Menu extends Component {
     
     const inventory = this.cloneIngredients(ingredients);
     
-
-
     // TODO: Remove menu state, reference props instead
     this.setState({
       menu: {
@@ -88,42 +86,8 @@ class Menu extends Component {
         ingredients: ingredients
       },
 
-      newStock: inventory
+      inventory: inventory
     });
-
-    // Old
-    // const sandwiches = data.sandwiches;
-    // let sauce = [], cheese = [], veggies = [], meat = [];
-    // data.ingredients.forEach(ingredient => {
-    //   switch (ingredient.type) {
-    //     case 'meat':
-    //       meat.push({ name: ingredient.name, stock: ingredient.stock });
-    //       break;
-    //     case 'sauce':
-    //       sauce.push({ name: ingredient.name, stock: ingredient.stock });
-    //       break;
-    //     case 'cheese':
-    //       cheese.push({ name: ingredient.name, stock: ingredient.stock });
-    //       break;
-    //     case 'veggies':
-    //       veggies.push({ name: ingredient.name, stock: ingredient.stock });
-    //       break;
-      
-    //     default:
-    //       break;
-    //   }
-    // });
-
-    // this.setState({
-    //   menu: {
-    //     sandwiches: sandwiches,
-    //     meat: meat,
-    //     // sauce: sauce,
-    //     sauce: [{ name: 'Yellow Mustard', stock: 1}],
-    //     cheese: cheese,
-    //     veggies: veggies,
-    //   }
-    // })
   }
 
   // Clones the ingredient data to be used to calculate the stock
@@ -168,7 +132,7 @@ class Menu extends Component {
     });
 
     this.setState({
-      newStock: newStock
+      inventory: newStock
     });
   }
 
@@ -176,16 +140,16 @@ class Menu extends Component {
   ingredientToggle = ingredient => {
 
     const size = this.state.order.length - 1
-    // Check if the ingredient is selected for the current item
+    // Check if the ingredient is selected for the current sandwich
     const i = this.state.order[size].ingredients.indexOf(ingredient.name);
 
     // Check the order for the selected ingredient
     if( i === -1 ) {
-      // Check if the item is in stock
+      // Check if the topping is in stock
       if (ingredient.stock > 0){
         ingredient.stock--;
         this.addIngredient(ingredient);
-        console.log(this.state.newStock);
+        console.log(this.state.inventory);
       }
     } else {
       ingredient.stock++;
@@ -209,35 +173,35 @@ class Menu extends Component {
     // }
   }
 
-  // Add an item to the order (sandwiches are items. 'Item' is nonspecific)
-  addOrderItem = (item, isInStock) => {
+  // Add a sandwich to the order
+  addOrderItem = (sandwich, isInStock) => {
 
     if(isInStock){   
-      let orderItem = {
-        type: item.type,
-        meat: item.meat,
+      let newSandwich = {
+        type: sandwich.type,
+        meat: sandwich.meat,
         ingredients: [],
-        price: item.price
+        price: sandwich.price
       };
 
-      const newStock = this.state.newStock;
+      const newStock = this.state.inventory;
 
-      item.meat.forEach( meat => {
+      newSandwich.meat.forEach( meat => {
         let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
         meatStock.stock -= meat.quantity;
         console.log(meatStock.name, meatStock.stock);
       });
 
-      // Add the item's price to the total price
+      // Add the sandwich's price to the total price
       let updateTotal = this.state.total;
-      updateTotal += orderItem.price;
-      // Add the item to the order
+      updateTotal += sandwich.price;
+      // Add the sandwich to the order
       let updateOrder = this.state.order.slice();
-      updateOrder.push(orderItem);
+      updateOrder.push(newSandwich);
 
       // Update the state
       this.setState({
-        newStock: newStock,
+        inventory: newStock,
         order: updateOrder,
         total: updateTotal
       });
@@ -249,33 +213,31 @@ class Menu extends Component {
   // Remove a sandwich from an order
   deleteSandwich = i => {
 
-    const newStock = this.state.newStock;
+    // Add the sandwich ingredients back to the stock
+    const inventory = this.state.inventory;
     const sandwich = this.state.order[i];
     const meats = sandwich.meat;
     const toppings = sandwich.ingredients;
     meats.forEach( meat => {
-      let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
+      let meatStock = inventory.find( ingredient => ingredient.name === meat.name )
       meatStock.stock += meat.quantity;
       console.log(meatStock.name, meatStock.stock);
     });
     toppings.forEach( topping => {
-      let ingredientStock = newStock.find( ingredient => ingredient.name === topping );
+      let ingredientStock = inventory.find( ingredient => ingredient.name === topping );
       ingredientStock.stock++;
       console.log(ingredientStock.name, ingredientStock.stock);
     });
 
-
     let updateOrder = this.state.order
-    // If the item being deleted is in the process of being customized, if it is last in the array
+    // If the sandwich being deleted is in the process of being customized, if it is last in the array
     updateOrder.splice(i, 1);
     this.setState({
       order: updateOrder
     });
 
-    // this.calculateNewStock();
-
-    // Conditions for returning to the first page after removing an item from the order
-    // -When the user removes the item they are customizing
+    // Conditions for returning to the first page after removing a sandwich from the order
+    // -When the user removes the sandwich they are customizing
     // -When the order is emptied
     if( (i === (this.state.order.length - 1) && this.state.orderPage < 4) || updateOrder.length === 0 ){
       // Display the first order page
@@ -310,8 +272,8 @@ class Menu extends Component {
   // Determine the price of the order
   calculateTotal = () => {
     let total = 0;
-    this.state.order.forEach(item => {
-      total += item.price;
+    this.state.order.forEach(sandwich => {
+      total += sandwich.price;
     });
 
     return total.toFixed(2);
@@ -342,7 +304,7 @@ class Menu extends Component {
     this.setState({orderPage: page});
   }
 
-  // Resets the menu page to order another item
+  // Resets the menu page to order another sandwich
   moreFood = () => {
 
     this.setState({orderPage: 0});
@@ -376,7 +338,7 @@ class Menu extends Component {
   sandwichStock = meats => {
     let check = true;
     meats.forEach( requiredMeat => {
-      const stockedMeat = this.state.newStock
+      const stockedMeat = this.state.inventory
         .find( ingredient => ingredient.name === requiredMeat.name);
       if(requiredMeat.quantity > stockedMeat.stock){check = false};
     });
@@ -424,15 +386,15 @@ class Menu extends Component {
           </ItemWrapper>
         );
       case 1:
-        ingredients = this.state.newStock
+        ingredients = this.state.inventory
           .filter(ingredient => ingredient.type === 'sauce');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 2:
-        ingredients = this.state.newStock
+        ingredients = this.state.inventory
           .filter(ingredient => ingredient.type === 'cheese');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 3:
-        ingredients = this.state.newStock
+        ingredients = this.state.inventory
           .filter(ingredient => ingredient.type === 'veggies');
         return(<this.ingredientsRender ingredients={ingredients}/>)
 
@@ -507,13 +469,13 @@ class Menu extends Component {
           total={this.calculateTotal()}
           back={this.previousPage}
         >
-          {this.state.order.map((orderItem, index) => {
-            const ingredients = orderItem.ingredients;
+          {this.state.order.map((sandwich, index) => {
+            const ingredients = sandwich.ingredients;
             return(
               <OrderItem
-                name={orderItem.type}
-                key={orderItem.type + index}
-                price={orderItem.price.toFixed(2)}
+                name={sandwich.type}
+                key={sandwich.type + index}
+                price={sandwich.price.toFixed(2)}
                 onClick={() => this.deleteSandwich(index)}
               >
                 {ingredients.map(ingredient => {
