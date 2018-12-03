@@ -183,9 +183,12 @@ class Menu extends Component {
     if( i === -1 ) {
       // Check if the item is in stock
       if (ingredient.stock > 0){
+        ingredient.stock--;
         this.addIngredient(ingredient);
+        console.log(this.state.newStock);
       }
     } else {
+      ingredient.stock++;
       this.removeIngredient(i);
     };
 
@@ -206,11 +209,6 @@ class Menu extends Component {
     // }
   }
 
-  // Determine if an ingredient or sandwich should be available to purchase based off the stock
-  itemInStock = () => {
-
-  }
-
   // Add an item to the order (sandwiches are items. 'Item' is nonspecific)
   addOrderItem = (item, isInStock) => {
 
@@ -222,6 +220,14 @@ class Menu extends Component {
         price: item.price
       };
 
+      const newStock = this.state.newStock;
+
+      item.meat.forEach( meat => {
+        let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
+        meatStock.stock -= meat.quantity;
+        console.log(meatStock.name, meatStock.stock);
+      });
+
       // Add the item's price to the total price
       let updateTotal = this.state.total;
       updateTotal += orderItem.price;
@@ -231,6 +237,7 @@ class Menu extends Component {
 
       // Update the state
       this.setState({
+        newStock: newStock,
         order: updateOrder,
         total: updateTotal
       });
@@ -241,12 +248,32 @@ class Menu extends Component {
 
   // Remove a sandwich from an order
   deleteSandwich = i => {
-    let updateOrder = this.state.order.slice();
+
+    const newStock = this.state.newStock;
+    const sandwich = this.state.order[i];
+    const meats = sandwich.meat;
+    const toppings = sandwich.ingredients;
+    meats.forEach( meat => {
+      let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
+      meatStock.stock += meat.quantity;
+      console.log(meatStock.name, meatStock.stock);
+    });
+    toppings.forEach( topping => {
+      let ingredientStock = newStock.find( ingredient => ingredient.name === topping );
+      ingredientStock.stock++;
+      console.log(ingredientStock.name, ingredientStock.stock);
+    });
+
+
+    let updateOrder = this.state.order
     // If the item being deleted is in the process of being customized, if it is last in the array
     updateOrder.splice(i, 1);
     this.setState({
       order: updateOrder
     });
+
+    // this.calculateNewStock();
+
     // Conditions for returning to the first page after removing an item from the order
     // -When the user removes the item they are customizing
     // -When the order is emptied
@@ -254,6 +281,7 @@ class Menu extends Component {
       // Display the first order page
       this.setState({orderPage: 0});
     }
+
   }
   // Adds ingredient to the order
   addIngredient = ingredient => {
@@ -292,7 +320,9 @@ class Menu extends Component {
   nextPage = () => {
 
     if(this.state.orderPage === 3) {
-      this.calculateNewStock();
+      
+      // this.calculateNewStock();
+
       this.setState({orderPage: 0});
       return;
     }
@@ -466,6 +496,7 @@ class Menu extends Component {
 
     return(
       <div className="row justify-content-start">
+      {/* <button onClick={() => this.calculateNewStock()}>button</button> */}
         <div className="col-9">
           <div className={style.menu_container}>
           <this.pageRender />
