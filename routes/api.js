@@ -33,9 +33,17 @@ const db = require('../models');
 
 //TODO: consider putting this in a helper file
 ingredientCount = order => {
-  const ingrdtCount = [];
+  const ingrdtCount = [];  
 
   order.forEach( item => {
+    item.meat.forEach( meat => {
+      const counter = ingrdtCount.find(ing => ing.name === meat.name);
+      if (counter === undefined) {
+        ingrdtCount.push({name: meat.name, count: meat.quantity})
+      } else {
+        counter.count += meat.quantity;
+      }
+    });
     item.ingredients.forEach( ingredient => {
       const counter = ingrdtCount.find(ing => ing.name === ingredient)
 
@@ -44,10 +52,10 @@ ingredientCount = order => {
       } else {
         counter.count++;
       }
-    })
-  })
+    });
+  });
   console.log(ingrdtCount);
-  return ingrdtCount
+  return ingrdtCount;
 }
 
 router.get("/api/menu", (req, res) => {
