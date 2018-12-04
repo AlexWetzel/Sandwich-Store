@@ -22,47 +22,9 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.orderID = 0;
-
-
-    // // Organize the data into the menu page state
-    // const data = props.menuData;
-    // console.log(data);
-    // const inventory = data.ingredients.slice();
-
-    // this.inventory = inventory;
-
-    // // TODO: Remove menu state, reference props instead
-
-
-    
-    // this.state.menu = {
-    //     sandwiches: data.sandwiches,
-    //     ingredients: data.ingredients
-    //   };
-    // this.state.newStock = inventory;
-        
   }
 
   state = {
-    menu: {
-      sandwiches: [],
-      ingredients: [],
-    },
-    inventory: [],
-    // menu: {
-    //   sandwiches: [
-    //     {type: "Roast Beef", price: 5.99},
-    //     {type: "Turkey", price: 5.99},
-    //     {type: "Ham", price: 5.99},
-    //     {type: "Ultimate", price: 5.99},
-    //     {type: "Italian", price: 5.99}
-    //   ],
-    //   
-    //   sauce: ["Mayonnaise", "Yellow Mustard", "Honey Mustard", "Dijon Mustard", "Horseradish Mayo"],
-    //   cheese: ["Cheddar", "Swiss", "Provolone"],
-    //   veggies: ["Lettuce", "Tomato", "Red Onion", "Pickles", "Olives", "Banana Peppers", "Jalapenos"]
-    // },
-
     order: [],
     timeOver: false,
     orderPage: 0,
@@ -105,7 +67,7 @@ class Menu extends Component {
 
     return ingredients;
   }
-
+  // UNUSED
   // When the order panel updates, tally the ingredients in the order, and update the new stock
   calculateNewStock = () => {
 
@@ -149,7 +111,7 @@ class Menu extends Component {
       if (ingredient.stock > 0){
         ingredient.stock--;
         this.addIngredient(ingredient);
-        console.log(this.state.inventory);
+        console.log(this.props.inventory);
       }
     } else {
       ingredient.stock++;
@@ -184,7 +146,7 @@ class Menu extends Component {
         price: sandwich.price
       };
 
-      const newStock = this.state.inventory;
+      const newStock = this.props.inventory;
 
       newSandwich.meat.forEach( meat => {
         let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
@@ -201,7 +163,7 @@ class Menu extends Component {
 
       // Update the state
       this.setState({
-        inventory: newStock,
+        // inventory: newStock,
         order: updateOrder,
         total: updateTotal
       });
@@ -214,7 +176,7 @@ class Menu extends Component {
   deleteSandwich = i => {
 
     // Add the sandwich ingredients back to the stock
-    const inventory = this.state.inventory;
+    const inventory = this.props.inventory;
     const sandwich = this.state.order[i];
     const meats = sandwich.meat;
     const toppings = sandwich.ingredients;
@@ -336,15 +298,13 @@ class Menu extends Component {
   }
 
   sandwichStock = meats => {
-    console.log(meats)
     let check = true;
     meats.forEach( requiredMeat => {
-      const stockedMeat = this.state.inventory
+      const stockedMeat = this.props.inventory
         .find( ingredient => ingredient.name === requiredMeat.name);
 
-      console.log(requiredMeat)
-      console.log(stockedMeat);
-      // if(requiredMeat.quantity > stockedMeat.stock){check = false};
+
+      if(requiredMeat.quantity > stockedMeat.stock){check = false};
     });
     return check;
   }
@@ -390,28 +350,17 @@ class Menu extends Component {
           </ItemWrapper>
         );
       case 1:
-        ingredients = this.state.inventory
+        ingredients = this.props.inventory
           .filter(ingredient => ingredient.type === 'sauce');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 2:
-        ingredients = this.state.inventory
+        ingredients = this.props.inventory
           .filter(ingredient => ingredient.type === 'cheese');
         return(<this.ingredientsRender ingredients={ingredients}/>)
       case 3:
-        ingredients = this.state.inventory
+        ingredients = this.props.inventory
           .filter(ingredient => ingredient.type === 'veggies');
         return(<this.ingredientsRender ingredients={ingredients}/>)
-
-      // Old
-      // case 1:
-      //   ingredients = this.state.menu.sauce;
-      //   return(<this.ingredientsRender ingredients={ingredients}/>)
-      // case 2:
-      //   ingredients = this.state.menu.cheese;
-      //   return(<this.ingredientsRender ingredients={ingredients}/>)
-      // case 3:
-      //   ingredients = this.state.menu.veggies;
-      //   return(<this.ingredientsRender ingredients={ingredients}/>)
       case 5:
         return(
           <div className={`${style.submit} text-center`}>
