@@ -31,25 +31,14 @@ class Menu extends Component {
     total: 0,   
   }
 
-  componentDidMount() {
-    // Organize the data into the menu page state
-    const data = this.props.menuData;
-    console.log(data);
+  // componentDidMount() {
+  //   // Organize the data into the menu page state
+  //   console.log(data);
 
-    const ingredients = this.stockTest(data.ingredients);
+  //   const ingredients = this.stockTest(data.ingredients);
     
-    const inventory = this.cloneIngredients(ingredients);
-    
-    // TODO: Remove menu state, reference props instead
-    this.setState({
-      menu: {
-        sandwiches: data.sandwiches,
-        ingredients: ingredients
-      },
-
-      inventory: inventory
-    });
-  }
+ 
+  // }
 
   // Clones the ingredient data to be used to calculate the stock
   cloneIngredients = ingredients => {
@@ -117,22 +106,6 @@ class Menu extends Component {
       ingredient.stock++;
       this.removeIngredient(i);
     };
-
-    // Old
-    // if (ingredient.stock > 0){
-    //   const size = this.state.order.length - 1
-    //   // Check if the ingredient is selected for the current item
-    //   const i = this.state.order[size].ingredients.indexOf(ingredient.name);
-      
-    //   // Check the order for the selected ingredient
-    //   if( i === -1 ) {
-    //     this.addIngredient(ingredient);
-    //     ingredient.stock -= 1;
-    //   } else {
-    //     this.removeIngredient(i);
-    //     ingredient.stock += 1;
-    //   };
-    // }
   }
 
   // Add a sandwich to the order
@@ -223,6 +196,8 @@ class Menu extends Component {
     newOrder[size].ingredients.splice(i, 1);
     this.setState({order: newOrder});
   }
+
+
   // Removes ingredient from order by hitting delete button in the order panel
   deleteIngredient = (ingredient, i) => {
     const j = this.state.order[i].ingredients.indexOf(ingredient);
@@ -284,10 +259,11 @@ class Menu extends Component {
   checkout = () => {
     const data = this.state.order;
 
-    axios.post("/api/order", data).then( () => {
-      console.log("Data sent")
-      this.setState({orderPage: 5})   
+    axios.post("/api/order", data).then( response => {
 
+      console.log(response);
+      this.setState({orderPage: 5});  
+      this.props.getMenuData();
       setTimeout(() => {
         this.setState({timeOver: true});
       }, 5000)

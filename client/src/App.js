@@ -22,17 +22,14 @@ class App extends Component {
   //8. After the user submits their order, a thank you message is displayed, and the app returns to the start screen.
 
   componentDidMount() {
-    this.serverConnect();
+    this.getMenuData();
   }
   
-  serverConnect = () => {
+  getMenuData = () => {
     axios.get("/api/menu")
     .then(res => {
       console.log('Menu Data:', res.data);
-
       const inventory = this.cloneIngredients(res.data.ingredients);
-
-
       this.setState({
         data: res.data,
         inventory: inventory
@@ -54,6 +51,7 @@ class App extends Component {
       return <Menu {...props}
         menuData={this.state.data}
         inventory={this.state.inventory}
+        getMenuData={() => this.getMenuData()}
         />
     }
 

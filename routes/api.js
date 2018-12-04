@@ -97,7 +97,6 @@ router.get("/api/menu", (req, res) => {
 // The logic assumes only one user at a time, as multiple users at a time may cause errors with stock calculation.
 // TODO: Add a method that checks the database before attempting to write
 router.post("/api/order", (req, res) => {
-  res.send();
 
   const order = req.body;
 
@@ -121,7 +120,9 @@ router.post("/api/order", (req, res) => {
       db.Ingredient.update(
         {stock: newEntry.stock},
         {where: {name: newEntry.name}}
-      ).then(() => console.log('success'))
+      ).then(() => {
+        res.status(200).send({message: "Data Update Successful!"});
+      })
       .catch( err => console.log(err))
 
     })
