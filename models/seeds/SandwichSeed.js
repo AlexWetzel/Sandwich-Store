@@ -14,5 +14,3 @@ Sandwich.sync({force: true}).then(() => {
 }).catch( err => {
   console.log(err);
 });
-
-console.log("It never ends")

@@ -11,8 +11,7 @@ import axios from 'axios';
 
 // TODO: 
 // * Make terms more consistent:
-// * - References to 'item' needs to be changed to 'sandwich'
-// * - non-meat ingredients should be 'toppings'
+// * - non-meat ingredients should be 'toppings'cccccccccc
 // * - ingredients sould refer to meat and toppings
 // * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
 // * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
@@ -110,7 +109,8 @@ class Menu extends Component {
   // When the order panel updates, tally the ingredients in the order, and update the new stock
   calculateNewStock = () => {
 
-    const ingredients = this.state.menu.ingredients
+    // const ingredients = this.state.menu.ingredients
+    const ingredients = this.props.menuData.ingredients;
     const newStock = this.cloneIngredients(ingredients);
     const order = this.state.order;
     console.log(order);
@@ -336,11 +336,15 @@ class Menu extends Component {
   }
 
   sandwichStock = meats => {
+    console.log(meats)
     let check = true;
     meats.forEach( requiredMeat => {
       const stockedMeat = this.state.inventory
         .find( ingredient => ingredient.name === requiredMeat.name);
-      if(requiredMeat.quantity > stockedMeat.stock){check = false};
+
+      console.log(requiredMeat)
+      console.log(stockedMeat);
+      // if(requiredMeat.quantity > stockedMeat.stock){check = false};
     });
     return check;
   }
@@ -370,7 +374,7 @@ class Menu extends Component {
             buttonDisplay={this.state.order.length === 0 ? 'd-none' : ''}
             onClick={this.checkout}
           >     
-            {this.state.menu.sandwiches.map(sandwich => {
+            {this.props.menuData.sandwiches.map(sandwich => {
               let checkStock = this.sandwichStock(sandwich.meat);
               return(
                 <Item

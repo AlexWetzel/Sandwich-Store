@@ -8,7 +8,8 @@ import axios from 'axios';
 class App extends Component {
 
   state = {
-    data: null
+    data: null,
+    inventory: []
   }
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
@@ -27,16 +28,33 @@ class App extends Component {
   serverConnect = () => {
     axios.get("/api/menu")
     .then(res => {
-      console.log(res.data);
+      console.log('Menu Data:', res.data);
+
+      const inventory = this.cloneIngredients(res.data.ingredients);
+
+
       this.setState({
-        data: res.data
+        data: res.data,
+        inventory: inventory
       });
+      console.log('Inventory:', this.state.inventory);
     }).catch( err => console.log(err));
+  }
+
+  cloneIngredients = ingredients => {
+    const ingrClone = ingredients.map( ingredient => {
+      return Object.assign({}, ingredient);
+    });
+
+    return ingrClone
   }
 
   menuRender = (props) => {
     if (this.state.data) {
-      return <Menu {...props} menuData={this.state.data}/>
+      return <Menu {...props}
+        menuData={this.state.data}
+        inventory={this.state.inventory}
+        />
     }
 
     return <h1>{'Loading ....'}</h1>
