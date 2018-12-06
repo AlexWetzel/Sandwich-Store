@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require('../models');
 
+
   //TODO: Move associations somewhere else?
   db.Sandwich.belongsToMany( db.Ingredient, {
     as: 'meats',
@@ -13,23 +14,6 @@ const db = require('../models');
     through: db.SandwichIngredients,
     foreignKey: 'ingredientId'
   });
-
-  // Some test code
-  // db.Sandwich.find({
-  //   where: {
-  //     name: 'italian'
-  //   },
-  //   attributes: ['name', 'price'],
-  //   include: [{
-  //     model: db.Ingredient,
-  //     as: 'meats',
-  //     through: {
-  //       attributes: ['quantity'],
-  //     }
-  //   }]
-  // }).then( res => {
-  //   console.log(res.meats[0].sandwichIngredient)
-  // })
 
 //TODO: consider putting this in a helper file
 ingredientCount = order => {
@@ -62,7 +46,7 @@ router.get("/api/menu", (req, res) => {
 
   Promise.all([
     db.Sandwich.findAll({
-      attributes: ['name', 'price'],
+      attributes: ['id', 'name', 'price'],
       include: [{
         model: db.Ingredient,
         as: 'meats',
@@ -76,13 +60,12 @@ router.get("/api/menu", (req, res) => {
       attributes: ['name', 'type', 'stock']
     })
   ]).then( data => {
-
     const sandwiches = data[0].map( sandwich => {      
       const meats = sandwich.meats.map( meat => {
         return {name: meat.name, quantity: meat.sandwichIngredient.quantity}
       })
       
-      return {type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
+      return {id: sandwich.id, type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
     })
     const ingredients = data[1]
 
@@ -98,11 +81,30 @@ router.get("/api/menu", (req, res) => {
 // TODO: Add a method that checks the database before attempting to write
 router.post("/api/order", (req, res) => {
 
+  let orderNumber = 000001;
   const order = req.body;
-
   const count = ingredientCount(order);
 
   console.log(count);
+
+  db.Order.max('id').then( data => {
+
+    if(!isNaN(data)){
+      orderNumber = data + 1;
+    }
+
+    console.log(orderNumber);
+
+    const orderLog = order.map( sandwich => {
+       return {orderNumber: orderNumber, sandwichId: sandwich.id};
+    })
+
+    db.Order.bulkCreate(orderLog)
+    .then( data => {
+      console.log('Order logged:', data);
+    }).catch(err=>{console.log(err)});
+
+  }).catch(err=>{console.log(err)});
 
   // Query the ingredient table to get the stock
   db.Ingredient.findAll({})
@@ -121,12 +123,13 @@ router.post("/api/order", (req, res) => {
         {stock: newEntry.stock},
         {where: {name: newEntry.name}}
       ).then(() => {
-        res.status(200).send({message: "Data Update Successful!"});
+
       })
       .catch( err => console.log(err))
 
     })
   }).then( () => {
+    res.status(200).send({message: "Data Update Successful!", orderNumber: orderNumber});
   }).catch( err => console.log(err));
 })
 

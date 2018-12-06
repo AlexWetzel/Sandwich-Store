@@ -28,7 +28,8 @@ class Menu extends Component {
     order: [],
     timeOver: false,
     orderPage: 0,
-    total: 0,   
+    total: 0,
+    orderNumber: 0  
   }
 
   // componentDidMount() {
@@ -100,7 +101,6 @@ class Menu extends Component {
       if (ingredient.stock > 0){
         ingredient.stock--;
         this.addIngredient(ingredient);
-        console.log(this.props.inventory);
       }
     } else {
       ingredient.stock++;
@@ -113,6 +113,7 @@ class Menu extends Component {
 
     if(isInStock){   
       let newSandwich = {
+        id: sandwich.id,
         type: sandwich.type,
         meat: sandwich.meat,
         ingredients: [],
@@ -261,8 +262,7 @@ class Menu extends Component {
 
     axios.post("/api/order", data).then( response => {
 
-      console.log(response);
-      this.setState({orderPage: 5});  
+      this.setState({orderPage: 5, orderNumber: response.data.orderNumber});  
       this.props.getMenuData();
       setTimeout(() => {
         this.setState({timeOver: true});
@@ -343,7 +343,7 @@ class Menu extends Component {
             <h1 className="display-3 mb-5">Thank You!</h1>
             <div className={`${style.order_num_panel} shadow p-3`}>
               <h1>Your order number is:</h1>
-              <h1 className={`${style.order_num} display-3`}>{'#' + this.orderNumber()}</h1>
+              <h1 className={`${style.order_num} display-3`}>{'#' + this.state.orderNumber}</h1>
             </div>
           </div>
         );
