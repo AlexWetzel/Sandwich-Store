@@ -2,18 +2,39 @@ const router = require("express").Router();
 const db = require('../models');
 
 
+
+
+  //   db.Sandwich.findAll({
+  //     attributes: ['id', 'name', 'price'],
+  //     include: [{
+  //       model: db.Ingredient,
+  //       as: 'meats',
+  //       attributes: ['name'],
+  //       through: {
+  //         attributes: ['quantity']
+  //       }
+  //     }]
+  //   })
+  // .then( data => {
+
+  //   // console.log(data[0]);
+  //   console.log(data[0].meats[0].SandwichIngredient.quantity);
+
+  // })
+
+
   //TODO: Move associations somewhere else?
-  db.Sandwich.belongsToMany( db.Ingredient, {
-    as: 'meats',
-    through: db.SandwichIngredients,
-    foreignKey: 'sandwichId'
-  })
+  // db.Sandwich.belongsToMany( db.Ingredient, {
+  //   as: 'meats',
+  //   through: db.SandwichIngredients,
+  //   foreignKey: 'sandwichId'
+  // })
   
-  db.Ingredient.belongsToMany( db.Sandwich, {
-    as: 'sandwiches',
-    through: db.SandwichIngredients,
-    foreignKey: 'ingredientId'
-  });
+  // db.Ingredient.belongsToMany( db.Sandwich, {
+  //   as: 'sandwiches',
+  //   through: db.SandwichIngredients,
+  //   foreignKey: 'ingredientId'
+  // });
 
 //TODO: consider putting this in a helper file
 ingredientCount = order => {
@@ -60,9 +81,11 @@ router.get("/api/menu", (req, res) => {
       attributes: ['name', 'type', 'stock']
     })
   ]).then( data => {
+    console.log(data[0][0].meats[0].SandwichIngredient.quantity);
+
     const sandwiches = data[0].map( sandwich => {      
       const meats = sandwich.meats.map( meat => {
-        return {name: meat.name, quantity: meat.sandwichIngredient.quantity}
+        return {name: meat.name, quantity: meat.SandwichIngredient.quantity}
       })
       
       return {id: sandwich.id, type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
@@ -123,7 +146,7 @@ router.post("/api/order", (req, res) => {
         {stock: newEntry.stock},
         {where: {name: newEntry.name}}
       ).then(() => {
-
+        
       })
       .catch( err => console.log(err))
 
