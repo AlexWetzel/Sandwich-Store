@@ -123,7 +123,7 @@ router.post("/api/order", (req, res) => {
         {stock: newEntry.stock},
         {where: {name: newEntry.name}}
       ).then(() => {
-
+        
       })
       .catch( err => console.log(err))
 
