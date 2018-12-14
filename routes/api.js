@@ -3,17 +3,17 @@ const db = require('../models');
 
 
   //TODO: Move associations somewhere else?
-  db.Sandwich.belongsToMany( db.Ingredient, {
-    as: 'meats',
-    through: db.SandwichIngredients,
-    foreignKey: 'sandwichId'
-  })
+  // db.Sandwich.belongsToMany( db.Ingredient, {
+  //   as: 'meats',
+  //   through: db.SandwichIngredients,
+  //   foreignKey: 'sandwichId'
+  // })
   
-  db.Ingredient.belongsToMany( db.Sandwich, {
-    as: 'sandwiches',
-    through: db.SandwichIngredients,
-    foreignKey: 'ingredientId'
-  });
+  // db.Ingredient.belongsToMany( db.Sandwich, {
+  //   as: 'sandwiches',
+  //   through: db.SandwichIngredients,
+  //   foreignKey: 'ingredientId'
+  // });
 
 //TODO: consider putting this in a helper file
 ingredientCount = order => {

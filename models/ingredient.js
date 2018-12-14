@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     stock: DataTypes.INTEGER
   }, {});
   Ingredient.associate = function(models) {
-    // associations can be defined here
+    Ingredient.belongsToMany( models.Sandwich, {
+      as: 'meats',
+      through: 'sandwichIngredients',
+      foreignKey: 'ingredientId'
+    });
   };
   return Ingredient;
 };

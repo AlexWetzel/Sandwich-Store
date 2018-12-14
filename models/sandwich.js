@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.DECIMAL(4,2)
   }, {});
   Sandwich.associate = function(models) {
-    // associations can be defined here
+    Sandwich.belongsToMany( models.Ingredient, {
+      as: 'sandwiches',
+      through: 'sandwichIngredients',
+      foreignKey: 'sandwichId'
+    });
   };
   return Sandwich;
 };
