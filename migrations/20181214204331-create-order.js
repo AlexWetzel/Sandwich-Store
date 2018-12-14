@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       orderNumber: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER(6).ZEROFILL
       },
       sandwichId: {
         type: Sequelize.INTEGER
