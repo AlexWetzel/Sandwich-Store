@@ -1,42 +1,7 @@
 const router = require("express").Router();
 const db = require('../models');
 
-
-
-
-  //   db.Sandwich.findAll({
-  //     attributes: ['id', 'name', 'price'],
-  //     include: [{
-  //       model: db.Ingredient,
-  //       as: 'meats',
-  //       attributes: ['name'],
-  //       through: {
-  //         attributes: ['quantity']
-  //       }
-  //     }]
-  //   })
-  // .then( data => {
-
-  //   // console.log(data[0]);
-  //   console.log(data[0].meats[0].SandwichIngredient.quantity);
-
-  // })
-
-
-  //TODO: Move associations somewhere else?
-  // db.Sandwich.belongsToMany( db.Ingredient, {
-  //   as: 'meats',
-  //   through: db.SandwichIngredients,
-  //   foreignKey: 'sandwichId'
-  // })
-  
-  // db.Ingredient.belongsToMany( db.Sandwich, {
-  //   as: 'sandwiches',
-  //   through: db.SandwichIngredients,
-  //   foreignKey: 'ingredientId'
-  // });
-
-//TODO: consider putting this in a helper file
+// TODO: consider putting this in a helper file?
 ingredientCount = order => {
   const ingrdtCount = [];  
 
