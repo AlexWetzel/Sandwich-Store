@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const routes = require('./routes/api.js');
+const api = require('./routes/api.js');
+const routes = require('./routes/user.js');
 
 const app = express();
 
@@ -22,7 +23,9 @@ if (process.env.NODE_ENV === "production") {
 //orders will update stock
 //Logs?
 
-app.use("", routes);
+// Routes
+app.use('/', routes);
+app.use('/api', api)
 
 // app.get("*", function(req, res) {
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));

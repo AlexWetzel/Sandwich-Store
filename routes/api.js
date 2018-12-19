@@ -28,7 +28,7 @@ ingredientCount = order => {
   return ingrdtCount;
 }
 
-router.get("/api/menu", (req, res) => {
+router.get("/menu", (req, res) => {
 
   Promise.all([
     db.Sandwich.findAll({
@@ -67,7 +67,7 @@ router.get("/api/menu", (req, res) => {
 // The order is sent to this route to update the stock of the ingredients
 // The logic assumes only one user at a time, as multiple users at a time may cause errors with stock calculation.
 // TODO: Add a method that checks the database before attempting to write
-router.post("/api/order", (req, res) => {
+router.post("/order", (req, res) => {
 
   let orderNumber = 000001;
   const order = req.body;
