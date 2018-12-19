@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const api = require('./routes/api.js');
-const routes = require('./routes/user.js');
 const session = require('express-session');
 const passport = require('passport');
+const user = require('./routes/user.js')(passport);
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -32,8 +32,8 @@ initPassport(passport);
 
 // Routes
 // ========================================================
-// app.use('/', routes);
-app.use('/api', api)
+app.use('/api', user);
+app.use('/api', api);
 
 // app.get("*", function(req, res) {
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));

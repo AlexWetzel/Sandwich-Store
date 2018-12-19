@@ -9,7 +9,7 @@ module.exports = function(passport){
     },
     function(req, username, password, done) { 
         // check in the Users table if a user with username exists or not
-        db.Users.findOne({ where: {name: username} }).then(function(user) {
+        db.User.findOne({ where: {username: username} }).then(function(user) {
             console.log("user found: ", user);
             // Username does not exist, log the error and redirect back
             if (!user){
