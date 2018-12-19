@@ -16,44 +16,6 @@ module.exports = function (passport) {
       findOrCreateUser = function () {
         console.log(req.body)
         const r = req.body;
-        // find a user in the database with provided username
-
-        // db.Users.count({
-        //   where: {
-        //     username: username
-        //   }
-        // }).then(count => {
-        //   if (count != 0) {
-        //     console.log('User already exists with username: ' + username);
-        //     return done(null, false, req.flash('message', 'User Already Exists'));
-        //   }
-
-        //   if (req.session.userID != undefined) {
-        //     db.User.findAll({
-        //       where: {
-        //         id: req.session.userID
-        //       }
-        //     }).then((row) => {
-        //       row[0].update({
-        //         username: username,
-        //         firstname: firstname,
-        //         lastname: lastname,
-        //         password: createHash(password)
-        //       }).then( (user) => {
-        //         console.log('User Registration succesful');
-        //         console.log("this is the user id: " + req.session.userID);
-        //         console.log("this is the passport user id: " + user.id);
-                
-        //         return done(null, user);
-        //       })
-        //     })
-        //   }
-        // }).catch((err) => {
-        //   // In case of any error, return using the done method
-        //   console.log('Error: ' + err);
-        //   return done(err);
-        // });
-
 
         db.User.findOrCreate({
           where: {

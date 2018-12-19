@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// app.use(cookieParser()); ??
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
@@ -20,6 +22,11 @@ if (process.env.NODE_ENV === "production") {
 app.use(session({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use( (req, res, next) => {
+  console.log('req.session', req.session);
+  return next();
+});
 
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates

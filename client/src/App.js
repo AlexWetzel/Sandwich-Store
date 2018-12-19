@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
+import Admin from './pages/Admin';
 import './App.css';
 import axios from 'axios';
 
@@ -64,6 +65,7 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />
+          <Route exact path="/admin" component={Admin} />
           <Route 
             exact path="/menu" 
             render={(props) => this.menuRender(props)} />
