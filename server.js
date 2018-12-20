@@ -39,7 +39,7 @@ initPassport(passport);
 
 // Routes
 // ========================================================
-app.use('/api', user);
+app.use('/user', user);
 app.use('/api', api);
 
 // app.get("*", function(req, res) {
