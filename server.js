@@ -2,8 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const api = require('./routes/api.js');
 const session = require('express-session');
-const passport = require('passport');
+// const passport = require('passport');
+const passport = require('./passport');
 const user = require('./routes/user.js')(passport);
+const flash = require('connect-flash-plus');
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -18,7 +20,6 @@ if (process.env.NODE_ENV === "production") {
 }
 // Passport
 // ========================================================
-//This key has something to do with the user session
 app.use(session({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -30,12 +31,12 @@ app.use( (req, res, next) => {
 
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates
-const flash = require('connect-flash-plus');
+
 app.use(flash());
 
 // Initialize Passport
-const initPassport = require('./passport/init');
-initPassport(passport);
+// const initPassport = require('./passport/init');
+// initPassport(passport);
 
 // Routes
 // ========================================================

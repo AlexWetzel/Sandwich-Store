@@ -24,7 +24,7 @@ module.exports = (passport) => {
       failureFlash: true,
   }),
   (req, res) => {
-    console.log('logged in', req.user);
+    console.log('logged in');
     const userInfo = {
       username: req.user.username
     };

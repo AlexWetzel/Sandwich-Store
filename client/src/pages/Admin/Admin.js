@@ -11,7 +11,6 @@ class Admin extends Component {
   }
 
   state = {
-    authorized: false,
     username: '',
     pin: '',
   }
@@ -35,17 +34,15 @@ class Admin extends Component {
       password: this.state.pin
     }).then( res => {
       console.log(res);
-      this.setState({ authorized: true })
+      //redirect here
+
     }).catch( err => console.log(err));
   }
 
-  verifyOrDisplay = () => {
-    if( this.state.authorized === true ) {
-      return (
-        <h1>This is working</h1>
-      )
-    } else {
-      return (
+  
+  render() {
+    return (
+      <div className="container">
         <div className="jumbotron">
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -70,14 +67,6 @@ class Admin extends Component {
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>
         </div>
-      )
-    }
-  }
-  
-  render() {
-    return (
-      <div className="container">
-        <this.verifyOrDisplay />
       </div>
     )
   }
