@@ -2,15 +2,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const db = require('../models');
 const bCrypt = require('bcrypt-nodejs');
 
-
-
 const isValidPassword = function(user, password){
     return bCrypt.compareSync(password, user.pin);
 }
 
 const login = new LocalStrategy({},
     function(username, password, done) { 
-        // console.log(req);
         console.log('username', username);
         console.log('password', password);
         // check in the Users table if a user with username exists or not
@@ -39,8 +36,6 @@ const login = new LocalStrategy({},
         });
     }
 );
-    
-
 
 module.exports = login;
 

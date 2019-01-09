@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
 import Admin from './pages/Admin';
+import ControlPanel from './pages/ControlPanel';
 import './App.css';
 import axios from 'axios';
 
@@ -68,6 +69,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/admin" component={Admin} />
+          <Route exact path="/controlpanel" component={ControlPanel} />
+
           <Route 
             exact path="/menu" 
             render={(props) => this.menuRender(props)} />
