@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
 import Admin from './pages/Admin';
@@ -7,12 +8,25 @@ import ControlPanel from './pages/ControlPanel';
 import './App.css';
 import axios from 'axios';
 
+const AuthState = {
+  isAuthenticated: false,
+  login(cb) {
+    this.isAuthenticated = true;
+    return cb;
+  },
+  logout(cb) {
+    this.isAuthenticated = false;
+    return cb;
+  }
+};
+
 class App extends Component {
 
   state = {
     data: null,
     inventory: []
   }
+
   // ==App functionality==
   //1. A start screen prompts the user to begin their order
   //2. A list of menu items displays different sandwiches that are available. Clicking a sandwich lets you customize with different toppings.
@@ -25,7 +39,13 @@ class App extends Component {
 
   componentDidMount() {
     this.getMenuData();
-    axios.get('/user/').then( res => { console.log(res)})
+    axios.get('/user/').then( res => { 
+      console.log(res.data.user);
+
+      if ( res.data.user ) {
+
+      }
+    })
     .catch(err => console.log(err));
   }
   
@@ -62,6 +82,16 @@ class App extends Component {
     return <h1>{'Loading ....'}</h1>
   }
 
+  protectedRoute = ({ component: Component, ...rest }) => {
+    
+    return(
+      <Route {...rest} render={(props) => (
+        AuthState.isAuthenticated === true ? <Component {...props} /> : <Redirect to='/' />
+      )} />
+    )
+
+  }
+
   render() {
 
     return (
@@ -69,7 +99,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/admin" component={Admin} />
-          <Route exact path="/controlpanel" component={ControlPanel} />
+          <this.protectedRoute exact path="/controlpanel" component={ControlPanel} />
 
           <Route 
             exact path="/menu" 

@@ -29,6 +29,14 @@ class Admin extends Component {
     event.preventDefault();
     console.log(this.state.username, this.state.pin);
 
+    //========================
+    
+    
+    //const username = this.state.username;
+    //const password = this.state.password;
+    //this.props.login(username, password, )
+
+    //========================
     axios.post('/user/login', {
       username: this.state.username,
       password: this.state.pin
