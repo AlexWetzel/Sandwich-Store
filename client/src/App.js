@@ -8,23 +8,35 @@ import ControlPanel from './pages/ControlPanel';
 import './App.css';
 import axios from 'axios';
 
-const AuthState = {
-  isAuthenticated: false,
-  login(cb) {
-    this.isAuthenticated = true;
-    return cb;
-  },
-  logout(cb) {
-    this.isAuthenticated = false;
-    return cb;
-  }
-};
+// const AuthState = {
+//   isAuthenticated: false,
+//   login(cb) {
+//     console.log("Authorize state: true");
+//     this.isAuthenticated = true;
+//     return cb;
+//   },
+//   logout(cb) {
+//     this.isAuthenticated = false;
+//     return cb;
+//   }
+// };
+
+// const ProtectedRoute = ({ component: Component, test, ...rest }) => (   
+//   // return(
+//     <Route {...rest} render={(props) => (
+//       AuthState.isAuthenticated === true
+//       ? <Component {...props} test={test} />
+//       : <Redirect to='/' />
+//     )} />
+//   // )
+// )
 
 class App extends Component {
 
   state = {
     data: null,
-    inventory: []
+    inventory: [],
+    counter: 0
   }
 
   // ==App functionality==
@@ -39,14 +51,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getMenuData();
-    axios.get('/user/').then( res => { 
-      console.log(res.data.user);
 
-      if ( res.data.user ) {
-
-      }
-    })
-    .catch(err => console.log(err));
   }
   
   getMenuData = () => {
@@ -70,6 +75,8 @@ class App extends Component {
     return ingrClone
   }
 
+
+
   menuRender = (props) => {
     if (this.state.data) {
       return <Menu {...props}
@@ -81,16 +88,17 @@ class App extends Component {
 
     return <h1>{'Loading ....'}</h1>
   }
+  
 
-  protectedRoute = ({ component: Component, ...rest }) => {
-    
-    return(
-      <Route {...rest} render={(props) => (
-        AuthState.isAuthenticated === true ? <Component {...props} /> : <Redirect to='/' />
-      )} />
-    )
+  // protectedRoute = ({ component: Component, test, ...rest }) => {    
+  //   return(
+  //     <Route {...rest} render={(props) => (
+  //       AuthState.isAuthenticated === true ? <Component test={test} {...props} /> : <Redirect to='/' />
+  //     )} />
+  //   )
+  // }
 
-  }
+
 
   render() {
 
@@ -99,7 +107,16 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/admin" component={Admin} />
-          <this.protectedRoute exact path="/controlpanel" component={ControlPanel} />
+
+          {/* <Route exact path="/admin" render={(props) => <Admin login={() => this.login} {...props} /> */}
+            } />
+          {/* <this.protectedRoute exact path="/controlpanel" component={ControlPanel} test={"test"} /> */}
+          {/* <this.protectedRoute exact path="/controlpanel" component={ControlPanel} /> */}
+          {/* <this.protectedRoute exact path="/controlpanel" 
+            component={() => {return(
+              <ControlPanel auth={AuthState} />
+              )}}
+            /> */}
 
           <Route 
             exact path="/menu" 
