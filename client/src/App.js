@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import Start from './pages/Start';
 import Menu from './pages/Menu';
 import Admin from './pages/Admin';
-import ControlPanel from './pages/ControlPanel';
 import './App.css';
 import axios from 'axios';
 
@@ -74,9 +72,7 @@ class App extends Component {
 
     return ingrClone
   }
-
-
-
+  
   menuRender = (props) => {
     if (this.state.data) {
       return <Menu {...props}
@@ -88,17 +84,6 @@ class App extends Component {
 
     return <h1>{'Loading ....'}</h1>
   }
-  
-
-  // protectedRoute = ({ component: Component, test, ...rest }) => {    
-  //   return(
-  //     <Route {...rest} render={(props) => (
-  //       AuthState.isAuthenticated === true ? <Component test={test} {...props} /> : <Redirect to='/' />
-  //     )} />
-  //   )
-  // }
-
-
 
   render() {
 
@@ -106,22 +91,15 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />
-          <Route exact path="/admin" component={Admin} />
-
-          {/* <Route exact path="/admin" render={(props) => <Admin login={() => this.login} {...props} /> */}
-            } />
-          {/* <this.protectedRoute exact path="/controlpanel" component={ControlPanel} test={"test"} /> */}
-          {/* <this.protectedRoute exact path="/controlpanel" component={ControlPanel} /> */}
-          {/* <this.protectedRoute exact path="/controlpanel" 
-            component={() => {return(
-              <ControlPanel auth={AuthState} />
-              )}}
-            /> */}
-
+          {/* <Route exact path="/admin" component={Admin} /> */}
+          <Route 
+            exact path="/admin" 
+            render={(props) => <Admin {...props} inventory={this.state.inventory}/> }
+          />
           <Route 
             exact path="/menu" 
-            render={(props) => this.menuRender(props)} />
-          {/* <Route exact path="/menu" component={Menu} /> */}
+            render={(props) => this.menuRender(props)} 
+          />
         </Switch>
       </Router>
     );

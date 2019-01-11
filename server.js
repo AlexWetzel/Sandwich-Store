@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const api = require('./routes/api.js');
 const session = require('express-session');
-// const passport = require('passport');
 const passport = require('./passport');
 const user = require('./routes/user.js')(passport);
 const flash = require('connect-flash-plus');
@@ -34,9 +33,7 @@ app.use( (req, res, next) => {
 
 app.use(flash());
 
-// Initialize Passport
-// const initPassport = require('./passport/init');
-// initPassport(passport);
+
 
 // Routes
 // ========================================================

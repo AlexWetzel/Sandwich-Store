@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
 
 const AuthState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   login(cb) {
     console.log("Authorize state: true");
     this.isAuthenticated = true;
@@ -28,18 +27,33 @@ class Admin extends Component {
   state = {
     username: '',
     pin: '',
-    counter: 0
+    counter: 0,
+    inventory: []
   }
 
   componentDidMount() {
     axios.get('/user/').then( res => { 
       console.log(res.data.user);
-
       if ( res.data.user ) {
         this.login();
       }
     })
     .catch(err => console.log(err));
+    const inventory = this.cloneInventory(this.props.inventory);
+    this.setState({
+      inventory: inventory
+    });
+  }
+
+  cloneInventory = ingredients => {
+    console.log('Cloning inventory...')
+    const ingrClone = ingredients.map( ingredient => {
+      let newObj = Object.assign({}, ingredient);
+      newObj.increase = 0;
+      console.log(newObj);
+      return newObj;
+    });
+    return ingrClone;
   }
 
   handleInputChange(event) {
@@ -75,9 +89,6 @@ class Admin extends Component {
   login = () => {
     console.log('Attempting to authorize');
     AuthState.login(() => {
-      console.log('Executing Callback');
-      // let n = this.state.counter
-      // n++
       this.setState( () => ({
         counter: 1
       }));
@@ -112,7 +123,6 @@ class Admin extends Component {
                 value={this.state.username}
                 className="form-control"
                 onChange={this.handleInputChange} />
-
             </div>
             <div className="form-group">
               <label htmlFor="exampleInputPassword1">pin</label>
@@ -132,20 +142,43 @@ class Admin extends Component {
 
   ControlPanel = () => {
     return(
-      <div>
-        <h1>Control Panel</h1>
-        <button onClick={this.logOut} className="btn btn-primary">Submit</button>
+      <div className="container">
+        <div>
+          <h1>Control Panel</h1>
+          <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
+          <table className="table table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Ingredient</th>
+              <th scope="col">Type</th>
+              <th scope="col">Current Stock</th>
+              <th scope="col">New Stock</th>
+            </tr>
+            </thead>
+            <tbody>
+              {this.state.inventory.map(ingredient => {
+                return(
+                  <tr>
+                    <th scope="row">{ingredient.name}</th>
+                    <td>{ingredient.type}</td>
+                    <td>{ingredient.stock}</td>
+                    <td>{ingredient.increase}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }
   
   render() {
-    
-
-      if (AuthState.isAuthenticated === false) {
-        return <this.LoginForm />;
-      }
-      else { return <this.ControlPanel /> ;} 
+    if (AuthState.isAuthenticated === false) {
+      return <this.LoginForm />;
+    } else { 
+      return <this.ControlPanel /> ;
+    } 
   }
   
 }
