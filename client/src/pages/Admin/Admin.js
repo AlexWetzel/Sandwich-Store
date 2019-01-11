@@ -20,8 +20,10 @@ class Admin extends Component {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInventoryChange = this.handleInventoryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.disableSubmit = this.disableSubmit.bind(this);
   }
 
   state = {
@@ -49,7 +51,7 @@ class Admin extends Component {
     console.log('Cloning inventory...')
     const ingrClone = ingredients.map( ingredient => {
       let newObj = Object.assign({}, ingredient);
-      newObj.increase = 0;
+      newObj.newStock = ingredient.stock;
       console.log(newObj);
       return newObj;
     });
@@ -63,6 +65,23 @@ class Admin extends Component {
 
     this.setState({
       [name]: value
+    })
+  }
+
+  handleInventoryChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    const newInventory = this.state.inventory;
+
+    newInventory.forEach( ingredient => {
+      if( ingredient.name === name ){
+        ingredient.newStock = value;
+      }
+    });
+
+    this.setState({
+      inventory: newInventory
     })
   }
 
@@ -84,6 +103,10 @@ class Admin extends Component {
       })
 
     }).catch( err => console.log(err));
+  }
+
+  disableSubmit(event) {
+    event.preventDefault();
   }
 
   login = () => {
@@ -146,7 +169,7 @@ class Admin extends Component {
         <div>
           <h1>Control Panel</h1>
           <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
-          <table className="table table-sm">
+          <table className="table table-sm table-striped">
             <thead>
             <tr>
               <th scope="col">Ingredient</th>
@@ -156,13 +179,25 @@ class Admin extends Component {
             </tr>
             </thead>
             <tbody>
-              {this.state.inventory.map(ingredient => {
+              {this.state.inventory.map((ingredient, index) => {
                 return(
-                  <tr>
+                  <tr key={ingredient.name}>
                     <th scope="row">{ingredient.name}</th>
                     <td>{ingredient.type}</td>
                     <td>{ingredient.stock}</td>
-                    <td>{ingredient.increase}</td>
+                    <td>
+                      <form onSubmit={e => { e.preventDefault(); }} >
+                        <input 
+                          className="form-control form-control-sm col-4" 
+                          name={ingredient.name}
+                          value={ingredient.newStock}
+                          type="number"
+                          min="0"
+                          max="999"
+                          onChange={this.handleInventoryChange}
+                        />
+                      </form>
+                    </td>
                   </tr>
                 );
               })}
