@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // TODO: 
 // * Make terms more consistent:
-// * - non-meat ingredients should be 'toppings'cccccccccc
+// * - non-meat ingredients should be 'toppings'
 // * - ingredients sould refer to meat and toppings
 // * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
 // * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
@@ -32,15 +32,6 @@ class Menu extends Component {
     orderNumber: 0  
   }
 
-  // componentDidMount() {
-  //   // Organize the data into the menu page state
-  //   console.log(data);
-
-  //   const ingredients = this.stockTest(data.ingredients);
-    
- 
-  // }
-
   // Clones the ingredient data to be used to calculate the stock
   cloneIngredients = ingredients => {
     const ingrClone = ingredients.map( ingredient => {
@@ -56,36 +47,6 @@ class Menu extends Component {
     });
 
     return ingredients;
-  }
-  // UNUSED
-  // When the order panel updates, tally the ingredients in the order, and update the new stock
-  calculateNewStock = () => {
-
-    // const ingredients = this.state.menu.ingredients
-    const ingredients = this.props.menuData.ingredients;
-    const newStock = this.cloneIngredients(ingredients);
-    const order = this.state.order;
-    console.log(order);
-    console.log(newStock);
-
-    order.forEach( sandwich => {
-      const meats = sandwich.meat;
-      const toppings = sandwich.ingredients;
-      meats.forEach( meat => {
-        let meatStock = newStock.find( ingredient => ingredient.name === meat.name )
-        meatStock.stock -= meat.quantity;
-        console.log(meatStock.name, meatStock.stock);
-      });
-      toppings.forEach( topping => {
-        let ingredientStock = newStock.find( ingredient => ingredient.name === topping );
-        ingredientStock.stock--;
-        console.log(ingredientStock.name, ingredientStock.stock);
-      });
-    });
-
-    this.setState({
-      inventory: newStock
-    });
   }
 
   // Add or remove an ingredient from a sandwich being customized
@@ -218,11 +179,7 @@ class Menu extends Component {
   }
 
   nextPage = () => {
-
     if(this.state.orderPage === 3) {
-      
-      // this.calculateNewStock();
-
       this.setState({orderPage: 0});
       return;
     }
@@ -388,7 +345,6 @@ class Menu extends Component {
 
     return(
       <div className="row justify-content-start">
-      {/* <button onClick={() => this.calculateNewStock()}>button</button> */}
         <div className="col-9">
           <div className={style.menu_container}>
           <this.pageRender />

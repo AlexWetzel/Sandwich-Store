@@ -45,16 +45,14 @@ router.get("/menu", (req, res) => {
     db.Ingredient.findAll({
       attributes: ['name', 'type', 'stock']
     })
-  ]).then( data => {
-    console.log(data[0][0].meats[0].SandwichIngredient.quantity);
-
-    const sandwiches = data[0].map( sandwich => {      
+  ]).then( data => {    
+      const sandwiches = data[0].map( sandwich => {      
       const meats = sandwich.meats.map( meat => {
         return {name: meat.name, quantity: meat.SandwichIngredient.quantity}
-      })
+      });
       
       return {id: sandwich.id, type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
-    })
+    });
     const ingredients = data[1]
 
     res.json({

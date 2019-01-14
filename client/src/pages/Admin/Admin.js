@@ -29,7 +29,8 @@ class Admin extends Component {
     username: '',
     pin: '',
     counter: 0,
-    inventory: []
+    inventory: [],
+    allowSubmit: false
   }
 
   componentDidMount() {
@@ -78,7 +79,8 @@ class Admin extends Component {
     });
 
     this.setState({
-      inventory: newInventory
+      inventory: newInventory,
+      allowSubmit: true
     })
   }
 
@@ -149,6 +151,22 @@ class Admin extends Component {
       }).catch( err => console.log(err));
   }
 
+  LoginButton = () => {
+    return (
+      (this.state.username === '' || this.state.pin === '') 
+      ? <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
+      : <button type="submit" className="btn btn-primary">Submit</button>
+    );    
+  }
+
+  InventoryButton = () => {
+    return (
+      (this.state.allowSubmit === true) 
+      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg">Submit</button>
+      : <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
+    ); 
+  }
+
   LoginForm = () => {
     return(
       <div className="container">
@@ -172,7 +190,8 @@ class Admin extends Component {
                 className="form-control"
                 onChange={this.handleInputChange}/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            {/* <button type="submit" className="btn btn-primary">Submit</button> */}
+            <this.LoginButton />
           </form>
         </div>
       </div>
@@ -180,46 +199,60 @@ class Admin extends Component {
   }
 
   ControlPanel = () => {
+
     return(
       <div className="container">
-        <div>
-          <h1>Control Panel</h1>
-          <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
-          <table className="table table-sm table-striped">
-            <thead>
-            <tr>
-              <th scope="col">Ingredient</th>
-              <th scope="col">Type</th>
-              <th scope="col">Current Stock</th>
-              <th scope="col">New Stock</th>
-            </tr>
-            </thead>
-            <tbody>
-              {this.state.inventory.map((ingredient, index) => {
-                return(
-                  <tr key={ingredient.name}>
-                    <th scope="row">{ingredient.name}</th>
-                    <td>{ingredient.type}</td>
-                    <td>{ingredient.stock}</td>
-                    <td>
-                      <form onSubmit={e => { e.preventDefault(); }} >
-                        <input 
-                          className="form-control form-control-sm col-4" 
-                          name={ingredient.name}
-                          value={ingredient.newStock}
-                          type="number"
-                          min="0"
-                          max="999"
-                          onChange={this.handleInventoryChange}
-                        />
-                      </form>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <button onClick={this.handleInventorySubmit} className="btn btn-primary">Submit</button>
+        <h1>Control Panel</h1>
+        <div className="row">
+          <div className="col-3">
+            <button onClick={this.logOut} className="btn btn-primary btn-lg btn-block">Log Out</button>
+          </div>
+          <div className="col-9">
+          <div style={{height: '600px', overflowY: 'scroll'}}>
+            <table className="table table-sm table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Ingredient</th>
+                <th scope="col">Type</th>
+                <th scope="col">Current Stock</th>
+                <th scope="col">New Stock</th>
+              </tr>
+              </thead>
+              <tbody>
+                {this.state.inventory.map((ingredient, index) => {
+                  return(
+                    <tr key={ingredient.name}>
+                      <th scope="row">{ingredient.name}</th>
+                      <td>{ingredient.type}</td>
+                      <td>{ingredient.stock}</td>
+                      <td>
+                        <form onSubmit={e => { e.preventDefault(); }} >
+                          <input 
+                            className="form-control form-control-sm" 
+                            name={ingredient.name}
+                            value={ingredient.newStock}
+                            type="number"
+                            min="0"
+                            max="999"
+                            onChange={this.handleInventoryChange}
+                            style={{ width: '70px'}}
+                          />
+                        </form>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            </div>
+            <this.InventoryButton />
+          </div>
+        
+        
+        
+        
+        
+         
         </div>
       </div>
     )
