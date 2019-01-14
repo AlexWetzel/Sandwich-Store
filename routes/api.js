@@ -119,6 +119,35 @@ router.post("/order", (req, res) => {
   }).then( () => {
     res.status(200).send({message: "Data Update Successful!", orderNumber: orderNumber});
   }).catch( err => console.log(err));
-})
+});
+
+router.post("/inventory", (req, res) => {
+  const newInventory = req.body.inventory;
+
+  // Query the ingredient table to get the stock
+  db.Ingredient.findAll({})
+  .then( (data) => {
+    // let newData = data
+
+    newInventory.forEach(ingredient => {
+      const name = ingredient.name;
+      const newStock = ingredient.newStock;
+      const stock = ingredient.stock;
+      // Update ingredient table
+      if ( stock !== newStock ) { 
+        db.Ingredient.update(
+          {stock: newStock},
+          {where: {name: name}}
+        ).then(( ) => {
+         
+        })
+        .catch( err => console.log(err));
+      }
+
+    })
+  }).then( () => {
+    res.status(200).send({message: "Data Update Successful!"});
+  }).catch( err => console.log(err));
+});
 
 module.exports = router;

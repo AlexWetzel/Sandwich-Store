@@ -21,9 +21,9 @@ class Admin extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInventoryChange = this.handleInventoryChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+    this.handleInventorySubmit = this.handleInventorySubmit.bind(this);
     this.logOut = this.logOut.bind(this);
-    this.disableSubmit = this.disableSubmit.bind(this);
   }
 
   state = {
@@ -48,11 +48,9 @@ class Admin extends Component {
   }
 
   cloneInventory = ingredients => {
-    console.log('Cloning inventory...')
     const ingrClone = ingredients.map( ingredient => {
       let newObj = Object.assign({}, ingredient);
       newObj.newStock = ingredient.stock;
-      console.log(newObj);
       return newObj;
     });
     return ingrClone;
@@ -85,7 +83,7 @@ class Admin extends Component {
     })
   }
 
-  handleSubmit(event) {
+  handleLoginSubmit(event) {
     event.preventDefault();
   
     console.log(this.state.username, this.state.pin);
@@ -105,8 +103,29 @@ class Admin extends Component {
     }).catch( err => console.log(err));
   }
 
-  disableSubmit(event) {
+  handleInventorySubmit(event) {
     event.preventDefault();
+
+    const inventory = this.state.inventory;
+
+    axios.post('/api/inventory', {
+      inventory: inventory
+    }).then( res => {
+      console.log(res.data.message);
+      if ( res.status === 200 ) {
+        inventory.forEach( ingredient => {
+          const stock = ingredient.stock;
+          const newStock = ingredient.newStock;
+          if ( stock !== newStock ) {
+            ingredient.stock = newStock
+          }
+        });
+        this.setState({
+          inventory: inventory
+        });
+      }
+
+    }).catch( err => console.log(err));
   }
 
   login = () => {
@@ -118,14 +137,12 @@ class Admin extends Component {
     });
   }
 
-  logOut = (event) => {
-    
+  logOut = event => {    
     event.preventDefault();
 
     axios.post('/user/logout')
       .then( res => {
         AuthState.logout(() => {
-
           this.setState( () => ({
             counter: 2
           }));
@@ -137,7 +154,7 @@ class Admin extends Component {
     return(
       <div className="container">
         <div className="jumbotron">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleLoginSubmit}>
             <div className="form-group">
               <label htmlFor="username">username</label>
               <input
@@ -203,6 +220,7 @@ class Admin extends Component {
               })}
             </tbody>
           </table>
+          <button onClick={this.handleInventorySubmit} className="btn btn-primary">Submit</button>
         </div>
       </div>
     )
