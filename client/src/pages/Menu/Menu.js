@@ -261,6 +261,7 @@ class Menu extends Component {
     const data = this.state.order;
 
     axios.post("/api/order", data).then( response => {
+      console.log(response);
 
       this.setState({orderPage: 5, orderNumber: response.data.orderNumber});  
       this.props.getMenuData();

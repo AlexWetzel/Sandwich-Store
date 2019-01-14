@@ -75,13 +75,11 @@ router.post("/order", (req, res) => {
 
   console.log(count);
 
-  db.Order.max('id').then( data => {
-
+  db.Order.max('orderNumber').then( data => {
     if(!isNaN(data)){
       orderNumber = data + 1;
     }
-
-    console.log(orderNumber);
+    console.log('Order Number:', orderNumber);
 
     const orderLog = order.map( sandwich => {
        return {orderNumber: orderNumber, sandwichId: sandwich.id};
@@ -89,7 +87,7 @@ router.post("/order", (req, res) => {
 
     db.Order.bulkCreate(orderLog)
     .then( data => {
-      console.log('Order logged:', data);
+      console.log('Order logged:', data.dataValues);
     }).catch(err=>{console.log(err)});
 
   }).catch(err=>{console.log(err)});
@@ -97,12 +95,10 @@ router.post("/order", (req, res) => {
   // Query the ingredient table to get the stock
   db.Ingredient.findAll({})
   .then( (data) => {
-    let newData = data
-
     // Subtract ingredients in the order from the stock
     count.forEach(ingredient => {
 
-      let newEntry = newData.find( entry => entry.name === ingredient.name);
+      let newEntry = data.find( entry => entry.name === ingredient.name);
       newEntry.stock -= ingredient.count;
       console.log(newEntry.dataValues);
 
@@ -113,7 +109,7 @@ router.post("/order", (req, res) => {
       ).then(() => {
         
       })
-      .catch( err => console.log(err))
+      .catch( err => console.log(err));
 
     })
   }).then( () => {
@@ -138,14 +134,14 @@ router.post("/inventory", (req, res) => {
         db.Ingredient.update(
           {stock: newStock},
           {where: {name: name}}
-        ).then(( ) => {
+        ).then(() => {
          
         })
         .catch( err => console.log(err));
       }
 
     })
-  }).then( () => {
+  }).then(() => {
     res.status(200).send({message: "Data Update Successful!"});
   }).catch( err => console.log(err));
 });
