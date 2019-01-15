@@ -19,7 +19,6 @@ class Admin extends Component {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInventoryChange = this.handleInventoryChange.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleInventorySubmit = this.handleInventorySubmit.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -29,8 +28,7 @@ class Admin extends Component {
     username: '',
     pin: '',
     counter: 0,
-    inventory: [],
-    allowSubmit: false
+    allowSubmit: true
   }
 
   componentDidMount() {
@@ -41,10 +39,6 @@ class Admin extends Component {
       }
     })
     .catch(err => console.log(err));
-    const inventory = this.cloneInventory(this.props.inventory);
-    this.setState({
-      inventory: inventory
-    });
   }
 
   cloneInventory = ingredients => {
@@ -63,25 +57,7 @@ class Admin extends Component {
 
     this.setState({
       [name]: value
-    })
-  }
-
-  handleInventoryChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    const newInventory = this.state.inventory;
-
-    newInventory.forEach( ingredient => {
-      if( ingredient.name === name ){
-        ingredient.newStock = value;
-      }
     });
-
-    this.setState({
-      inventory: newInventory,
-      allowSubmit: true
-    })
   }
 
   handleLoginSubmit(event) {
@@ -99,7 +75,7 @@ class Admin extends Component {
       this.setState({
         username: '',
         pin: ''
-      })
+      });
 
     }).catch( err => console.log(err));
   }
@@ -107,25 +83,19 @@ class Admin extends Component {
   handleInventorySubmit(event) {
     event.preventDefault();
 
-    const inventory = this.state.inventory;
+    const inventory = this.props.inventory;
 
     axios.post('/api/inventory', {
       inventory: inventory
     }).then( res => {
       console.log(res.data.message);
       if ( res.status === 200 ) {
-        inventory.forEach( ingredient => {
-          const stock = ingredient.stock;
-          const newStock = ingredient.newStock;
-          if ( stock !== newStock ) {
-            ingredient.stock = newStock
-          }
-        });
-        this.setState({
-          inventory: inventory
+        this.props.getMenuData(function(){
+          console.log('Data update complete')
+          // const inventory = this.cloneInventory(this.props.inventory);
+          // this.setState( () => ({inventory: inventory}));
         });
       }
-
     }).catch( err => console.log(err));
   }
 
@@ -162,8 +132,8 @@ class Admin extends Component {
   InventoryButton = () => {
     return (
       (this.state.allowSubmit === true) 
-      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg">Submit</button>
-      : <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
+      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block">Submit</button>
+      : <button type="button" className="btn btn-secondary btn-lg btn-block" disabled>Submit</button>
     ); 
   }
 
@@ -190,7 +160,6 @@ class Admin extends Component {
                 className="form-control"
                 onChange={this.handleInputChange}/>
             </div>
-            {/* <button type="submit" className="btn btn-primary">Submit</button> */}
             <this.LoginButton />
           </form>
         </div>
@@ -201,58 +170,62 @@ class Admin extends Component {
   ControlPanel = () => {
 
     return(
-      <div className="container">
-        <h1>Control Panel</h1>
-        <div className="row">
-          <div className="col-3">
-            <button onClick={this.logOut} className="btn btn-primary btn-lg btn-block">Log Out</button>
-          </div>
-          <div className="col-9">
-          <div style={{height: '600px', overflowY: 'scroll'}}>
-            <table className="table table-sm table-striped">
-              <thead>
-              <tr>
-                <th scope="col">Ingredient</th>
-                <th scope="col">Type</th>
-                <th scope="col">Current Stock</th>
-                <th scope="col">New Stock</th>
-              </tr>
-              </thead>
-              <tbody>
-                {this.state.inventory.map((ingredient, index) => {
-                  return(
-                    <tr key={ingredient.name}>
-                      <th scope="row">{ingredient.name}</th>
-                      <td>{ingredient.type}</td>
-                      <td>{ingredient.stock}</td>
-                      <td>
-                        <form onSubmit={e => { e.preventDefault(); }} >
-                          <input 
-                            className="form-control form-control-sm" 
-                            name={ingredient.name}
-                            value={ingredient.newStock}
-                            type="number"
-                            min="0"
-                            max="999"
-                            onChange={this.handleInventoryChange}
-                            style={{ width: '70px'}}
-                          />
-                        </form>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+      <div>
+        
+        <div className="container">
+          <div className="row block pt-3 pb-3">
+            <div className="col-12">
+              <h3 className="float-left">Control Panel</h3>
+              <button onClick={this.logOut} className="btn btn-primary float-right">Log Out</button>
             </div>
-            <this.InventoryButton />
           </div>
         
-        
-        
-        
-        
-         
+
+          <div className="row">
+            {/* <div className="col-3">
+            </div> */}
+            <div className="col-12">
+              <h2>Inventory</h2>
+              <div style={{height: '600px', overflowY: 'scroll'}}>
+                <table className="table table-sm table-striped">
+                  <thead>
+                  <tr>
+                    <th scope="col">Ingredient</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Current Stock</th>
+                    <th scope="col">New Stock</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {this.props.inventory.map((ingredient, index) => {
+                      return(
+                        <tr key={ingredient.name}>
+                          <th scope="row">{ingredient.name}</th>
+                          <td>{ingredient.type}</td>
+                          <td>{ingredient.stock}</td>
+                          <td>
+                            <form onSubmit={e => { e.preventDefault(); }} >
+                              <input 
+                                className="form-control form-control-sm" 
+                                name={ingredient.name}
+                                value={ingredient.newStock}
+                                type="number"
+                                min="0"
+                                max="999"
+                                onChange={this.props.handleInventoryChange}
+                                style={{ width: '70px'}}
+                              />
+                            </form>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <this.InventoryButton />
+            </div>  
+          </div>
         </div>
       </div>
     )

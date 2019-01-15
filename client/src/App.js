@@ -48,11 +48,11 @@ class App extends Component {
   //8. After the user submits their order, a thank you message is displayed, and the app returns to the start screen.
 
   componentDidMount() {
-    this.getMenuData();
+    this.getMenuData(() => {});
 
   }
   
-  getMenuData = () => {
+  getMenuData = callback => {
     axios.get("/api/menu")
     .then(res => {
       console.log('Menu Data:', res.data);
@@ -63,14 +63,17 @@ class App extends Component {
       });
       console.log('Inventory:', this.state.inventory);
     }).catch( err => console.log(err));
+
+    return callback();
   }
 
   cloneIngredients = ingredients => {
     const ingrClone = ingredients.map( ingredient => {
-      return Object.assign({}, ingredient);
+      let newObj = Object.assign({}, ingredient);
+      newObj.newStock = ingredient.stock;
+      return newObj;
     });
-
-    return ingrClone
+    return ingrClone;
   }
   
   menuRender = (props) => {
@@ -85,16 +88,38 @@ class App extends Component {
     return <h1>{'Loading ....'}</h1>
   }
 
+  handleInventoryChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    const newInventory = this.state.inventory;
+
+    newInventory.forEach( ingredient => {
+      if( ingredient.name === name ){
+        ingredient.newStock = value;
+      }
+    });
+
+    this.setState({
+      inventory: newInventory,
+    });
+  }
+
   render() {
 
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />
-          {/* <Route exact path="/admin" component={Admin} /> */}
           <Route 
             exact path="/admin" 
-            render={(props) => <Admin {...props} inventory={this.state.inventory}/> }
+            render={(props) => 
+              <Admin {...props}
+                inventory={this.state.inventory}
+                getMenuData={(cb) => this.getMenuData(cb)}
+                handleInventoryChange={(event) => this.handleInventoryChange(event)}
+              />
+            }
           />
           <Route 
             exact path="/menu" 

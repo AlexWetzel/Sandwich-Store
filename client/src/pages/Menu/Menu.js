@@ -32,14 +32,15 @@ class Menu extends Component {
     orderNumber: 0  
   }
 
+  // unused?
   // Clones the ingredient data to be used to calculate the stock
-  cloneIngredients = ingredients => {
-    const ingrClone = ingredients.map( ingredient => {
-      return Object.assign({}, ingredient);
-    });
+  // cloneIngredients = ingredients => {
+  //   const ingrClone = ingredients.map( ingredient => {
+  //     return Object.assign({}, ingredient);
+  //   });
 
-    return ingrClone
-  }
+  //   return ingrClone
+  // }
 
   stockTest = ingredients => {
     ingredients.forEach( ingr => {
@@ -227,8 +228,7 @@ class Menu extends Component {
       }, 5000)
     }).catch( err => {
       console.log(err);
-    })
-
+    });
   }
 
   sandwichStock = meats => {
