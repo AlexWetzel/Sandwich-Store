@@ -40,19 +40,10 @@ app.use(flash());
 app.use('/user', user);
 app.use('/api', api);
 
-// app.get("*", function(req, res) {
-//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
-// });
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
-})
-
-//Features
-//User login with PIN code
-//Admin Access for backend features
-//Add user, assign powers, order stock, update stock
-//populate front end with back end stock
-//Grey-out out-of-stock ingredients
-//orders will update stock
-//Logs?
+});
