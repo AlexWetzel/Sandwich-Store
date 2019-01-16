@@ -6,6 +6,7 @@ const passport = require('./passport');
 const user = require('./routes/user.js')(passport);
 const flash = require('connect-flash-plus');
 const app = express();
+const path = require('path');
 
 const PORT = process.env.PORT || 3001;
 
