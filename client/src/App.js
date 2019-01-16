@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Start from './pages/Start';
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import Start from './pages/Start';
 import Menu from './pages/Menu';
-import Admin from './pages/Admin';
+// import Admin from './pages/Admin';
 import './App.css';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getMenuData(() => {});
+    // this.getMenuData(() => {});
 
   }
   
@@ -75,25 +75,27 @@ class App extends Component {
   render() {
 
     return (
-      <Router basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <Route exact path="/" component={Start} />
-          <Route 
-            exact path="/admin" 
-            render={(props) => 
-              <Admin {...props}
-                inventory={this.state.inventory}
-                getMenuData={(cb) => this.getMenuData(cb)}
-                handleInventoryChange={(event) => this.handleInventoryChange(event)}
-              />
-            }
-          />
-          <Route 
-            exact path="/menu" 
-            render={(props) => this.menuRender(props)} 
-          />
-        </Switch>
-      </Router>
+
+      <h1>TEST</h1>
+      // <Router basename={process.env.PUBLIC_URL}>
+      //   <Switch>
+      //     <Route exact path="/" component={Start} />
+      //     <Route 
+      //       exact path="/admin" 
+      //       render={(props) => 
+      //         <Admin {...props}
+      //           inventory={this.state.inventory}
+      //           getMenuData={(cb) => this.getMenuData(cb)}
+      //           handleInventoryChange={(event) => this.handleInventoryChange(event)}
+      //         />
+      //       }
+      //     />
+      //     <Route 
+      //       exact path="/menu" 
+      //       render={(props) => this.menuRender(props)} 
+      //     />
+      //   </Switch>
+      // </Router>
     );
   }
 }

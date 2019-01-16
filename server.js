@@ -23,8 +23,11 @@ app.use(bodyParser.json());
 
 // Passport
 // ========================================================
-app.use(session({secret: 'mySecretKey'}));
-app.use(passport.initialize());
+
+// app.use(session({secret: 'mySecretKey'}));
+// app.use(passport.initialize());
+
+
 // app.use(passport.session());
 
 // app.use( (req, res, next) => {
@@ -39,12 +42,13 @@ app.use(flash());
 
 // Routes
 // ========================================================
-app.use('/user', user);
-app.use('/api', api);
+// app.use('/user', user);
+// app.use('/api', api);
+
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build/static')));
+  app.use(express.static(path.join(__dirname, 'client/build/')));
   // Handle React routing, return all requests to React app
   app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
