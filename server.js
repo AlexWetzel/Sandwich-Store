@@ -15,13 +15,9 @@ app.use(bodyParser.json());
 
 // app.use(cookieParser()); ??
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use('/static', express.static(path.join(__dirname, 'client/build')));
-
-//   app.get("*", function(req, res) {
-//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
-//   });
-// }
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 
 
@@ -41,14 +37,19 @@ app.use(passport.initialize());
 
 app.use(flash());
 
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build/')));
-  // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   // Serve any static files
+//   app.use(express.static(path.join(__dirname, 'client/build/')));
+//   // Handle React routing, return all requests to React app
+//   app.get('*', function(req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+//   });
+// }
+
+// Directs Heroku to the right page on the build version
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 // Routes
 // ========================================================
