@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const AuthState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   login(cb) {
     console.log("Authorize state: true");
     this.isAuthenticated = true;
