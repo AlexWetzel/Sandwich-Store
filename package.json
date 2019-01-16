@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && yarn start",
     "start": "concurrently \"nodemon server.js\" \"npm run client\""
   },
   "repository": {
