@@ -43,7 +43,7 @@ app.use(flash());
 // Routes
 // ========================================================
 // app.use('/user', user);
-// app.use('/api', api);
+app.use('/api', api);
 
 
 if (process.env.NODE_ENV === 'production') {
