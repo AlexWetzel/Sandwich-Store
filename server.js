@@ -23,8 +23,8 @@ app.use(bodyParser.json());
 
 // Passport
 // ========================================================
-app.use(session({secret: 'mySecretKey'}));
-app.use(passport.initialize());
+// app.use(session({secret: 'mySecretKey'}));
+// app.use(passport.initialize());
 // app.use(passport.session());
 
 // app.use( (req, res, next) => {
@@ -35,11 +35,11 @@ app.use(passport.initialize());
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates
 
-app.use(flash());
+// app.use(flash());
 
 // Routes
 // ========================================================
-app.use('/user', user);
+// app.use('/user', user);
 app.use('/api', api);
 
 if (process.env.NODE_ENV === 'production') {
