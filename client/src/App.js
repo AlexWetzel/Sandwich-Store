@@ -16,6 +16,10 @@ class App extends Component {
 
   componentDidMount() {
     this.getMenuData(() => {});
+    axios.get("/api/test").then(res => {
+      console.log(res.data, "hello")
+
+    }).catch( err => console.log(err));
 
   }
   
@@ -48,7 +52,7 @@ class App extends Component {
       return <Menu {...props}
         menuData={this.state.data}
         inventory={this.state.inventory}
-        getMenuData={() => this.getMenuData()}
+        getMenuData={(cb) => this.getMenuData(cb)}
         />
     }
 
@@ -75,6 +79,9 @@ class App extends Component {
   render() {
 
     return (
+
+      // <h1>TEST Test</h1>
+
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />

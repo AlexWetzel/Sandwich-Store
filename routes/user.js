@@ -21,7 +21,8 @@ module.exports = (passport) => {
   router.post('/login', passport.authenticate('login', {
       // successRedirect: '/',
       // failureRedirect: '/',
-      failureFlash: true,
+      session: false,
+      failureFlash: true
   }),
   (req, res) => {
     console.log('logged in');
