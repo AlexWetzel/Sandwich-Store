@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // import Start from './pages/Start';
-// import Menu from './pages/Menu';
+import Menu from './pages/Menu';
 // import Admin from './pages/Admin';
 import './App.css';
 import axios from 'axios';
@@ -18,7 +18,7 @@ class App extends Component {
     axios.get("/api").then( res => {
       console.log(res.data);
     }).catch( err => console.log(err));
-    // this.getMenuData(() => {});
+    this.getMenuData(() => {});
 
   }
   
