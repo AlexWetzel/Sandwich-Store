@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const db = require('../models');
+// const db = require('../models');
 
 // TODO: consider putting this in a helper file?
 ingredientCount = order => {
