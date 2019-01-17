@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import axios from 'axios';
 
 const AuthState = {
@@ -28,7 +29,8 @@ class Admin extends Component {
     username: '',
     pin: '',
     counter: 0,
-    allowSubmit: true
+    allowSubmit: true,
+    redirect: false
   }
 
   componentDidMount() {
@@ -92,8 +94,6 @@ class Admin extends Component {
       if ( res.status === 200 ) {
         this.props.getMenuData(function(){
           console.log('Data update complete')
-          // const inventory = this.cloneInventory(this.props.inventory);
-          // this.setState( () => ({inventory: inventory}));
         });
       }
     }).catch( err => console.log(err));
@@ -115,7 +115,7 @@ class Admin extends Component {
       .then( res => {
         AuthState.logout(() => {
           this.setState( () => ({
-            counter: 2
+            redirect: true
           }));
         })
       }).catch( err => console.log(err));
@@ -168,10 +168,10 @@ class Admin extends Component {
   }
 
   ControlPanel = () => {
+ 
 
     return(
-      <div>
-        
+      <div>        
         <div className="container">
           <div className="row block pt-3 pb-3">
             <div className="col-12">
@@ -232,6 +232,9 @@ class Admin extends Component {
   }
   
   render() {
+    if (this.state.redirect === true) {
+      return(<Redirect to='/' />);
+    }
     if (AuthState.isAuthenticated === false) {
       return <this.LoginForm />;
     } else { 
