@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.getMenuData(() => {});
+    this.getMenuData(() => {});
     axios.get("/api/test").then(res => {
       console.log(res.data, "hello")
 
