@@ -79,6 +79,7 @@ router.post("/order", (req, res) => {
   console.log(count);
 
   db.Order.max('orderNumber').then( data => {
+    console.log("Data number:", data)
     if(!isNaN(data)){
       orderNumber = data + 1;
     }
@@ -91,33 +92,39 @@ router.post("/order", (req, res) => {
     db.Order.bulkCreate(orderLog)
     .then( data => {
       console.log('Order logged:', data.dataValues);
+      
+        // Query the ingredient table to get the stock
+      db.Ingredient.findAll({})
+      .then( (data) => {
+        // Subtract ingredients in the order from the stock
+        count.forEach(ingredient => {
+
+          let newEntry = data.find( entry => entry.name === ingredient.name);
+          newEntry.stock -= ingredient.count;
+          console.log(newEntry.dataValues);
+
+          // Update ingredient table
+          db.Ingredient.update(
+            {stock: newEntry.stock},
+            {where: {name: newEntry.name}}
+          ).then(() => {
+            
+          })
+          .catch( err => console.log(err));
+
+        })
+      }).then( () => {
+        console.log(orderNumber);
+        res.status(200).send({message: "Data Update Successful!", orderNumber: orderNumber});
+      }).catch( err => console.log(err));
+
+
+      
     }).catch(err=>{console.log(err)});
 
   }).catch(err=>{console.log(err)});
 
-  // Query the ingredient table to get the stock
-  db.Ingredient.findAll({})
-  .then( (data) => {
-    // Subtract ingredients in the order from the stock
-    count.forEach(ingredient => {
 
-      let newEntry = data.find( entry => entry.name === ingredient.name);
-      newEntry.stock -= ingredient.count;
-      console.log(newEntry.dataValues);
-
-      // Update ingredient table
-      db.Ingredient.update(
-        {stock: newEntry.stock},
-        {where: {name: newEntry.name}}
-      ).then(() => {
-        
-      })
-      .catch( err => console.log(err));
-
-    })
-  }).then( () => {
-    res.status(200).send({message: "Data Update Successful!", orderNumber: orderNumber});
-  }).catch( err => console.log(err));
 });
 
 router.post("/inventory", (req, res) => {

@@ -222,7 +222,7 @@ class Menu extends Component {
       console.log(response);
 
       this.setState({orderPage: 5, orderNumber: response.data.orderNumber});  
-      this.props.getMenuData();
+      this.props.getMenuData(()=>{});
       setTimeout(() => {
         this.setState({timeOver: true});
       }, 5000)
