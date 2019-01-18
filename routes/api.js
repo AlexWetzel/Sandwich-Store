@@ -28,10 +28,6 @@ ingredientCount = order => {
   return ingrdtCount;
 }
 
-router.get("/api", (req, res)=> {
-  res.status(200).send({message: "Hello World!"});
-})
-
 router.get("/menu", (req, res) => {
 
   Promise.all([
