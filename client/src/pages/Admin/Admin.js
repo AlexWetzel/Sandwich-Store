@@ -207,7 +207,6 @@ class Admin extends Component {
               <button onClick={this.logOut} className="btn btn-primary float-right">Log Out</button>
             </div>
           </div>
-        
 
           <div className="row">
             {/* <div className="col-3">
