@@ -14,9 +14,7 @@ const login = new LocalStrategy({
         console.log('password', password);
         // check in the Users table if a user with username exists or not
         db.User.findOne({ where: {username: username} }).then(function(user) {
-            // console.log("user found: ", user.dataValues);
-            // console.log(user.pin);
-            // Username does not exist, log the error and redirect back
+             // Username does not exist, log the error and redirect back
             if (!user || !isValidPassword(user, password)){
                 console.log("Invalid Username or Password.");
                 // return done(null, false, req.flash('message', 'Invalid Password'));               

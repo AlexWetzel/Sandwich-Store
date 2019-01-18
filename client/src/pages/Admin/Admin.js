@@ -88,8 +88,6 @@ class Admin extends Component {
           message: message
         });
       }
-
-
     }).catch( err => console.log(err));
   }
 
@@ -189,8 +187,7 @@ class Admin extends Component {
     )
   }
 
-  ControlPanel = () => {
- 
+  ControlPanel = () => { 
 
     return(
       <div>        
