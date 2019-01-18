@@ -24,16 +24,16 @@ app.use(bodyParser.json());
 // Passport
 // ========================================================
 
-// app.use(session({secret: 'mySecretKey'}));
-// app.use(passport.initialize());
+app.use(session({secret: 'mySecretKey'}));
+app.use(passport.initialize());
 
 
-// app.use(passport.session());
+app.use(passport.session());
 
-// app.use( (req, res, next) => {
-//   console.log('req.session', req.session);
-//   return next();
-// });
+app.use( (req, res, next) => {
+  console.log('req.session', req.session);
+  return next();
+});
 
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates

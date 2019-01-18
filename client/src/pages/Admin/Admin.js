@@ -71,13 +71,19 @@ class Admin extends Component {
       username: this.state.username,
       password: this.state.pin
     }).then( res => {
-      console.log(res);
+      
+      if (res.data.userInfo) {
+        console.log(res);
 
-      this.login();
-      this.setState({
-        username: '',
-        pin: ''
-      });
+        this.login();
+        this.setState({
+          username: '',
+          pin: ''
+        });
+      } else {
+        console.log(res.data.message);
+      }
+
 
     }).catch( err => console.log(err));
   }
