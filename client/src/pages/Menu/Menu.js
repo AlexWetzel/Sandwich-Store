@@ -32,24 +32,6 @@ class Menu extends Component {
     orderNumber: 0  
   }
 
-  // unused?
-  // Clones the ingredient data to be used to calculate the stock
-  // cloneIngredients = ingredients => {
-  //   const ingrClone = ingredients.map( ingredient => {
-  //     return Object.assign({}, ingredient);
-  //   });
-
-  //   return ingrClone
-  // }
-
-  stockTest = ingredients => {
-    ingredients.forEach( ingr => {
-      ingr.stock = 1;
-    });
-
-    return ingredients;
-  }
-
   // Add or remove an ingredient from a sandwich being customized
   ingredientToggle = ingredient => {
 
@@ -71,7 +53,7 @@ class Menu extends Component {
   }
 
   // Add a sandwich to the order
-  addOrderItem = (sandwich, isInStock) => {
+  addOrderItem = (sandwich, isInStock) => { 
 
     if(isInStock){   
       let newSandwich = {
@@ -222,7 +204,7 @@ class Menu extends Component {
       console.log(response);
 
       this.setState({orderPage: 5, orderNumber: response.data.orderNumber});  
-      this.props.getMenuData();
+      this.props.getMenuData(()=>{});
       setTimeout(() => {
         this.setState({timeOver: true});
       }, 5000)
@@ -234,12 +216,13 @@ class Menu extends Component {
   sandwichStock = meats => {
     let check = true;
     meats.forEach( requiredMeat => {
+
       const stockedMeat = this.props.inventory
         .find( ingredient => ingredient.name === requiredMeat.name);
 
-
       if(requiredMeat.quantity > stockedMeat.stock){check = false};
     });
+
     return check;
   }
 

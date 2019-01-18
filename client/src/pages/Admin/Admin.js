@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const AuthState = {
@@ -28,7 +30,9 @@ class Admin extends Component {
     username: '',
     pin: '',
     counter: 0,
-    allowSubmit: true
+    allowSubmit: true,
+    redirect: false,
+    message: ''
   }
 
   componentDidMount() {
@@ -69,14 +73,22 @@ class Admin extends Component {
       username: this.state.username,
       password: this.state.pin
     }).then( res => {
-      console.log(res);
+      
+      if (res.data.userInfo) {
+        console.log(res);
 
-      this.login();
-      this.setState({
-        username: '',
-        pin: ''
-      });
-
+        this.login();
+        this.setState({
+          username: '',
+          pin: ''
+        });
+      } else {
+        const message = res.data.message
+        console.log(message);
+        this.setState({
+          message: message
+        });
+      }
     }).catch( err => console.log(err));
   }
 
@@ -92,8 +104,6 @@ class Admin extends Component {
       if ( res.status === 200 ) {
         this.props.getMenuData(function(){
           console.log('Data update complete')
-          // const inventory = this.cloneInventory(this.props.inventory);
-          // this.setState( () => ({inventory: inventory}));
         });
       }
     }).catch( err => console.log(err));
@@ -115,7 +125,7 @@ class Admin extends Component {
       .then( res => {
         AuthState.logout(() => {
           this.setState( () => ({
-            counter: 2
+            redirect: true
           }));
         })
       }).catch( err => console.log(err));
@@ -132,46 +142,64 @@ class Admin extends Component {
   InventoryButton = () => {
     return (
       (this.state.allowSubmit === true) 
-      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block">Submit</button>
-      : <button type="button" className="btn btn-secondary btn-lg btn-block" disabled>Submit</button>
+      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block float-right">Submit</button>
+      : <button type="button" className="btn btn-secondary btn-lg btn-block float-right" disabled>Submit</button>
     ); 
+  }
+
+  Message = () => {
+    if (this.state.message !== ''){
+      return(
+        <div className="alert alert-danger" role="alert">
+          {this.state.message}
+        </div>
+      );
+    } else { return null }
   }
 
   LoginForm = () => {
     return(
-      <div className="container">
-        <div className="jumbotron">
-          <form onSubmit={this.handleLoginSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">username</label>
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                className="form-control"
-                onChange={this.handleInputChange} />
+      <div>
+        <Link to='/'>
+          <button type="submit" className="btn btn-danger btn-lg m-3">Back</button>
+        </Link>
+        <div className="container">          
+          <div className="row mt-5">        
+            <div className="jumbotron col-md-6 offset-md-3">
+            <h1 className="text-center mb-4">Associate Login</h1>
+              <this.Message />
+              <form onSubmit={this.handleLoginSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={this.state.username}
+                    className="form-control"
+                    onChange={this.handleInputChange} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">Password</label>
+                  <input
+                    type="text"
+                    name="pin"
+                    value={this.state.pin}
+                    className="form-control"
+                    onChange={this.handleInputChange}/>
+                </div>
+                <this.LoginButton />
+              </form>
             </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputPassword1">pin</label>
-              <input
-                type="text"
-                name="pin"
-                value={this.state.pin}
-                className="form-control"
-                onChange={this.handleInputChange}/>
-            </div>
-            <this.LoginButton />
-          </form>
+          </div>
         </div>
       </div>
     )
   }
 
-  ControlPanel = () => {
+  ControlPanel = () => { 
 
     return(
-      <div>
-        
+      <div>        
         <div className="container">
           <div className="row block pt-3 pb-3">
             <div className="col-12">
@@ -179,7 +207,6 @@ class Admin extends Component {
               <button onClick={this.logOut} className="btn btn-primary float-right">Log Out</button>
             </div>
           </div>
-        
 
           <div className="row">
             {/* <div className="col-3">
@@ -232,6 +259,9 @@ class Admin extends Component {
   }
   
   render() {
+    if (this.state.redirect === true) {
+      return(<Redirect to='/' />);
+    }
     if (AuthState.isAuthenticated === false) {
       return <this.LoginForm />;
     } else { 

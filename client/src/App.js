@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Start from './pages/Start';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Start from './pages/Start';
 import Menu from './pages/Menu';
-// import Admin from './pages/Admin';
+import Admin from './pages/Admin';
 import './App.css';
 import axios from 'axios';
 
@@ -19,6 +19,10 @@ class App extends Component {
       console.log(res.data);
     }).catch( err => console.log(err));
     this.getMenuData(() => {});
+    axios.get("/api/test").then(res => {
+      console.log(res.data, "helloooooo")
+
+    }).catch( err => console.log(err));
 
   }
   
@@ -51,7 +55,7 @@ class App extends Component {
       return <Menu {...props}
         menuData={this.state.data}
         inventory={this.state.inventory}
-        getMenuData={() => this.getMenuData()}
+        getMenuData={(cb) => this.getMenuData(cb)}
         />
     }
 
@@ -78,26 +82,28 @@ class App extends Component {
   render() {
 
     return (
-      <h1>test</h1>
-      // <Router basename={process.env.PUBLIC_URL}>
-      //   <Switch>
-      //     <Route exact path="/" component={Start} />
-      //     <Route 
-      //       exact path="/admin" 
-      //       render={(props) => 
-      //         <Admin {...props}
-      //           inventory={this.state.inventory}
-      //           getMenuData={(cb) => this.getMenuData(cb)}
-      //           handleInventoryChange={(event) => this.handleInventoryChange(event)}
-      //         />
-      //       }
-      //     />
-      //     <Route 
-      //       exact path="/menu" 
-      //       render={(props) => this.menuRender(props)} 
-      //     />
-      //   </Switch>
-      // </Router>
+
+      // <h1>TEST Test</h1>
+
+      <Router basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route exact path="/" component={Start} />
+          <Route 
+            exact path="/admin" 
+            render={(props) => 
+              <Admin {...props}
+                inventory={this.state.inventory}
+                getMenuData={(cb) => this.getMenuData(cb)}
+                handleInventoryChange={(event) => this.handleInventoryChange(event)}
+              />
+            }
+          />
+          <Route 
+            exact path="/menu" 
+            render={(props) => this.menuRender(props)} 
+          />
+        </Switch>
+      </Router>
     );
   }
 }

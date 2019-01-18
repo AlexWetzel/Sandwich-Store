@@ -1,13 +1,13 @@
 {
-  "main.css": "/Sandwich-Store/static/css/main.9ee21554.chunk.css",
-  "main.js": "/Sandwich-Store/static/js/main.6693e43e.chunk.js",
-  "main.js.map": "/Sandwich-Store/static/js/main.6693e43e.chunk.js.map",
-  "static/js/1.23395f23.chunk.js": "/Sandwich-Store/static/js/1.23395f23.chunk.js",
-  "static/js/1.23395f23.chunk.js.map": "/Sandwich-Store/static/js/1.23395f23.chunk.js.map",
-  "runtime~main.js": "/Sandwich-Store/static/js/runtime~main.f5242c9b.js",
-  "runtime~main.js.map": "/Sandwich-Store/static/js/runtime~main.f5242c9b.js.map",
-  "static/css/main.9ee21554.chunk.css.map": "/Sandwich-Store/static/css/main.9ee21554.chunk.css.map",
-  "index.html": "/Sandwich-Store/index.html",
-  "precache-manifest.9987e785a68adaf3a20d51046e938f1e.js": "/Sandwich-Store/precache-manifest.9987e785a68adaf3a20d51046e938f1e.js",
-  "service-worker.js": "/Sandwich-Store/service-worker.js"
+  "main.css": "/static/css/main.404930c3.chunk.css",
+  "main.js": "/static/js/main.75bf0790.chunk.js",
+  "main.js.map": "/static/js/main.75bf0790.chunk.js.map",
+  "static/js/1.729ff269.chunk.js": "/static/js/1.729ff269.chunk.js",
+  "static/js/1.729ff269.chunk.js.map": "/static/js/1.729ff269.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
+  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/css/main.404930c3.chunk.css.map": "/static/css/main.404930c3.chunk.css.map",
+  "index.html": "/index.html",
+  "precache-manifest.5a36b4b7fcc7579628564ebc5354ae42.js": "/precache-manifest.5a36b4b7fcc7579628564ebc5354ae42.js",
+  "service-worker.js": "/service-worker.js"
 }
