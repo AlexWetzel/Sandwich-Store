@@ -30,7 +30,8 @@ class Admin extends Component {
     pin: '',
     counter: 0,
     allowSubmit: true,
-    redirect: false
+    redirect: false,
+    message: ''
   }
 
   componentDidMount() {
@@ -81,7 +82,11 @@ class Admin extends Component {
           pin: ''
         });
       } else {
-        console.log(res.data.message);
+        const message = res.data.message
+        console.log(message);
+        this.setState({
+          message: message
+        });
       }
 
 
@@ -143,10 +148,21 @@ class Admin extends Component {
     ); 
   }
 
+  Message = () => {
+    if (this.state.message !== ''){
+      return(
+        <div className="alert alert-danger" role="alert">
+          {this.state.message}
+        </div>
+      );
+    } else { return null }
+  }
+
   LoginForm = () => {
     return(
-      <div className="container">
+      <div className="container">        
         <div className="jumbotron">
+          <this.Message />
           <form onSubmit={this.handleLoginSubmit}>
             <div className="form-group">
               <label htmlFor="username">username</label>

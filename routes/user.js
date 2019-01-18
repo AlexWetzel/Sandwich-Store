@@ -36,23 +36,6 @@ module.exports = (passport) => {
     })(req, res, next);
   });
 
-  // router.post('/login', passport.authenticate('login', {
-  //     // successRedirect: '/',
-  //     // failureRedirect: '/',
-  //     // session: false,
-  //     failureFlash: true
-      
-  // }),
-  //   (req, res) => {
-  //     console.log(res);
-  //     console.log('logged in');
-  //     const userInfo = {
-  //       username: req.user.username
-  //     };
-  //     res.send(userInfo);
-  //   }
-  // );
-
   router.post('/logout', (req, res) => {
     if (req.user) {
       req.logout()
