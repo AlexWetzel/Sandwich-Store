@@ -11,27 +11,30 @@ module.exports = (passport) => {
     } else {
         res.json({ user: null })
     }
-  })
+  });
 
-  router.post('/signup', passport.authenticate('signup', { session: false }),
+  router.post('/signup', passport.authenticate('signup', { session: true }),
     (req, res) => {
       res.json('user created');
     });
   
-  router.post('/login', passport.authenticate('login', {
-      // successRedirect: '/',
-      // failureRedirect: '/',
-      session: false,
-      failureFlash: true
-  }),
-  (req, res) => {
-    console.log('logged in');
-    const userInfo = {
-      username: req.user.username
-    };
-    res.send(userInfo);
-  }
-  );
+  router.post('/login', (req, res, next) => {
+    passport.authenticate('login', (err, user, info) => {
+      if (err) {
+        res.send({ userInfo: null, message: err});
+      }
+      if (info !== undefined){
+        console.log(info.message);
+        res.send({ userInfo: null, message: info.message});
+      } else {
+        console.log('logged in');
+        const userInfo = {
+          username: user.username
+        };
+        res.send({ userInfo: userInfo, message: null });
+      }
+    })(req, res, next);
+  });
 
   router.post('/logout', (req, res) => {
     if (req.user) {

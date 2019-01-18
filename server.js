@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 // ========================================================
 
 // app.use(session({secret: 'mySecretKey'}));
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 
 // app.use(passport.session());
@@ -42,7 +42,7 @@ app.use(flash());
 
 // Routes
 // ========================================================
-// app.use('/user', user);
+app.use('/user', user);
 app.use('/api', api);
 
 
