@@ -8,7 +8,7 @@ class Start extends Component {
     return (
     <div>
       <Link to="/admin">
-        <button type="button" className="btn btn-lg" style={{position:'fixed', top:'50px', right:'50px'}}>
+        <button type="button" className="btn btn-lg float-right m-4">
           Associate login
         </button>
       </Link>

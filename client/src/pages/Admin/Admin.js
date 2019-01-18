@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const AuthState = {
@@ -141,8 +142,8 @@ class Admin extends Component {
   InventoryButton = () => {
     return (
       (this.state.allowSubmit === true) 
-      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block">Submit</button>
-      : <button type="button" className="btn btn-secondary btn-lg btn-block" disabled>Submit</button>
+      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block float-right">Submit</button>
+      : <button type="button" className="btn btn-secondary btn-lg btn-block float-right" disabled>Submit</button>
     ); 
   }
 
@@ -158,30 +159,38 @@ class Admin extends Component {
 
   LoginForm = () => {
     return(
-      <div className="container">        
-        <div className="jumbotron">
-          <this.Message />
-          <form onSubmit={this.handleLoginSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">username</label>
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                className="form-control"
-                onChange={this.handleInputChange} />
+      <div>
+        <Link to='/'>
+          <button type="submit" className="btn btn-danger btn-lg m-3">Back</button>
+        </Link>
+        <div className="container">          
+          <div className="row mt-5">        
+            <div className="jumbotron col-md-6 offset-md-3">
+            <h1 className="text-center mb-4">Associate Login</h1>
+              <this.Message />
+              <form onSubmit={this.handleLoginSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={this.state.username}
+                    className="form-control"
+                    onChange={this.handleInputChange} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">Password</label>
+                  <input
+                    type="text"
+                    name="pin"
+                    value={this.state.pin}
+                    className="form-control"
+                    onChange={this.handleInputChange}/>
+                </div>
+                <this.LoginButton />
+              </form>
             </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputPassword1">pin</label>
-              <input
-                type="text"
-                name="pin"
-                value={this.state.pin}
-                className="form-control"
-                onChange={this.handleInputChange}/>
-            </div>
-            <this.LoginButton />
-          </form>
+          </div>
         </div>
       </div>
     )
