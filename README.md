@@ -1,25 +1,36 @@
 # Sandwich-Store
 
-Link: https://alexwetzel.github.io/Sandwich-Store/
+Link: https://gentle-gorge-26123.herokuapp.com/
 
-An app that mimics a point-of-sale kiosk where users can order food.
+An app that mimics a point-of-sale kiosk where users can (pretend to) order food.
 
 ## Instructions
 
+The main function of this app is to serve as an interface for ordering food. The second function is to allow users to access the database, where users may update the stock if nesseccary.
+
+### Ordering Food
+
 Click the 'Start' button on the home screen to begin.
 
-On the menu page you'll have different sandwiches you can choose from. Click on an item to add it to your order.
+On the menu page you'll have different sandwiches you can choose from. Click on an item to add it to your order. You can hit the 'Cancel Order' button to exit. If a sandwich is greyed-out, that means there are not enough ingredients in stock to make it.
 
-When you choose a sandwich, you'll see an ingredients page where you can choose ingredients to customize your order. Clicking ingredients will toggle them on or off.
+In order, you first choose your type of sandwich, then customize your order with sauce, cheese, and veggies.
 
-You can use buttons on the ingredients page to navigate forward or back.
+Sauce, cheese, and veggies can be toggled on or off for your sandwich, and you can choose as many different kinds as you want. Ingredients will be greyed-out if there is no stock. Each kind of ingredient has it own page, and on each page you can navigate back and forth. After you pick your veggies your candwich will be added to the order.
 
-Your order will be displayed on the right, along with the total cost.
+Your order will be displayed on the right, along with the total cost. Each item will display the type of sandwich, the ingredients added, and the individual cost. You can remove the item from the order by clicking the red 'x' button next to it.
 
-Clicking the red button next to an item on the order panel will remove it.
+Once a sandwich is added to the order, you can choose to add another sandwich,or you can chick the 'Submit Order' button to place your order. When you do, you'll be given an order number, and the app will reset after 5 seconds.
 
-After navigating through each ingredient page, You'll return to the menu page. You can now submit your order or cancel it by clicking either button on the bottom of the page.
+### Updating Stock
 
-If you hit 'Submit Order', the page will display your order number and reset the app after 5 seconds.
+It's possible for the stock of each ingredient to run out, making it impossible to order anything. In this case the stock needs to be manually updated.
 
-If you hit 'Cancel Order', you will return to the start page.
+At the start screen, there is a button on the upper right labeled 'Associate login'. To proceed, enter these credentials:
+
+Username: Admin
+Password: 1111
+
+This allows access to a page with a table listing the ingredients and their stock. Here you can input the new stock for any ingredient on the rightmost column under 'New Stock'. After doing this for any ingredient and hitting the 'Submit' button, The stock will be updated. You can tell when the Numbers in the 'Current Stock' column change.
+
+When you're done, hit the 'Log Out' button on the top-right to return to the start page.
