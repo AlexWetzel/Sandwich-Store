@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import LoginForm from '../../components/LoginForm/LoginForm.js';
 import axios from 'axios';
 
 
@@ -263,16 +264,21 @@ class Admin extends Component {
   }
   
   render() {
-    if (this.state.redirect === true) {
-      return(<Redirect to='/' />);
-    }
-    if (AuthState.isAuthenticated === false) {
-      return <this.LoginForm />;
-    } else { 
-      return <this.ControlPanel /> ;
-    } 
+    return(
+      <div>
+        {this.state.redirect === true && <Redirect to='/' />}
+        {
+          AuthState.isAuthenticated === false
+          ? <LoginForm 
+              {...this.state}
+              handleInputChange={(e) => this.handleInputChange(e)}
+              handleLoginSubmit={(e) => this.handleLoginSubmit(e)}
+            />
+          : <this.ControlPanel />
+        }
+      </div>
+    )
   }
-  
 }
 
 export default Admin;

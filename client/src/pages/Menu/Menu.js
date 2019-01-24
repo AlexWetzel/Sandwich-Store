@@ -234,12 +234,6 @@ class Menu extends Component {
     return src;
   }
 
-  // Gives a number for the order.
-  orderNumber = () => {
-    // Order number is a random placeholder number for now
-    return Math.floor(Math.random() * 100) + 1;
-  }
-
   // Determine what gets rendered based on the orderPage variable
   pageRender = () => {
     let ingredients;
@@ -352,7 +346,6 @@ class Menu extends Component {
                     <OrderCustom
                       key={ingredient}
                       name={ingredient}
-                      onClick={() => this.deleteIngredient(ingredient.name, index)}
                     />
                   );
                 })}
@@ -365,5 +358,37 @@ class Menu extends Component {
     )
   }
 }
+
+/*
+Hierarchy
+
+<Menu page>
+
+  <Selection panel>
+    <Page render>
+
+      <Item wrapper>
+        <Item />
+      </Item wrapper>
+
+      -or-
+
+      <Ingredient Wrapper>
+        <Ingredient />
+      </Ingredient Wrapper>
+
+    </Page render>
+  </Selection panel>
+
+  <Order panel>
+    <Order Item>
+      <Order Custom>
+    </Order Item>
+  </Order panel>
+
+</Menu page>
+
+
+*/
 
 export default Menu;
