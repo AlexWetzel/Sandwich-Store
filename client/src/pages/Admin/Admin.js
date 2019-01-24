@@ -3,6 +3,10 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+
+// I admit this is a bit of a mess, so I want to try and clean things up
+// Thank you for your patience
+
 const AuthState = {
   isAuthenticated: false,
   login(cb) {

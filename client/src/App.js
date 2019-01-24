@@ -55,14 +55,15 @@ class App extends Component {
   }
 
   handleInventoryChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    const newInventory = this.state.inventory;
+    const value = event.target.value;
+    const name = event.target.name;
+    const inventory = this.state.inventory;
 
-    newInventory.forEach( ingredient => {
+    const newInventory = inventory.map( ingredient => {
       if( ingredient.name === name ){
-        ingredient.newStock = value;
+        return Object.assign({}, ingredient, {newStock: value});
+      } else {
+        return Object.assign({}, ingredient);
       }
     });
 
@@ -74,9 +75,6 @@ class App extends Component {
   render() {
 
     return (
-
-      // <h1>TEST Test</h1>
-
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Start} />

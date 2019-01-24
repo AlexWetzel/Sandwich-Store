@@ -42,7 +42,7 @@ app.use(passport.initialize());
 
 // Routes
 // ========================================================
-// app.use('/user', user);
+app.use('/user', user);
 app.use('/api', api);
 
 
