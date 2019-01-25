@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
+import React, { Component } from "react";
+import { Redirect } from "react-router";
 // import { Link } from 'react-router-dom';
-import LoginForm from '../../components/LoginForm';
-import ControlPanel from '../../components/ControlPanel';
-import axios from 'axios';
-
+import LoginForm from "../../components/LoginForm";
+import ControlPanel from "../../components/ControlPanel";
+import axios from "axios";
 
 // I admit this is a bit of a mess, so I want to try and clean things up
 // Thank you for your patience
@@ -33,32 +32,34 @@ class Admin extends Component {
   }
 
   state = {
-    username: '',
-    pin: '',
+    username: "",
+    pin: "",
     counter: 0,
     allowInvSubmit: true,
     redirect: false,
-    message: ''
-  }
+    message: ""
+  };
 
   componentDidMount() {
-    axios.get('/user/').then( res => { 
-      console.log(res.data.user);
-      if ( res.data.user ) {
-        this.login();
-      }
-    })
-    .catch(err => console.log(err));
+    axios
+      .get("/user/")
+      .then(res => {
+        console.log(res.data.user);
+        if (res.data.user) {
+          this.login();
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   cloneInventory = ingredients => {
-    const ingrClone = ingredients.map( ingredient => {
+    const ingrClone = ingredients.map(ingredient => {
       let newObj = Object.assign({}, ingredient);
       newObj.newStock = ingredient.stock;
       return newObj;
     });
     return ingrClone;
-  }
+  };
 
   handleInputChange(event) {
     const target = event.target;
@@ -72,30 +73,32 @@ class Admin extends Component {
 
   handleLoginSubmit(event) {
     event.preventDefault();
-  
+
     console.log(this.state.username, this.state.pin);
 
-     axios.post('/user/login', {
-      username: this.state.username,
-      password: this.state.pin
-    }).then( res => {
-      
-      if (res.data.userInfo) {
-        console.log(res);
+    axios
+      .post("/user/login", {
+        username: this.state.username,
+        password: this.state.pin
+      })
+      .then(res => {
+        if (res.data.userInfo) {
+          console.log(res);
 
-        this.login();
-        this.setState({
-          username: '',
-          pin: ''
-        });
-      } else {
-        const message = res.data.message
-        console.log(message);
-        this.setState({
-          message: message
-        });
-      }
-    }).catch( err => console.log(err));
+          this.login();
+          this.setState({
+            username: "",
+            pin: ""
+          });
+        } else {
+          const message = res.data.message;
+          console.log(message);
+          this.setState({
+            message: message
+          });
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   handleInventorySubmit(event) {
@@ -103,58 +106,63 @@ class Admin extends Component {
 
     const inventory = this.props.inventory;
 
-    axios.post('/api/inventory', {
-      inventory: inventory
-    }).then( res => {
-      console.log(res.data.message);
-      if ( res.status === 200 ) {
-        this.props.getMenuData(function(){
-          console.log('Data update complete')
-        });
-      }
-    }).catch( err => console.log(err));
+    axios
+      .post("/api/inventory", {
+        inventory: inventory
+      })
+      .then(res => {
+        console.log(res.data.message);
+        if (res.status === 200) {
+          this.props.getMenuData(function() {
+            console.log("Data update complete");
+          });
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   login = () => {
-    console.log('Attempting to authorize');
+    console.log("Attempting to authorize");
     AuthState.login(() => {
-      this.setState( () => ({
+      this.setState(() => ({
         counter: 1
       }));
     });
-  }
+  };
 
-  logOut = () => {    
-    axios.post('/user/logout')
-      .then( res => {
+  logOut = () => {
+    axios
+      .post("/user/logout")
+      .then(res => {
         AuthState.logout(() => {
-          this.setState( () => ({
+          this.setState(() => ({
             redirect: true
           }));
-        })
-      }).catch( err => console.log(err));
-  }
-  
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
-    return(
+    return (
       <div>
-        {this.state.redirect === true && <Redirect to='/' />}
-        {
-          AuthState.isAuthenticated === false
-          ? <LoginForm 
-              {...this.state}
-              handleInputChange={(e) => this.handleInputChange(e)}
-              handleLoginSubmit={(e) => this.handleLoginSubmit(e)}
-            />
-          : <ControlPanel 
-              {...this.props}
-              logOut={this.logOut}
-              submit={(e) => this.handleInventorySubmit(e)}
-              allowInvSubmit={this.state.allowInvSubmit}
-            />
-        }
+        {this.state.redirect === true && <Redirect to="/" />}
+        {AuthState.isAuthenticated === false ? (
+          <LoginForm
+            {...this.state}
+            handleInputChange={e => this.handleInputChange(e)}
+            handleLoginSubmit={e => this.handleLoginSubmit(e)}
+          />
+        ) : (
+          <ControlPanel
+            {...this.props}
+            logOut={this.logOut}
+            submit={e => this.handleInventorySubmit(e)}
+            allowInvSubmit={this.state.allowInvSubmit}
+          />
+        )}
       </div>
-    )
+    );
   }
 }
 

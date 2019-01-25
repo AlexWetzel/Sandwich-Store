@@ -1,25 +1,29 @@
-import React from 'react'
+import React from "react";
 
-const IngredientTableRow = (props) => {
+const IngredientTableRow = props => {
   return (
     <>
-      {props.inventory.map((ingredient, index) => {
-        return(
+      {props.inventory.map((ingredient) => {
+        return (
           <tr key={ingredient.name}>
             <th scope="row">{ingredient.name}</th>
             <td>{ingredient.type}</td>
             <td>{ingredient.stock}</td>
             <td>
-              <form onSubmit={e => { e.preventDefault(); }} >
-                <input 
-                  className="form-control form-control-sm" 
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                }}
+              >
+                <input
+                  className="form-control form-control-sm"
                   name={ingredient.name}
                   value={ingredient.newStock}
                   type="number"
                   min="0"
                   max="999"
                   onChange={props.handleInventoryChange}
-                  style={{ width: '70px'}}
+                  style={{ width: "70px" }}
                 />
               </form>
             </td>
@@ -27,7 +31,7 @@ const IngredientTableRow = (props) => {
         );
       })}
     </>
-  )
-}
+  );
+};
 
-export { IngredientTableRow }; 
+export { IngredientTableRow };

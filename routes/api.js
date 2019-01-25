@@ -1,24 +1,24 @@
 const router = require("express").Router();
-const db = require('../models');
+const db = require("../models");
 
 // TODO: consider putting this in a helper file?
 ingredientCount = order => {
-  const ingrdtCount = [];  
+  const ingrdtCount = [];
 
-  order.forEach( item => {
-    item.meat.forEach( meat => {
+  order.forEach(item => {
+    item.meat.forEach(meat => {
       const counter = ingrdtCount.find(ing => ing.name === meat.name);
       if (counter === undefined) {
-        ingrdtCount.push({name: meat.name, count: meat.quantity})
+        ingrdtCount.push({ name: meat.name, count: meat.quantity });
       } else {
         counter.count += meat.quantity;
       }
     });
-    item.ingredients.forEach( ingredient => {
-      const counter = ingrdtCount.find(ing => ing.name === ingredient)
+    item.ingredients.forEach(ingredient => {
+      const counter = ingrdtCount.find(ing => ing.name === ingredient);
 
       if (counter === undefined) {
-        ingrdtCount.push({name: ingredient, count: 1})
+        ingrdtCount.push({ name: ingredient, count: 1 });
       } else {
         counter.count++;
       }
@@ -26,100 +26,112 @@ ingredientCount = order => {
   });
   console.log(ingrdtCount);
   return ingrdtCount;
-}
+};
 
 router.get("/menu", (req, res) => {
-
   Promise.all([
     db.Sandwich.findAll({
-      attributes: ['id', 'name', 'price'],
-      include: [{
-        model: db.Ingredient,
-        as: 'meats',
-        attributes: ['name'],
-        through: {
-          attributes: ['quantity']
+      attributes: ["id", "name", "price"],
+      include: [
+        {
+          model: db.Ingredient,
+          as: "meats",
+          attributes: ["name"],
+          through: {
+            attributes: ["quantity"]
+          }
         }
-      }]
+      ]
     }),
     db.Ingredient.findAll({
-      attributes: ['name', 'type', 'stock']
+      attributes: ["name", "type", "stock"]
     })
-  ]).then( data => {    
-      const sandwiches = data[0].map( sandwich => {      
-      const meats = sandwich.meats.map( meat => {
-        return {name: meat.name, quantity: meat.SandwichIngredient.quantity}
+  ]).then(data => {
+    const sandwiches = data[0].map(sandwich => {
+      const meats = sandwich.meats.map(meat => {
+        return { name: meat.name, quantity: meat.SandwichIngredient.quantity };
       });
-      
-      return {id: sandwich.id, type: sandwich.name, price: parseFloat(sandwich.price), meat: meats};
+
+      return {
+        id: sandwich.id,
+        type: sandwich.name,
+        price: parseFloat(sandwich.price),
+        meat: meats
+      };
     });
-    const ingredients = data[1]
+    const ingredients = data[1];
 
     res.json({
       sandwiches: sandwiches,
       ingredients: ingredients
     });
-  })
-})
+  });
+});
 
 // The order is sent to this route to update the stock of the ingredients
 // The logic assumes only one user at a time, as multiple users at a time may cause errors with stock calculation.
 // TODO: Add a method that checks the database before attempting to write
 router.post("/order", (req, res) => {
-
   let orderNumber = 000001;
   const order = req.body;
   const count = ingredientCount(order);
 
   console.log(count);
 
-  db.Order.max('orderNumber').then( data => {
-    console.log("Data number:", data)
-    if(!isNaN(data)){
-      orderNumber = data + 1;
-    }
-    console.log('Order Number:', orderNumber);
+  db.Order.max("orderNumber")
+    .then(data => {
+      console.log("Data number:", data);
+      if (!isNaN(data)) {
+        orderNumber = data + 1;
+      }
+      console.log("Order Number:", orderNumber);
 
-    const orderLog = order.map( sandwich => {
-       return {orderNumber: orderNumber, sandwichId: sandwich.id};
-    })
+      const orderLog = order.map(sandwich => {
+        return { orderNumber: orderNumber, sandwichId: sandwich.id };
+      });
 
-    db.Order.bulkCreate(orderLog)
-    .then( data => {
-      console.log('Order logged:', data.dataValues);
-      
-        // Query the ingredient table to get the stock
-      db.Ingredient.findAll({})
-      .then( (data) => {
-        // Subtract ingredients in the order from the stock
-        count.forEach(ingredient => {
+      db.Order.bulkCreate(orderLog)
+        .then(data => {
+          console.log("Order logged:", data.dataValues);
 
-          let newEntry = data.find( entry => entry.name === ingredient.name);
-          newEntry.stock -= ingredient.count;
-          console.log(newEntry.dataValues);
+          // Query the ingredient table to get the stock
+          db.Ingredient.findAll({})
+            .then(data => {
+              // Subtract ingredients in the order from the stock
+              count.forEach(ingredient => {
+                let newEntry = data.find(
+                  entry => entry.name === ingredient.name
+                );
+                newEntry.stock -= ingredient.count;
+                console.log(newEntry.dataValues);
 
-          // Update ingredient table
-          db.Ingredient.update(
-            {stock: newEntry.stock},
-            {where: {name: newEntry.name}}
-          ).then(() => {
-            
-          })
-          .catch( err => console.log(err));
-
+                // Update ingredient table
+                db.Ingredient.update(
+                  { stock: newEntry.stock },
+                  { where: { name: newEntry.name } }
+                )
+                  .then(() => {})
+                  .catch(err => console.log(err));
+              });
+            })
+            .then(() => {
+              console.log(orderNumber);
+              res
+                .status(200)
+                .send({
+                  message: "Data Update Successful!",
+                  orderNumber: orderNumber
+                });
+            })
+            .catch(err => console.log(err));
         })
-      }).then( () => {
-        console.log(orderNumber);
-        res.status(200).send({message: "Data Update Successful!", orderNumber: orderNumber});
-      }).catch( err => console.log(err));
-
-
-      
-    }).catch(err=>{console.log(err)});
-
-  }).catch(err=>{console.log(err)});
-
-
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 router.post("/inventory", (req, res) => {
@@ -127,32 +139,30 @@ router.post("/inventory", (req, res) => {
 
   // Query the ingredient table to get the stock
   db.Ingredient.findAll({})
-  .then( (data) => {
-
-    // Map to updates the update method for each ingredient with new stock
-    const updates = newInventory.map(ingredient => {
-      const name = ingredient.name;
-      const newStock = ingredient.newStock;
-      const stock = ingredient.stock;
-      // Update ingredient table
-      if ( stock !== newStock ) { 
-        return db.Ingredient
-          .update(
-            {stock: newStock},
-            {where: {name: name}}
-          ).then(() => {          
-          })
-          .catch( err => console.log(err));        
-      }
+    .then(data => {
+      // Map to updates the update method for each ingredient with new stock
+      const updates = newInventory.map(ingredient => {
+        const name = ingredient.name;
+        const newStock = ingredient.newStock;
+        const stock = ingredient.stock;
+        // Update ingredient table
+        if (stock !== newStock) {
+          return db.Ingredient.update(
+            { stock: newStock },
+            { where: { name: name } }
+          )
+            .then(() => {})
+            .catch(err => console.log(err));
+        }
+      });
+      // Send the updates into Promise.all to send the response after each update completes
+      Promise.all(updates).then(() => {
+        console.log("sending response...");
+        res.status(200).send({ message: "Data Update Successful!" });
+      });
     })
-    // Send the updates into Promise.all to send the response after each update completes
-    Promise.all(updates)
-    .then(() => {
-      console.log('sending response...')
-      res.status(200).send({message: "Data Update Successful!"});
-    });
-  }).then(() => {
-  }).catch( err => console.log(err));
+    .then(() => {})
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
