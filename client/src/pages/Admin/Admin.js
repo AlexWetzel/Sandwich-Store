@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
-import LoginForm from '../../components/LoginForm/LoginForm.js';
+// import { Link } from 'react-router-dom';
+import LoginForm from '../../components/LoginForm';
+import ControlPanel from '../../components/ControlPanel';
 import axios from 'axios';
 
 
@@ -136,13 +137,13 @@ class Admin extends Component {
       }).catch( err => console.log(err));
   }
 
-  LoginButton = () => {
-    return (
-      (this.state.username === '' || this.state.pin === '') 
-      ? <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
-      : <button type="submit" className="btn btn-primary">Submit</button>
-    );    
-  }
+  // LoginButton = () => {
+  //   return (
+  //     (this.state.username === '' || this.state.pin === '') 
+  //     ? <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
+  //     : <button type="submit" className="btn btn-primary">Submit</button>
+  //   );    
+  // }
 
   InventoryButton = () => {
     return (
@@ -152,54 +153,15 @@ class Admin extends Component {
     ); 
   }
 
-  Message = () => {
-    if (this.state.message !== ''){
-      return(
-        <div className="alert alert-danger" role="alert">
-          {this.state.message}
-        </div>
-      );
-    } else { return null }
-  }
-
-  LoginForm = () => {
-    return(
-      <div>
-        <Link to='/'>
-          <button type="submit" className="btn btn-danger btn-lg m-3">Back</button>
-        </Link>
-        <div className="container">          
-          <div className="row mt-5">        
-            <div className="jumbotron col-md-6 offset-md-3">
-            <h1 className="text-center mb-4">Associate Login</h1>
-              <this.Message />
-              <form onSubmit={this.handleLoginSubmit}>
-                <div className="form-group">
-                  <label htmlFor="username">Username</label>
-                  <input
-                    type="text"
-                    name="username"
-                    value={this.state.username}
-                    className="form-control"
-                    onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Password</label>
-                  <input
-                    type="text"
-                    name="pin"
-                    value={this.state.pin}
-                    className="form-control"
-                    onChange={this.handleInputChange}/>
-                </div>
-                <this.LoginButton />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // Message = () => {
+  //   if (this.state.message !== ''){
+  //     return(
+  //       <div className="alert alert-danger" role="alert">
+  //         {this.state.message}
+  //       </div>
+  //     );
+  //   } else { return null }
+  // }
 
   ControlPanel = () => { 
 
@@ -274,7 +236,7 @@ class Admin extends Component {
               handleInputChange={(e) => this.handleInputChange(e)}
               handleLoginSubmit={(e) => this.handleLoginSubmit(e)}
             />
-          : <this.ControlPanel />
+          : <ControlPanel {...this.props} logOut={this.logOut}/>
         }
       </div>
     )
