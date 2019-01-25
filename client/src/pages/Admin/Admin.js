@@ -36,7 +36,7 @@ class Admin extends Component {
     username: '',
     pin: '',
     counter: 0,
-    allowSubmit: true,
+    allowInvSubmit: true,
     redirect: false,
     message: ''
   }
@@ -124,9 +124,7 @@ class Admin extends Component {
     });
   }
 
-  logOut = event => {    
-    event.preventDefault();
-
+  logOut = () => {    
     axios.post('/user/logout')
       .then( res => {
         AuthState.logout(() => {
@@ -135,94 +133,6 @@ class Admin extends Component {
           }));
         })
       }).catch( err => console.log(err));
-  }
-
-  // LoginButton = () => {
-  //   return (
-  //     (this.state.username === '' || this.state.pin === '') 
-  //     ? <button type="button" className="btn btn-secondary btn-lg" disabled>Submit</button>
-  //     : <button type="submit" className="btn btn-primary">Submit</button>
-  //   );    
-  // }
-
-  InventoryButton = () => {
-    return (
-      (this.state.allowSubmit === true) 
-      ? <button onClick={this.handleInventorySubmit} className="btn btn-primary btn-lg btn-block float-right">Submit</button>
-      : <button type="button" className="btn btn-secondary btn-lg btn-block float-right" disabled>Submit</button>
-    ); 
-  }
-
-  // Message = () => {
-  //   if (this.state.message !== ''){
-  //     return(
-  //       <div className="alert alert-danger" role="alert">
-  //         {this.state.message}
-  //       </div>
-  //     );
-  //   } else { return null }
-  // }
-
-  ControlPanel = () => { 
-
-    return(
-      <div>        
-        <div className="container">
-          <div className="row block pt-3 pb-3">
-            <div className="col-12">
-              <h3 className="float-left">Control Panel</h3>
-              <button onClick={this.logOut} className="btn btn-primary float-right">Log Out</button>
-            </div>
-          </div>
-
-          <div className="row">
-            {/* <div className="col-3">
-            </div> */}
-            <div className="col-12">
-              <h2>Inventory</h2>
-              <div style={{height: '600px', overflowY: 'scroll'}}>
-                <table className="table table-sm table-striped">
-                  <thead>
-                  <tr>
-                    <th scope="col">Ingredient</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Current Stock</th>
-                    <th scope="col">New Stock</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    {this.props.inventory.map((ingredient, index) => {
-                      return(
-                        <tr key={ingredient.name}>
-                          <th scope="row">{ingredient.name}</th>
-                          <td>{ingredient.type}</td>
-                          <td>{ingredient.stock}</td>
-                          <td>
-                            <form onSubmit={e => { e.preventDefault(); }} >
-                              <input 
-                                className="form-control form-control-sm" 
-                                name={ingredient.name}
-                                value={ingredient.newStock}
-                                type="number"
-                                min="0"
-                                max="999"
-                                onChange={this.props.handleInventoryChange}
-                                style={{ width: '70px'}}
-                              />
-                            </form>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <this.InventoryButton />
-            </div>  
-          </div>
-        </div>
-      </div>
-    )
   }
   
   render() {
@@ -236,7 +146,12 @@ class Admin extends Component {
               handleInputChange={(e) => this.handleInputChange(e)}
               handleLoginSubmit={(e) => this.handleLoginSubmit(e)}
             />
-          : <ControlPanel {...this.props} logOut={this.logOut}/>
+          : <ControlPanel 
+              {...this.props}
+              logOut={this.logOut}
+              submit={(e) => this.handleInventorySubmit(e)}
+              allowInvSubmit={this.state.allowInvSubmit}
+            />
         }
       </div>
     )

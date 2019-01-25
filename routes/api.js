@@ -128,26 +128,30 @@ router.post("/inventory", (req, res) => {
   // Query the ingredient table to get the stock
   db.Ingredient.findAll({})
   .then( (data) => {
-    // let newData = data
 
-    newInventory.forEach(ingredient => {
+    // Map to updates the update method for each ingredient with new stock
+    const updates = newInventory.map(ingredient => {
       const name = ingredient.name;
       const newStock = ingredient.newStock;
       const stock = ingredient.stock;
       // Update ingredient table
       if ( stock !== newStock ) { 
-        db.Ingredient.update(
-          {stock: newStock},
-          {where: {name: name}}
-        ).then(() => {
-         
-        })
-        .catch( err => console.log(err));
+        return db.Ingredient
+          .update(
+            {stock: newStock},
+            {where: {name: name}}
+          ).then(() => {          
+          })
+          .catch( err => console.log(err));        
       }
-
     })
+    // Send the updates into Promise.all to send the response after each update completes
+    Promise.all(updates)
+    .then(() => {
+      console.log('sending response...')
+      res.status(200).send({message: "Data Update Successful!"});
+    });
   }).then(() => {
-    res.status(200).send({message: "Data Update Successful!"});
   }).catch( err => console.log(err));
 });
 
