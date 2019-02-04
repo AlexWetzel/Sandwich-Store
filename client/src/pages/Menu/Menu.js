@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import Order from "./../../components/Order";
+import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import style from "./Menu.module.css";
@@ -284,15 +285,7 @@ class Menu extends Component {
         return <this.ingredientsRender ingredients={ingredients} />;
       case 5:
         return (
-          <div className={`${style.submit} text-center`}>
-            <h1 className="display-3 mb-5">Thank You!</h1>
-            <div className={`${style.order_num_panel} shadow p-3`}>
-              <h1>Your order number is:</h1>
-              <h1 className={`${style.order_num} display-3`}>
-                {"#" + this.state.orderNumber}
-              </h1>
-            </div>
-          </div>
+          <OrderNumber orderNumber={this.state.orderNumber} />
         );
       default:
         return (
