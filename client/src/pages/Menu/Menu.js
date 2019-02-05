@@ -4,24 +4,16 @@ import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import Order from "./../../components/Order";
 import OrderNumber from "./../../components/OrderNumber";
+import MenuLayout from "./../../components/MenuLayout";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import style from "./Menu.module.css";
 import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
 import axios from "axios";
 
-// TODO:
-// * Make terms more consistent:
-// * - non-meat ingredients should be 'toppings'
-// * - ingredients sould refer to meat and toppings
-// * Try to consolidate addIngredient, removeIngredient, and deleteIngredient methods
-// * Get deleteIngredient method working, add a delete icon on hover for orderCustom component
-// * Remove the state and use props where a state would be redundant
+// This component is too big, I'm going to try and clean things up
 
 class Menu extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   state = {
     order: [],
@@ -327,31 +319,32 @@ class Menu extends Component {
     }
 
     return (
-      <div className="row justify-content-start">
-        <div className="col-9">
-          <div className={style.menu_container}>
-            <this.pageRender />
-          </div>
-        </div>
+      <MenuLayout
+        menuSelection={
+          <this.pageRender />
+        }
 
-        <Order total={this.calculateTotal()} back={this.previousPage}>
-          {this.state.order.map((sandwich, index) => {
-            const ingredients = sandwich.ingredients;
-            return (
-              <OrderItem
-                name={sandwich.type}
-                key={sandwich.type + index}
-                price={sandwich.price.toFixed(2)}
-                onClick={() => this.deleteSandwich(index)}
-              >
-                {ingredients.map(ingredient => {
-                  return <OrderCustom key={ingredient} name={ingredient} />;
-                })}
-              </OrderItem>
-            );
-          })}
-        </Order>
-      </div>
+        order={
+          <Order total={this.calculateTotal()} back={this.previousPage}>
+            {this.state.order.map((sandwich, index) => {
+              const ingredients = sandwich.ingredients;
+              return (
+                <OrderItem
+                  name={sandwich.type}
+                  key={sandwich.type + index}
+                  price={sandwich.price.toFixed(2)}
+                  onClick={() => this.deleteSandwich(index)}
+                >
+                  {ingredients.map(ingredient => {
+                    return <OrderCustom key={ingredient} name={ingredient} />;
+                  })}
+                </OrderItem>
+              );
+            })}
+          </Order>
+        }
+      
+      /> 
     );
   }
 }
