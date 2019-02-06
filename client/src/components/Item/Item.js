@@ -8,7 +8,10 @@ class Item extends Component {
       <div className="col-6">
         <div
           className={`${style.name} media m-2 shadow ${this.props.isInStock}`}
-          onClick={this.props.onClick}
+          onClick={() => {
+            this.props.addOrderItem();
+            this.props.nextPage();
+          }}
         >
           <img
             className={style.image}

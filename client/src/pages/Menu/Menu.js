@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 // import { Link } from 'react-router-dom';
-import { Item, ItemWrapper } from "./../../components/Item";
-import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
+// import { Item, ItemWrapper } from "./../../components/Item";
+// import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import Order from "./../../components/Order";
-import OrderNumber from "./../../components/OrderNumber";
+// import OrderNumber from "./../../components/OrderNumber";
 import MenuLayout from "./../../components/MenuLayout";
+import MenuSelection from "./../../components/MenuSelection";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
-import style from "./Menu.module.css";
-import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
+// import style from "./Menu.module.css";
+// import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
 import axios from "axios";
 
 // This component is too big, I'm going to try and clean things up
@@ -77,7 +78,7 @@ class Menu extends Component {
         total: updateTotal
       });
 
-      this.nextPage();
+      // this.nextPage();
     }
   };
 
@@ -156,31 +157,26 @@ class Menu extends Component {
     return total.toFixed(2);
   };
 
-  nextPage = () => {
-    if (this.state.orderPage === 3) {
-      this.setState({ orderPage: 0 });
-      return;
-    }
+  // nextPage = () => {
+  //   if (this.state.orderPage === 3) {
+  //     this.setState({ orderPage: 0 });
+  //     return;
+  //   }
 
-    let page = this.state.orderPage;
-    page++;
-    this.setState({ orderPage: page });
-  };
+  //   let page = this.state.orderPage;
+  //   page++;
+  //   this.setState({ orderPage: page });
+  // };
 
-  previousPage = () => {
-    let page = this.state.orderPage;
-    if (page === 1) {
-      const index = this.state.order.length - 1;
-      this.deleteSandwich(index);
-    }
-    page--;
-    this.setState({ orderPage: page });
-  };
-
-  // Resets the menu page to order another sandwich
-  moreFood = () => {
-    this.setState({ orderPage: 0 });
-  };
+  // previousPage = () => {
+  //   let page = this.state.orderPage;
+  //   if (page === 1) {
+  //     const index = this.state.order.length - 1;
+  //     this.deleteSandwich(index);
+  //   }
+  //   page--;
+  //   this.setState({ orderPage: page });
+  // };
 
   // Re-initialize the menu page
   reset = () => {
@@ -210,108 +206,108 @@ class Menu extends Component {
       });
   };
 
-  sandwichStock = meats => {
-    let check = true;
-    meats.forEach(requiredMeat => {
-      const stockedMeat = this.props.inventory.find(
-        ingredient => ingredient.name === requiredMeat.name
-      );
+  // sandwichStock = meats => {
+  //   let check = true;
+  //   meats.forEach(requiredMeat => {
+  //     const stockedMeat = this.props.inventory.find(
+  //       ingredient => ingredient.name === requiredMeat.name
+  //     );
 
-      if (requiredMeat.quantity > stockedMeat.stock) {
-        check = false;
-      }
-    });
+  //     if (requiredMeat.quantity > stockedMeat.stock) {
+  //       check = false;
+  //     }
+  //   });
 
-    return check;
-  };
+  //   return check;
+  // };
 
-  nameToImgSrc = name => {
-    let src = name;
-    src = src.replace(" ", "_");
-    src = "./images/" + src + "_200x120.png";
+  // nameToImgSrc = name => {
+  //   let src = name;
+  //   src = src.replace(" ", "_");
+  //   src = "./images/" + src + "_200x120.png";
 
-    return src;
-  };
+  //   return src;
+  // };
 
   // Determine what gets rendered based on the orderPage variable
-  pageRender = () => {
-    let ingredients;
-    switch (this.state.orderPage) {
-      case 0:
-        return (
-          <ItemWrapper
-            buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
-            onClick={this.checkout}
-          >
-            {this.props.menuData.sandwiches.map(sandwich => {
-              let checkStock = this.sandwichStock(sandwich.meat);
-              return (
-                <Item
-                  key={sandwich.type}
-                  name={sandwich.type}
-                  price={sandwich.price}
-                  isInStock={
-                    checkStock === true ? "inStock" : ingrStyle.outOfStock
-                  }
-                  imgSrc={this.nameToImgSrc(sandwich.type)}
-                  onClick={() => this.addOrderItem(sandwich, checkStock)}
-                />
-              );
-            })}
-          </ItemWrapper>
-        );
-      case 1:
-        ingredients = this.props.inventory.filter(
-          ingredient => ingredient.type === "sauce"
-        );
-        return <this.ingredientsRender ingredients={ingredients} />;
-      case 2:
-        ingredients = this.props.inventory.filter(
-          ingredient => ingredient.type === "cheese"
-        );
-        return <this.ingredientsRender ingredients={ingredients} />;
-      case 3:
-        ingredients = this.props.inventory.filter(
-          ingredient => ingredient.type === "veggies"
-        );
-        return <this.ingredientsRender ingredients={ingredients} />;
-      case 5:
-        return (
-          <OrderNumber orderNumber={this.state.orderNumber} />
-        );
-      default:
-        return (
-          <div>
-            <p>Something Went Wrong!</p>
-            <button onClick={this.reset}>Return</button>
-          </div>
-        );
-    }
-  };
+  // pageRender = () => {
+  //   let ingredients;
+  //   switch (this.state.orderPage) {
+  //     case 0:
+  //       return (
+  //         <ItemWrapper
+  //           buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
+  //           onClick={this.checkout}
+  //         >
+  //           {this.props.menuData.sandwiches.map(sandwich => {
+  //             let checkStock = this.sandwichStock(sandwich.meat);
+  //             return (
+  //               <Item
+  //                 key={sandwich.type}
+  //                 name={sandwich.type}
+  //                 price={sandwich.price}
+  //                 isInStock={
+  //                   checkStock === true ? "inStock" : ingrStyle.outOfStock
+  //                 }
+  //                 imgSrc={this.nameToImgSrc(sandwich.type)}
+  //                 onClick={() => this.addOrderItem(sandwich, checkStock)}
+  //               />
+  //             );
+  //           })}
+  //         </ItemWrapper>
+  //       );
+  //     case 1:
+  //       ingredients = this.props.inventory.filter(
+  //         ingredient => ingredient.type === "sauce"
+  //       );
+  //       return <this.ingredientsRender ingredients={ingredients} />;
+  //     case 2:
+  //       ingredients = this.props.inventory.filter(
+  //         ingredient => ingredient.type === "cheese"
+  //       );
+  //       return <this.ingredientsRender ingredients={ingredients} />;
+  //     case 3:
+  //       ingredients = this.props.inventory.filter(
+  //         ingredient => ingredient.type === "veggies"
+  //       );
+  //       return <this.ingredientsRender ingredients={ingredients} />;
+  //     case 5:
+  //       return (
+  //         <OrderNumber orderNumber={this.state.orderNumber} />
+  //       );
+  //     default:
+  //       return (
+  //         <div>
+  //           <p>Something Went Wrong!</p>
+  //           <button onClick={this.reset}>Return</button>
+  //         </div>
+  //       );
+  //   }
+  // };
 
-  ingredientsRender = props => {
-    return (
-      <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
-        {props.ingredients.map(ingredient => {
-          const ing = this.state.order[this.state.order.length - 1].ingredients;
-          return (
-            <Ingredient
-              key={ingredient.name}
-              name={ingredient.name}
-              imgSrc={this.nameToImgSrc(ingredient.name)}
-              isInStock={
-                ingredient.stock > 0 ? "inStock" : ingrStyle.outOfStock
-              }
-              isselected={
-                ing.indexOf(ingredient.name) > -1 ? ingrStyle.selected : ""
-              }
-              onClick={() => this.ingredientToggle(ingredient)}
-            />
-          );
-        })}
-      </IngredientWrapper>
-    );
-  };
+  // ingredientsRender = props => {
+  //   return (
+  //     <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
+  //       {props.ingredients.map(ingredient => {
+  //         const ing = this.state.order[this.state.order.length - 1].ingredients;
+  //         return (
+  //           <Ingredient
+  //             key={ingredient.name}
+  //             name={ingredient.name}
+  //             imgSrc={this.nameToImgSrc(ingredient.name)}
+  //             isInStock={
+  //               ingredient.stock > 0 ? "inStock" : ingrStyle.outOfStock
+  //             }
+  //             isselected={
+  //               ing.indexOf(ingredient.name) > -1 ? ingrStyle.selected : ""
+  //             }
+  //             onClick={() => this.ingredientToggle(ingredient)}
+  //           />
+  //         );
+  //       })}
+  //     </IngredientWrapper>
+  //   );
+  // };
 
   render() {
     if (this.state.timeOver === true) {
@@ -321,11 +317,21 @@ class Menu extends Component {
     return (
       <MenuLayout
         menuSelection={
-          <this.pageRender />
+          // <this.pageRender />
+          <MenuSelection 
+            orderPage={this.state.orderPage}
+            checkout={this.checkout}
+            buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
+            addOrderItem={(sandwich, checkStock) => this.addOrderItem(sandwich, checkStock)}
+            order={this.state.order}
+            ingredientToggle={(ingredient) => this.ingredientToggle(ingredient)}
+
+            {...this.props}
+          />
         }
 
         order={
-          <Order total={this.calculateTotal()} back={this.previousPage}>
+          <Order total={this.calculateTotal()}>
             {this.state.order.map((sandwich, index) => {
               const ingredients = sandwich.ingredients;
               return (
@@ -333,7 +339,7 @@ class Menu extends Component {
                   name={sandwich.type}
                   key={sandwich.type + index}
                   price={sandwich.price.toFixed(2)}
-                  onClick={() => this.deleteSandwich(index)}
+                  delete={() => this.deleteSandwich(index)}
                 >
                   {ingredients.map(ingredient => {
                     return <OrderCustom key={ingredient} name={ingredient} />;
