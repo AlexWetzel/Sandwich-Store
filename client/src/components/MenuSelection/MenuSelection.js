@@ -4,32 +4,71 @@ import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 
 import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
 
+const menuMachine = {
+  sandwichPage: {
+    NEXT_PAGE: 'saucePage'
+  },
+  saucePage: {
+    NEXT_PAGE: 'cheesePage',
+    PREVIOUS_PAGE: 'sandwichPage'
+  },
+  cheesePage: {
+    NEXT_PAGE: 'veggiesPage',
+    PREVIOUS_PAGE: 'saucePage'
+  },
+  veggiesPage: {
+    NEXT_PAGE: 'sandwichPage',
+    PREVIOUS_PAGE: 'cheesePage'
+  }
+}
+
+
 class MenuSelection extends Component {
 
   state = {
+    page: 'sandwichPage',
     orderPage: 0
   }
 
-  nextPage = () => {
-    if (this.state.orderPage === 3) {
-      this.setState({ orderPage: 0 });
-      return;
+  transition(action) {
+    console.log('transition')
+    const currentPage = this.state.page;
+    const nextPage = menuMachine[currentPage][action.type];
+    console.log(nextPage)
+    if (nextPage) {
+      this.setState({
+        page: nextPage
+      })
     }
+  }
 
-    let page = this.state.orderPage;
-    page++;
-    this.setState({ orderPage: page });
+  nextPage = () => {
+    this.transition({ type: 'NEXT_PAGE' });
   };
+
+  // nextPage = () => {
+  //   if (this.state.orderPage === 3) {
+  //     this.setState({ orderPage: 0 });
+  //     return;
+  //   }
+
+  //   let page = this.state.orderPage;
+  //   page++;
+  //   this.setState({ orderPage: page });
+  // };
 
   previousPage = () => {
-    let page = this.state.orderPage;
-    if (page === 1) {
-      const index = this.state.order.length - 1;
-      this.deleteSandwich(index);
-    }
-    page--;
-    this.setState({ orderPage: page });
+    this.transition({ type: 'PREVIOUS_PAGE' });
   };
+  // previousPage = () => {
+  //   let page = this.state.orderPage;
+  //   if (page === 1) {
+  //     const index = this.state.order.length - 1;
+  //     this.deleteSandwich(index);
+  //   }
+  //   page--;
+  //   this.setState({ orderPage: page });
+  // };
 
 
   sandwichStock = meats => {
@@ -81,8 +120,8 @@ class MenuSelection extends Component {
 
   render() {
     let ingredients;
-    switch (this.state.orderPage) {
-      case 0:
+    switch (this.state.page) {
+      case 'sandwichPage':
         return (
           <ItemWrapper
             buttonDisplay={this.props.buttonDisplay}
@@ -106,33 +145,77 @@ class MenuSelection extends Component {
             })}
           </ItemWrapper>
         );
-      case 1:
+      case 'saucePage':
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "sauce"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      case 2:
+      case 'cheesePage':
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "cheese"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      case 3:
+      case 'veggiesPage':
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "veggies"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      // case 5:
-      //   return (
-      //     <OrderNumber orderNumber={this.state.orderNumber} />
-      //   );
       default:
         return (
           <div>
             <p>Something Went Wrong!</p>
-            {/* <button onClick={this.reset}>Return</button> */}
           </div>
         );
     }
+
+
+    // switch (this.state.orderPage) {
+    //   case 0:
+    //     return (
+    //       <ItemWrapper
+    //         buttonDisplay={this.props.buttonDisplay}
+    //         onClick={this.props.checkout}
+    //       >
+    //         {this.props.menuData.sandwiches.map(sandwich => {
+    //           let checkStock = this.sandwichStock(sandwich.meat);
+    //           return (
+    //             <Item
+    //               key={sandwich.type}
+    //               name={sandwich.type}
+    //               price={sandwich.price}
+    //               isInStock={
+    //                 checkStock === true ? "inStock" : ingrStyle.outOfStock
+    //               }
+    //               imgSrc={this.nameToImgSrc(sandwich.type)}
+    //               addOrderItem={() => this.props.addOrderItem(sandwich, checkStock)}
+    //               nextPage={this.nextPage}
+    //             />
+    //           );
+    //         })}
+    //       </ItemWrapper>
+    //     );
+    //   case 1:
+    //     ingredients = this.props.inventory.filter(
+    //       ingredient => ingredient.type === "sauce"
+    //     );
+    //     return <this.ingredientsRender ingredients={ingredients} />;
+    //   case 2:
+    //     ingredients = this.props.inventory.filter(
+    //       ingredient => ingredient.type === "cheese"
+    //     );
+    //     return <this.ingredientsRender ingredients={ingredients} />;
+    //   case 3:
+    //     ingredients = this.props.inventory.filter(
+    //       ingredient => ingredient.type === "veggies"
+    //     );
+    //     return <this.ingredientsRender ingredients={ingredients} />;
+    //   default:
+    //     return (
+    //       <div>
+    //         <p>Something Went Wrong!</p>
+    //       </div>
+    //     );
+    // }
   }
 }
 
