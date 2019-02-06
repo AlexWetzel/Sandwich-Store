@@ -6,6 +6,7 @@ import Order from "./../../components/Order";
 // import OrderNumber from "./../../components/OrderNumber";
 import MenuLayout from "./../../components/MenuLayout";
 import MenuSelection from "./../../components/MenuSelection";
+import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 // import style from "./Menu.module.css";
@@ -19,9 +20,8 @@ class Menu extends Component {
   state = {
     order: [],
     timeOver: false,
-    orderPage: 0,
     total: 0,
-    orderNumber: 0
+    orderNumber: null
   };
 
   // Add or remove an ingredient from a sandwich being customized
@@ -73,12 +73,10 @@ class Menu extends Component {
 
       // Update the state
       this.setState({
-        // inventory: newStock,
         order: updateOrder,
         total: updateTotal
       });
 
-      // this.nextPage();
     }
   };
 
@@ -178,14 +176,6 @@ class Menu extends Component {
   //   this.setState({ orderPage: page });
   // };
 
-  // Re-initialize the menu page
-  reset = () => {
-    this.setState({
-      order: [],
-      orderPage: 0
-    });
-  };
-
   // Submit an order
   checkout = () => {
     const data = this.state.order;
@@ -195,7 +185,7 @@ class Menu extends Component {
       .then(response => {
         console.log(response);
 
-        this.setState({ orderPage: 5, orderNumber: response.data.orderNumber });
+        this.setState({ orderNumber: response.data.orderNumber });
         this.props.getMenuData(() => {});
         setTimeout(() => {
           this.setState({ timeOver: true });
@@ -318,16 +308,20 @@ class Menu extends Component {
       <MenuLayout
         menuSelection={
           // <this.pageRender />
-          <MenuSelection 
-            orderPage={this.state.orderPage}
-            checkout={this.checkout}
-            buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
-            addOrderItem={(sandwich, checkStock) => this.addOrderItem(sandwich, checkStock)}
-            order={this.state.order}
-            ingredientToggle={(ingredient) => this.ingredientToggle(ingredient)}
+          this.state.orderNumber === null ? (
+            <MenuSelection 
+              orderPage={this.state.orderPage}
+              checkout={(cb) => this.checkout(cb)}
+              buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
+              addOrderItem={(sandwich, checkStock) => this.addOrderItem(sandwich, checkStock)}
+              order={this.state.order}
+              ingredientToggle={(ingredient) => this.ingredientToggle(ingredient)}
 
-            {...this.props}
-          />
+              {...this.props}
+            />
+          ) : (
+            <OrderNumber orderNumber={this.state.orderNumber} />
+          )
         }
 
         order={

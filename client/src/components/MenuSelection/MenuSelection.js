@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
-import OrderNumber from "./../../components/OrderNumber";
+
 import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
 
 class MenuSelection extends Component {
@@ -121,10 +121,10 @@ class MenuSelection extends Component {
           ingredient => ingredient.type === "veggies"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      case 5:
-        return (
-          <OrderNumber orderNumber={this.state.orderNumber} />
-        );
+      // case 5:
+      //   return (
+      //     <OrderNumber orderNumber={this.state.orderNumber} />
+      //   );
       default:
         return (
           <div>
