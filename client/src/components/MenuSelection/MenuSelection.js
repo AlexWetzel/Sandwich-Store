@@ -75,6 +75,7 @@ class MenuSelection extends Component {
       <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
         {props.ingredients.map(ingredient => {
           const ing = this.props.order[this.props.order.length - 1].ingredients;
+          console.log(ing)
           return (
             <Ingredient
               key={ingredient.name}

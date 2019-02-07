@@ -8,7 +8,7 @@ const ItemWrapper = props => {
       <h1 className="display-4 text-center">Sandwiches</h1>
       <div className="p-2">
         <div className="row">{props.children}</div>
-        <div className={"row"}>
+        <div className="row">
           <div className="col-4">
             <Link to="/">
               <div className={`${style.cancel_btn} text-center mr-3 p-1`}>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-// import { Link } from 'react-router-dom';
 import LoginForm from "../../components/LoginForm";
 import ControlPanel from "../../components/ControlPanel";
 import axios from "axios";
