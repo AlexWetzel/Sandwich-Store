@@ -7,8 +7,6 @@ import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import axios from "axios";
 
-// This component is too big, I'm going to try and clean things up
-
 class Menu extends Component {
   state = {
     order: [],

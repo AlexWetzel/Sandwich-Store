@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class OrderCustom extends Component {
-  render() {
-    return(
-      <li>
-        {this.props.name}
-        {/* <button onClick={this.props.onClick}>Delete</button> */}
-      </li>
-    )
-  }
+const OrderCustom = props => {
+  return(
+    <li>
+      {props.name}
+    </li>
+  )
 }
 
 export { OrderCustom };

@@ -106,9 +106,6 @@ class MenuSelection extends Component {
                   key={sandwich.type}
                   name={sandwich.type}
                   price={sandwich.price}
-                  // isInStock={
-                  //   checkStock === true ? "inStock" : ingrStyle.outOfStock
-                  // }
                   isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() => this.props.addOrderItem(sandwich, checkStock)}
