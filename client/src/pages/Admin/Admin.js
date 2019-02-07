@@ -5,9 +5,6 @@ import LoginForm from "../../components/LoginForm";
 import ControlPanel from "../../components/ControlPanel";
 import axios from "axios";
 
-// I admit this is a bit of a mess, so I want to try and clean things up
-// Thank you for your patience
-
 const AuthState = {
   isAuthenticated: false,
   login(cb) {

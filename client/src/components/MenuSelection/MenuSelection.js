@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 
-import ingrStyle from "./../../components/Ingredient/Ingredient.module.css";
-
 const menuMachine = {
   sandwichPage: {
     NEXT_PAGE: 'saucePage'
@@ -21,7 +19,6 @@ const menuMachine = {
     PREVIOUS_PAGE: 'cheesePage'
   }
 }
-
 
 class MenuSelection extends Component {
 
@@ -46,30 +43,9 @@ class MenuSelection extends Component {
     this.transition({ type: 'NEXT_PAGE' });
   };
 
-  // nextPage = () => {
-  //   if (this.state.orderPage === 3) {
-  //     this.setState({ orderPage: 0 });
-  //     return;
-  //   }
-
-  //   let page = this.state.orderPage;
-  //   page++;
-  //   this.setState({ orderPage: page });
-  // };
-
   previousPage = () => {
     this.transition({ type: 'PREVIOUS_PAGE' });
   };
-  // previousPage = () => {
-  //   let page = this.state.orderPage;
-  //   if (page === 1) {
-  //     const index = this.state.order.length - 1;
-  //     this.deleteSandwich(index);
-  //   }
-  //   page--;
-  //   this.setState({ orderPage: page });
-  // };
-
 
   sandwichStock = meats => {
     let check = true;
@@ -104,12 +80,8 @@ class MenuSelection extends Component {
               key={ingredient.name}
               name={ingredient.name}
               imgSrc={this.nameToImgSrc(ingredient.name)}
-              isInStock={
-                ingredient.stock > 0 ? "inStock" : ingrStyle.outOfStock
-              }
-              isselected={
-                ing.indexOf(ingredient.name) > -1 ? ingrStyle.selected : ""
-              }
+              stock={ingredient.stock}
+              index={ing.indexOf(ingredient.name)}
               onClick={() => this.props.ingredientToggle(ingredient)}
             />
           );
@@ -134,9 +106,10 @@ class MenuSelection extends Component {
                   key={sandwich.type}
                   name={sandwich.type}
                   price={sandwich.price}
-                  isInStock={
-                    checkStock === true ? "inStock" : ingrStyle.outOfStock
-                  }
+                  // isInStock={
+                  //   checkStock === true ? "inStock" : ingrStyle.outOfStock
+                  // }
+                  isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() => this.props.addOrderItem(sandwich, checkStock)}
                   nextPage={this.nextPage}
@@ -167,55 +140,6 @@ class MenuSelection extends Component {
           </div>
         );
     }
-
-
-    // switch (this.state.orderPage) {
-    //   case 0:
-    //     return (
-    //       <ItemWrapper
-    //         buttonDisplay={this.props.buttonDisplay}
-    //         onClick={this.props.checkout}
-    //       >
-    //         {this.props.menuData.sandwiches.map(sandwich => {
-    //           let checkStock = this.sandwichStock(sandwich.meat);
-    //           return (
-    //             <Item
-    //               key={sandwich.type}
-    //               name={sandwich.type}
-    //               price={sandwich.price}
-    //               isInStock={
-    //                 checkStock === true ? "inStock" : ingrStyle.outOfStock
-    //               }
-    //               imgSrc={this.nameToImgSrc(sandwich.type)}
-    //               addOrderItem={() => this.props.addOrderItem(sandwich, checkStock)}
-    //               nextPage={this.nextPage}
-    //             />
-    //           );
-    //         })}
-    //       </ItemWrapper>
-    //     );
-    //   case 1:
-    //     ingredients = this.props.inventory.filter(
-    //       ingredient => ingredient.type === "sauce"
-    //     );
-    //     return <this.ingredientsRender ingredients={ingredients} />;
-    //   case 2:
-    //     ingredients = this.props.inventory.filter(
-    //       ingredient => ingredient.type === "cheese"
-    //     );
-    //     return <this.ingredientsRender ingredients={ingredients} />;
-    //   case 3:
-    //     ingredients = this.props.inventory.filter(
-    //       ingredient => ingredient.type === "veggies"
-    //     );
-    //     return <this.ingredientsRender ingredients={ingredients} />;
-    //   default:
-    //     return (
-    //       <div>
-    //         <p>Something Went Wrong!</p>
-    //       </div>
-    //     );
-    // }
   }
 }
 

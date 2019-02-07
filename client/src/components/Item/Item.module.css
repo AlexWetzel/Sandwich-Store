@@ -14,3 +14,12 @@
   height: 120px;
   margin: 10px;
 }
+
+.outOfStock {
+  background-color: rgb(226, 226, 226);
+  cursor: auto;
+}
+
+.outOfStock img {
+  opacity: 0.4;
+}

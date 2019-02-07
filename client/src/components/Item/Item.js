@@ -1,31 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import style from './Item.module.css'
 
-class Item extends Component {
-
-  render() {
-    return (
-      <div className="col-6">
-        <div
-          className={`${style.name} media m-2 shadow ${this.props.isInStock}`}
-          onClick={() => {
-            this.props.addOrderItem();
-            this.props.nextPage();
-          }}
-        >
-          <img
-            className={style.image}
-            src={this.props.imgSrc}
-            alt={this.props.name + " sandwich"}
-            />
-          <div className="media-body">
-            <h1>{this.props.name}</h1>
-            <h3>{"$" + this.props.price}</h3>
-          </div>
+const Item = props => {
+  return (
+    <div className="col-6">
+      <div
+        className={
+          `media m-2 shadow
+          ${style.name}
+          ${props.isInStock ? "" : style.outOfStock}`
+        }
+        onClick={() => {
+          props.addOrderItem();
+          props.nextPage();
+        }}
+      >
+        <img
+          className={style.image}
+          src={props.imgSrc}
+          alt={props.name + " sandwich"}
+          />
+        <div className="media-body">
+          <h1>{props.name}</h1>
+          <h3>{"$" + props.price}</h3>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export { Item };

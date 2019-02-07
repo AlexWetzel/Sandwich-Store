@@ -1,5 +1,5 @@
 import React from 'react';
-import style from "../../pages/Menu/Menu.module.css";
+import style from "./OrderNumber.module.css";
 
 function OrderNumber(props) {
   return (

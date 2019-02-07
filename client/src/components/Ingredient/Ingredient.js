@@ -5,7 +5,11 @@ const Ingredient = props => {
   return (
     <div className="col-4">
       <div
-        className={`${style.panel} m-3 shadow text-center ${props.isInStock} ${props.isselected}`}
+        className={
+          `${style.panel} m-3 shadow text-center
+          ${props.stock > 0 ? "" : style.outOfStock}
+          ${props.index > -1 ? style.selected : ""}`
+        }
         onClick={props.onClick}
       >
         <img className={style.image} src={props.imgSrc} alt={props.name} />
