@@ -1,7 +1,7 @@
 import React from "react";
 import { IngredientTableRow } from "../../components/IngredientTable";
 
-const IngredientTable = props => {
+function IngredientTable(props) {
   return (
     <div className="col-12">
       <h2>Inventory</h2>
@@ -31,7 +31,7 @@ const IngredientTable = props => {
   );
 };
 
-const InventoryButton = props => {
+function InventoryButton(props) {
   return props.allowSubmit === true ? (
     <button
       onClick={props.submit}

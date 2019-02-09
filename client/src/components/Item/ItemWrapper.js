@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import style from "./ItemWrapper.module.css";
 
-const ItemWrapper = props => {
+function ItemWrapper(props) {
   return (
     <div>
       <h1 className="display-4 text-center">Sandwiches</h1>
@@ -21,7 +21,7 @@ const ItemWrapper = props => {
               className={
                 `${style.submit_btn} text-center mr-3 p-1 ${props.buttonDisplay}`
               }
-              onClick={props.onClick}
+              onClick={props.checkout}
             >
               <h2 className="align-middle">Submit Order</h2>
             </div>

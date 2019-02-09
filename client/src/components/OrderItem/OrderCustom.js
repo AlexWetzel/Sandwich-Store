@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrderCustom = props => {
+function OrderCustom(props) {
   return(
     <li>
       {props.name}

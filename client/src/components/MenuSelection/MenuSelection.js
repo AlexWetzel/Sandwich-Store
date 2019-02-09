@@ -1,51 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 
 const menuMachine = {
   sandwichPage: {
-    NEXT_PAGE: 'saucePage'
+    NEXT_PAGE: "saucePage"
   },
   saucePage: {
-    NEXT_PAGE: 'cheesePage',
-    PREVIOUS_PAGE: 'sandwichPage'
+    NEXT_PAGE: "cheesePage",
+    PREVIOUS_PAGE: "sandwichPage"
   },
   cheesePage: {
-    NEXT_PAGE: 'veggiesPage',
-    PREVIOUS_PAGE: 'saucePage'
+    NEXT_PAGE: "veggiesPage",
+    PREVIOUS_PAGE: "saucePage"
   },
   veggiesPage: {
-    NEXT_PAGE: 'sandwichPage',
-    PREVIOUS_PAGE: 'cheesePage'
+    NEXT_PAGE: "sandwichPage",
+    PREVIOUS_PAGE: "cheesePage"
   }
-}
+};
 
 class MenuSelection extends Component {
-
   state = {
-    page: 'sandwichPage',
+    page: "sandwichPage",
     orderPage: 0
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.order.length === 0 && prevState.page !== 'sandwichPage') {
+      this.setState({ page: "sandwichPage" });
+    }
   }
 
   transition(action) {
-    console.log('transition')
     const currentPage = this.state.page;
     const nextPage = menuMachine[currentPage][action.type];
-    console.log(nextPage)
     if (nextPage) {
-      this.setState({
-        page: nextPage
-      })
+      this.setState({ page: nextPage });
     }
   }
 
   nextPage = () => {
-    this.transition({ type: 'NEXT_PAGE' });
+    this.transition({ type: "NEXT_PAGE" });
   };
 
   previousPage = () => {
-    this.transition({ type: 'PREVIOUS_PAGE' });
+    this.transition({ type: "PREVIOUS_PAGE" });
   };
+
+  sandwichPage = () => {
+    this.setState({ page: "sandwichPage" })
+  }
 
   sandwichStock = meats => {
     let check = true;
@@ -70,22 +75,39 @@ class MenuSelection extends Component {
     return src;
   };
 
+  
+  isSelected = ingredientName => {
+    const order = this.props.order;
+    const orderSize = order.length;
+
+    if (orderSize === 0) {
+      return false;
+    }
+
+    if (order[orderSize-1].ingredients.indexOf(ingredientName) > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ingredientsRender = props => {
     return (
-      <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
-        {props.ingredients.map(ingredient => {
-          const ing = this.props.order[this.props.order.length - 1].ingredients;
-          console.log(ing)
+      <IngredientWrapper
+        next={this.nextPage}
+        previous={this.previousPage}
+      >
+        {props.ingredients.map(ingredient => {          
           return (
             <Ingredient
               key={ingredient.name}
               name={ingredient.name}
               imgSrc={this.nameToImgSrc(ingredient.name)}
               stock={ingredient.stock}
-              index={ing.indexOf(ingredient.name)}
+              isSelected={this.isSelected(ingredient.name)}
               onClick={() => this.props.ingredientToggle(ingredient)}
             />
-          );
+          )          
         })}
       </IngredientWrapper>
     );
@@ -94,11 +116,11 @@ class MenuSelection extends Component {
   render() {
     let ingredients;
     switch (this.state.page) {
-      case 'sandwichPage':
+      case "sandwichPage":
         return (
           <ItemWrapper
             buttonDisplay={this.props.buttonDisplay}
-            onClick={this.props.checkout}
+            checkout={this.props.checkout}
           >
             {this.props.menuData.sandwiches.map(sandwich => {
               let checkStock = this.sandwichStock(sandwich.meat);
@@ -109,24 +131,26 @@ class MenuSelection extends Component {
                   price={sandwich.price}
                   isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
-                  addOrderItem={() => this.props.addOrderItem(sandwich, checkStock)}
+                  addOrderItem={() =>
+                    this.props.addOrderItem(sandwich, checkStock)
+                  }
                   nextPage={this.nextPage}
                 />
               );
             })}
           </ItemWrapper>
         );
-      case 'saucePage':
+      case "saucePage":
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "sauce"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      case 'cheesePage':
+      case "cheesePage":
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "cheese"
         );
         return <this.ingredientsRender ingredients={ingredients} />;
-      case 'veggiesPage':
+      case "veggiesPage":
         ingredients = this.props.inventory.filter(
           ingredient => ingredient.type === "veggies"
         );

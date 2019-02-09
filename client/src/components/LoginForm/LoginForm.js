@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const LoginForm = props => {
+function LoginForm(props) {
   return (
     <div>
       <Link to="/">
@@ -48,7 +48,7 @@ const LoginForm = props => {
   );
 };
 
-const LoginButton = (props) => {
+function LoginButton(props) {
   return props.username === "" || props.pin === "" ? (
     <button type="button" className="btn btn-secondary btn-lg" disabled>
       Submit
@@ -60,7 +60,7 @@ const LoginButton = (props) => {
   );
 };
 
-const Message = props => {
+function Message(props) {
   return props.message !== "" ? (
     <div className="alert alert-danger" role="alert">
       {props.message}

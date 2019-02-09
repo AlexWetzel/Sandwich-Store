@@ -23,7 +23,7 @@ class Order extends Component {
         <div className={style.order_items} ref={(el) => {this.orderItems = el;}}>
           {this.props.children}
         </div>
-        <h2 className={`${style.total} mr-4`}>Total: {"$" + this.props.total}</h2>
+        <h2 className={`${style.total} mr-4`}>{`Total: $${this.props.total}`}</h2>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import { IngredientTable } from "../../components/IngredientTable";
 
-const ControlPanel = props => {
+function ControlPanel(props) {
   return (
     <div className="container">
       <div className="row block pt-3 pb-3">

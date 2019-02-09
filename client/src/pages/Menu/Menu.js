@@ -8,6 +8,14 @@ import { Redirect } from "react-router";
 import axios from "axios";
 
 class Menu extends Component {
+  constructor(props) {
+    super(props);
+
+    this.checkout = this.checkout.bind(this);
+    this.addOrderItem = this.addOrderItem.bind(this);
+    this.ingredientToggle = this.ingredientToggle.bind(this);
+    this.deleteSandwich = this.deleteSandwich.bind(this);    
+  }
   state = {
     order: [],
     timeOver: false,
@@ -126,7 +134,7 @@ class Menu extends Component {
     newOrder[size].ingredients.splice(i, 1);
     this.setState({ order: newOrder });
   };
-
+  // UNUSED
   // Removes ingredient from order by hitting delete button in the order panel
   deleteIngredient = (ingredient, i) => {
     const j = this.state.order[i].ingredients.indexOf(ingredient);
@@ -176,7 +184,7 @@ class Menu extends Component {
           this.state.orderNumber === null ? (
             <MenuSelection
               orderPage={this.state.orderPage}
-              checkout={cb => this.checkout(cb)}
+              checkout={this.checkout}
               buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
               addOrderItem={(sandwich, checkStock) =>
                 this.addOrderItem(sandwich, checkStock)

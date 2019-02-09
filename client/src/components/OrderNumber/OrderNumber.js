@@ -1,7 +1,7 @@
 import React from 'react';
 import style from "./OrderNumber.module.css";
 
-const OrderNumber = props => {
+function OrderNumber(props) {
   return (
     <div className={`${style.submit} text-center`}>
       <h1 className="display-3 mb-5">Thank You!</h1>

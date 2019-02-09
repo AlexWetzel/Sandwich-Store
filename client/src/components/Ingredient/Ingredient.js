@@ -1,15 +1,14 @@
 import React from "react";
 import style from "./Ingredient.module.css";
 
-const Ingredient = props => {
+function Ingredient(props) {
+  const stockStyle = props.stock > 0 ? "" : style.outOfStock;
+  // const selectStyle = props.index > -1 ? style.selected : "";
+  const selectStyle = props.isSelected ? style.selected : "";
   return (
     <div className="col-4">
       <div
-        className={
-          `${style.panel} m-3 shadow text-center
-          ${props.stock > 0 ? "" : style.outOfStock}
-          ${props.index > -1 ? style.selected : ""}`
-        }
+        className={`m-3 shadow text-center ${stockStyle} ${selectStyle} ${style.panel}`}
         onClick={props.onClick}
       >
         <img className={style.image} src={props.imgSrc} alt={props.name} />
@@ -20,6 +19,6 @@ const Ingredient = props => {
       </div>
     </div>
   );
-};
+}
 
 export { Ingredient };

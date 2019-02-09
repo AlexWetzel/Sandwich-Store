@@ -1,15 +1,13 @@
-import React from 'react';
-import style from './Item.module.css'
+import React from "react";
+import style from "./Item.module.css";
 
-const Item = props => {
+function Item(props) {
   return (
     <div className="col-6">
       <div
-        className={
-          `media m-2 shadow
+        className={`media m-2 shadow
           ${style.name}
-          ${props.isInStock ? "" : style.outOfStock}`
-        }
+          ${props.isInStock ? "" : style.outOfStock}`}
         onClick={() => {
           props.addOrderItem();
           props.nextPage();
@@ -19,7 +17,7 @@ const Item = props => {
           className={style.image}
           src={props.imgSrc}
           alt={props.name + " sandwich"}
-          />
+        />
         <div className="media-body">
           <h1>{props.name}</h1>
           <h3>{"$" + props.price}</h3>
@@ -27,6 +25,6 @@ const Item = props => {
       </div>
     </div>
   );
-};
+}
 
 export { Item };

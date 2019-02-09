@@ -1,6 +1,6 @@
 import React from "react";
 
-const IngredientTableRow = props => {
+function IngredientTableRow(props) {
   return (
     <>
       {props.inventory.map((ingredient) => {
@@ -10,11 +10,7 @@ const IngredientTableRow = props => {
             <td>{ingredient.type}</td>
             <td>{ingredient.stock}</td>
             <td>
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                }}
-              >
+              <form onSubmit={e => e.preventDefault()}>
                 <input
                   className="form-control form-control-sm"
                   name={ingredient.name}

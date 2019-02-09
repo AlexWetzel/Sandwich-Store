@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./IngredientWrapper.module.css";
 
-const IngredientWrapper = props => {
+function IngredientWrapper(props) {
   return (
     <div>
       <h1 className="m-3 text-center display-4">Choose Your Ingredients</h1>
