@@ -85,6 +85,8 @@ class Menu extends Component {
     const sandwich = this.state.order[i];
     const meats = sandwich.meat;
     const toppings = sandwich.ingredients;
+
+    // Add ingredients back into the stock
     meats.forEach(meat => {
       let meatStock = inventory.find(
         ingredient => ingredient.name === meat.name
@@ -92,6 +94,7 @@ class Menu extends Component {
       meatStock.stock += meat.quantity;
       console.log(meatStock.name, meatStock.stock);
     });
+
     toppings.forEach(topping => {
       let ingredientStock = inventory.find(
         ingredient => ingredient.name === topping

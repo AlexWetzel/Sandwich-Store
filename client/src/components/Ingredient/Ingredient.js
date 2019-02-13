@@ -3,7 +3,6 @@ import style from "./Ingredient.module.css";
 
 function Ingredient(props) {
   const stockStyle = props.stock > 0 ? "" : style.outOfStock;
-  // const selectStyle = props.index > -1 ? style.selected : "";
   const selectStyle = props.isSelected ? style.selected : "";
   return (
     <div className="col-4">
