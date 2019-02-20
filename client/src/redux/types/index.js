@@ -1,0 +1,1 @@
+export const GET_MENU_DATA = "GET_MENU_DATA";

@@ -5,6 +5,14 @@ import Menu from "./pages/Menu";
 import Admin from "./pages/Admin";
 import "./App.css";
 import axios from "axios";
+import { connect } from 'react-redux';
+import { getMenuData } from "./redux/actions"
+
+const mapStateToProps = state => {
+  return {
+    data: state.data
+  }
+}
 
 class App extends Component {
   state = {
@@ -14,7 +22,8 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getMenuData(() => {});
+    this.props.getMenuData();
+    // this.getMenuData(() => {});
   }
 
   getMenuData = callback => {
@@ -102,4 +111,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, { getMenuData })(App);
