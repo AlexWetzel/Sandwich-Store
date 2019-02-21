@@ -7,6 +7,7 @@ import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import axios from "axios";
 import { connect } from "react-redux";
+import { removeItem } from "../../redux/actions"
 
 const mapStateToProps = state => {
   return {
@@ -220,7 +221,7 @@ class Menu extends Component {
                   name={sandwich.type}
                   key={sandwich.type + index}
                   price={sandwich.price.toFixed(2)}
-                  delete={() => this.deleteSandwich(index)}
+                  delete={() => this.props.removeItem(index)}
                 >
                   {ingredients.map(ingredient => {
                     return <OrderCustom key={ingredient} name={ingredient} />;
@@ -235,4 +236,4 @@ class Menu extends Component {
   }
 }
 
-export default connect(mapStateToProps, {})(Menu);
+export default connect(mapStateToProps, { removeItem })(Menu);

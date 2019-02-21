@@ -1,4 +1,4 @@
-import { GET_MENU_DATA, ADD_ITEM } from "../types";
+import { GET_MENU_DATA, ADD_ITEM, REMOVE_ITEM } from "../types";
 
 const initialState = {
   data: null,
@@ -20,6 +20,13 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         order: [ ...state.order, action.payload ]
+      };
+    case REMOVE_ITEM:
+      let newOrder = [...state.order];
+      newOrder.splice(action.index, 1);
+      return {
+        ...state,
+        order: newOrder
       };
     default:
       return state;

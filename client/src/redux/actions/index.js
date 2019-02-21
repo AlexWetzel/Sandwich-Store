@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_MENU_DATA, ADD_ITEM } from "../types";
+import { GET_MENU_DATA, ADD_ITEM, REMOVE_ITEM } from "../types";
 
 export const getMenuData = () => dispatch => {
   axios
@@ -20,4 +20,8 @@ export const addItem = (sandwich) => dispatch => {
   const newSandwich = {...sandwich, ingredients: []}
 
   return dispatch({ type: ADD_ITEM, payload: newSandwich })
+}
+
+export const removeItem = (index) => dispatch => {
+  return dispatch({ type: REMOVE_ITEM, payload: index })
 }
