@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_MENU_DATA } from "../types";
+import { GET_MENU_DATA, ADD_ITEM } from "../types";
 
 export const getMenuData = () => dispatch => {
   axios
@@ -8,5 +8,16 @@ export const getMenuData = () => dispatch => {
       console.log("Menu Data:", res.data);
       return dispatch({ type: GET_MENU_DATA, payload: res.data });
     })
-    .catch(err => console.log(err));
+    .catch(err => 
+      console.log(err)
+      // Dispatch error handler
+      // return dispatch({ type: DISPLAY_ERROR, payload: err})
+      );
+}
+
+// Needs a stock check before this is invoked
+export const addItem = (sandwich) => dispatch => {
+  const newSandwich = {...sandwich, ingredients: []}
+
+  return dispatch({ type: ADD_ITEM, payload: newSandwich })
 }

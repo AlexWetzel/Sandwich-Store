@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
+import { connect } from "react-redux";
+import { addItem } from "../../redux/actions"
 
 const menuMachine = {
   sandwichPage: {
@@ -19,6 +21,14 @@ const menuMachine = {
     PREVIOUS_PAGE: "cheesePage"
   }
 };
+
+const mapStateToProps = state => {
+  return {
+    sandwiches: state.data.sandwiches,
+    ingredients: state.data.ingredients,
+    inventory: state.inventory
+  }
+}
 
 class MenuSelection extends Component {
   state = {
@@ -122,18 +132,21 @@ class MenuSelection extends Component {
             buttonDisplay={this.props.buttonDisplay}
             checkout={this.props.checkout}
           >
-            {this.props.menuData.sandwiches.map(sandwich => {
-              let checkStock = this.sandwichStock(sandwich.meat);
+            {this.props.sandwiches.map(sandwich => {
+              // let checkStock = this.sandwichStock(sandwich.meat);
               return (
                 <Item
                   key={sandwich.type}
                   name={sandwich.type}
                   price={sandwich.price}
-                  isInStock={checkStock}
+                  // isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() =>
-                    this.props.addOrderItem(sandwich, checkStock)
+                    this.props.addItem(sandwich)
                   }
+                  // addOrderItem={() =>
+                  //   this.props.addOrderItem(sandwich, checkStock)
+                  // }
                   nextPage={this.nextPage}
                 />
               );
@@ -165,4 +178,4 @@ class MenuSelection extends Component {
   }
 }
 
-export default MenuSelection;
+export default connect( mapStateToProps, { addItem })(MenuSelection);

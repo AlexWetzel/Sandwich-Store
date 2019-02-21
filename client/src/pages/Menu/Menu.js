@@ -6,6 +6,17 @@ import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import axios from "axios";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  return {
+    data: state.data,
+    inventory: state.inventory,
+    orderNumber: state.orderNumber,
+    order: state.order,
+    total: state.total
+  }
+}
 
 class Menu extends Component {
   constructor(props) {
@@ -53,6 +64,7 @@ class Menu extends Component {
         price: sandwich.price
       };
 
+      // Subtract the ingredients from the inventory
       const newStock = this.props.inventory;
 
       newSandwich.meat.forEach(meat => {
@@ -184,9 +196,8 @@ class Menu extends Component {
     return (
       <MenuLayout
         menuSelection={
-          this.state.orderNumber === null ? (
+          this.props.orderNumber === null ? (
             <MenuSelection
-              orderPage={this.state.orderPage}
               checkout={this.checkout}
               buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
               addOrderItem={(sandwich, checkStock) =>
@@ -197,12 +208,12 @@ class Menu extends Component {
               {...this.props}
             />
           ) : (
-            <OrderNumber orderNumber={this.state.orderNumber} />
+            <OrderNumber orderNumber={this.props.orderNumber} />
           )
         }
         order={
           <Order total={this.calculateTotal()}>
-            {this.state.order.map((sandwich, index) => {
+            {this.props.order.map((sandwich, index) => {
               const ingredients = sandwich.ingredients;
               return (
                 <OrderItem
@@ -224,4 +235,4 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+export default connect(mapStateToProps, {})(Menu);

@@ -10,14 +10,15 @@ import { getMenuData } from "./redux/actions"
 
 const mapStateToProps = state => {
   return {
-    data: state.data
+    data: state.data,
+    inventory: state.inventory
   }
 }
 
 class App extends Component {
   state = {
-    data: null,
-    inventory: [],
+    // data: null,
+    // inventory: [],
     counter: 0
   };
 
@@ -53,13 +54,13 @@ class App extends Component {
   };
 
   menuRender = props => {
-    if (this.state.data) {
+    if (this.props.data) {
       return (
         <Menu
           {...props}
-          menuData={this.state.data}
-          inventory={this.state.inventory}
-          getMenuData={cb => this.getMenuData(cb)}
+          // menuData={this.state.data}
+          // inventory={this.state.inventory}
+          // getMenuData={cb => this.getMenuData(cb)}
         />
       );
     }
