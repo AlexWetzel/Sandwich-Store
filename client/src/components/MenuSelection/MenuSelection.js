@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import { connect } from "react-redux";
-import { addItem, addIngredient, removeIngredient } from "../../redux/actions"
+import { addItem, removeItem, addIngredient, removeIngredient } from "../../redux/actions"
 
 const menuMachine = {
   sandwichPage: {
@@ -26,7 +26,8 @@ const mapStateToProps = state => {
   return {
     sandwiches: state.data.sandwiches,
     ingredients: state.data.ingredients,
-    inventory: state.inventory
+    inventory: state.inventory,
+    order: state.order
   }
 }
 
@@ -56,6 +57,13 @@ class MenuSelection extends Component {
 
   previousPage = () => {
     this.transition({ type: "PREVIOUS_PAGE" });
+
+    // This may be moved later
+  
+    if (this.state.page === "saucePage") {
+      console.log("test")
+      this.props.removeItem(this.props.orderlength - 1)
+    }
   };
 
   sandwichPage = () => {
@@ -189,4 +197,4 @@ class MenuSelection extends Component {
   }
 }
 
-export default connect( mapStateToProps, { addItem, addIngredient, removeIngredient })(MenuSelection);
+export default connect( mapStateToProps, { addItem, removeItem, addIngredient, removeIngredient })(MenuSelection);
