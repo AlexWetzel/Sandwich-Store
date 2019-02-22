@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import { connect } from "react-redux";
-import { addItem, removeItem, addIngredient, removeIngredient } from "../../redux/actions"
+import { sendOrderData, addItem, removeItem, addIngredient, removeIngredient } from "../../redux/actions"
 
 const menuMachine = {
   sandwichPage: {
@@ -38,6 +38,7 @@ class MenuSelection extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    // When all sandwiches get removed from the order, reset the menu page
     if (this.props.order.length === 0 && prevState.page !== 'sandwichPage') {
       this.setState({ page: "sandwichPage" });
     }
@@ -57,18 +58,12 @@ class MenuSelection extends Component {
 
   previousPage = () => {
     this.transition({ type: "PREVIOUS_PAGE" });
-
     // This may be moved later
-  
+    // Navigating back from the sauce page should remove the last sandwich
     if (this.state.page === "saucePage") {
-      console.log("test")
       this.props.removeItem(this.props.orderlength - 1)
     }
   };
-
-  sandwichPage = () => {
-    this.setState({ page: "sandwichPage" })
-  }
 
   sandwichStock = meats => {
     let check = true;
@@ -149,16 +144,16 @@ class MenuSelection extends Component {
         return (
           <ItemWrapper
             buttonDisplay={this.props.order.length === 0 ? "d-none" : ""}
-            checkout={this.props.checkout}
+            checkout={() => this.props.sendOrderData(this.state.order)}
           >
             {this.props.sandwiches.map(sandwich => {
-              // let checkStock = this.sandwichStock(sandwich.meat);
+              let checkStock = this.sandwichStock(sandwich.meat);
               return (
                 <Item
                   key={sandwich.type}
                   name={sandwich.type}
                   price={sandwich.price}
-                  // isInStock={checkStock}
+                  isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() =>
                     this.props.addItem(sandwich)
@@ -197,4 +192,4 @@ class MenuSelection extends Component {
   }
 }
 
-export default connect( mapStateToProps, { addItem, removeItem, addIngredient, removeIngredient })(MenuSelection);
+export default connect( mapStateToProps, { sendOrderData, addItem, removeItem, addIngredient, removeIngredient })(MenuSelection);
