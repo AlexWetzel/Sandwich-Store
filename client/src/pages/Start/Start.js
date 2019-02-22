@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import style from "./Start.module.css";
+import { connect } from "react-redux";
+import { resetOrder } from "../../redux/actions";
 
 class Start extends Component {
+  componentDidMount() {
+    this.props.resetOrder();
+  }
+
   render() {
     return (
       <div>
@@ -24,4 +30,4 @@ class Start extends Component {
   }
 }
 
-export default Start;
+export default connect(null, { resetOrder })(Start);

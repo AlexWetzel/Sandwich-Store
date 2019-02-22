@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import { connect } from "react-redux";
-import { addItem } from "../../redux/actions"
+import { addItem, addIngredient, removeIngredient } from "../../redux/actions"
 
 const menuMachine = {
   sandwichPage: {
@@ -77,6 +77,17 @@ class MenuSelection extends Component {
     return check;
   };
 
+  toggleIngredient = ingredient => {
+    const size = this.props.order.length - 1;
+    const i = this.props.order[size].ingredients.indexOf(ingredient.name);
+    // Check the order for the selected ingredient
+    if (i === -1) {
+      this.props.addIngredient(ingredient.name);
+    } else {
+      this.props.removeIngredient(i);
+    }
+  }
+
   nameToImgSrc = name => {
     let src = name;
     src = src.replace(" ", "_");
@@ -115,7 +126,7 @@ class MenuSelection extends Component {
               imgSrc={this.nameToImgSrc(ingredient.name)}
               stock={ingredient.stock}
               isSelected={this.isSelected(ingredient.name)}
-              onClick={() => this.props.ingredientToggle(ingredient)}
+              onClick={() => this.toggleIngredient(ingredient)}
             />
           )          
         })}
@@ -129,7 +140,7 @@ class MenuSelection extends Component {
       case "sandwichPage":
         return (
           <ItemWrapper
-            buttonDisplay={this.props.buttonDisplay}
+            buttonDisplay={this.props.order.length === 0 ? "d-none" : ""}
             checkout={this.props.checkout}
           >
             {this.props.sandwiches.map(sandwich => {
@@ -178,4 +189,4 @@ class MenuSelection extends Component {
   }
 }
 
-export default connect( mapStateToProps, { addItem })(MenuSelection);
+export default connect( mapStateToProps, { addItem, addIngredient, removeIngredient })(MenuSelection);

@@ -1,5 +1,9 @@
+// Initialize
+export const RESET_ORDER = "RESET_ORDER"
+
 // API actions
 export const GET_MENU_DATA = "GET_MENU_DATA";
+export const SEND_ORDER_DATA = "SEND_ORDER_DATA";
 
 // Menu actions
 export const ADD_ITEM = "ADD_ITEM";

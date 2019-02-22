@@ -1,5 +1,9 @@
 import axios from "axios";
-import { GET_MENU_DATA, ADD_ITEM, REMOVE_ITEM, ADD_INGREDIENT } from "../types";
+import { RESET_ORDER, GET_MENU_DATA, SEND_ORDER_DATA, ADD_ITEM, REMOVE_ITEM, ADD_INGREDIENT, REMOVE_INGREDIENT } from "../types";
+
+export const resetOrder = () => dispatch => {
+  return dispatch({ type: RESET_ORDER });
+}
 
 export const getMenuData = () => dispatch => {
   axios
@@ -8,11 +12,25 @@ export const getMenuData = () => dispatch => {
       console.log("Menu Data:", res.data);
       return dispatch({ type: GET_MENU_DATA, payload: res.data });
     })
-    .catch(err => 
-      console.log(err)
+    .catch(err => {
+      console.log(err);
       // Dispatch error handler
-      // return dispatch({ type: DISPLAY_ERROR, payload: err})
-      );
+      // return dispatch({ type: DISPLAY_ERROR, payload: err});
+    });
+}
+
+export const sendOrderData = data => dispatch => {
+  axios
+    .post("/api/order", data)
+    .then(res => {
+      console.log(res);
+      return dispatch({ type: SEND_ORDER_DATA, payload: res.data.orderNumber });
+    })
+    .catch(err => {
+      console.log(err);
+      // Dispatch error handler
+      // return dispatch({ type: DISPLAY_ERROR, payload: err});
+    });
 }
 
 // Needs a stock check before this is invoked
@@ -27,4 +45,8 @@ export const removeItem = index => dispatch => {
 
 export const addIngredient = ingredient => dispatch => {
   return dispatch({ type: ADD_INGREDIENT, payload: ingredient });
+}
+
+export const removeIngredient = index => dispatch => {
+  return dispatch({ type: REMOVE_INGREDIENT, payload: index });
 }

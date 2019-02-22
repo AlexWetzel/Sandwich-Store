@@ -5,9 +5,8 @@ import MenuSelection from "./../../components/MenuSelection";
 import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
-import axios from "axios";
 import { connect } from "react-redux";
-import { removeItem, addIngredient } from "../../redux/actions"
+import { removeItem, addIngredient, removeIngredient, sendOrderData } from "../../redux/actions"
 
 const mapStateToProps = state => {
   return {
@@ -24,7 +23,7 @@ class Menu extends Component {
 
     this.checkout = this.checkout.bind(this);
     // this.addOrderItem = this.addOrderItem.bind(this);
-    this.ingredientToggle = this.ingredientToggle.bind(this);
+    // this.ingredientToggle = this.ingredientToggle.bind(this);
     // this.deleteSandwich = this.deleteSandwich.bind(this);  
   }
   state = {
@@ -33,129 +32,6 @@ class Menu extends Component {
     orderNumber: null
   };
 
-  // Add or remove an ingredient from a sandwich being customized
-  ingredientToggle = ingredient => {
-    const size = this.props.order.length - 1;
-    // Check if the ingredient is selected for the current sandwich
-    const i = this.props.order[size].ingredients.indexOf(ingredient.name);
-
-    // Check the order for the selected ingredient
-    if (i === -1) {
-      // Check if the topping is in stock
-      // if (ingredient.stock > 0) {
-        // ingredient.stock--;
-        this.props.addIngredient(ingredient.name);
-      // }
-    } else {
-      // ingredient.stock++;
-      this.removeIngredient(i);
-    }
-  };
-
-  // Add a sandwich to the order
-  // addOrderItem = (sandwich, isInStock) => {
-  //   if (isInStock) {
-  //     let newSandwich = {
-  //       id: sandwich.id,
-  //       type: sandwich.type,
-  //       meat: sandwich.meat,
-  //       ingredients: [],
-  //       price: sandwich.price
-  //     };
-
-  //     // Subtract the ingredients from the inventory
-  //     const newStock = this.props.inventory;
-
-  //     newSandwich.meat.forEach(meat => {
-  //       let meatStock = newStock.find(
-  //         ingredient => ingredient.name === meat.name
-  //       );
-  //       meatStock.stock -= meat.quantity;
-  //       console.log(meatStock.name, meatStock.stock);
-  //     });
-
-  //     // Add the sandwich's price to the total price
-  //     let updateTotal = this.state.total;
-  //     updateTotal += sandwich.price;
-  //     // Add the sandwich to the order
-  //     let updateOrder = this.state.order.slice();
-  //     updateOrder.push(newSandwich);
-
-  //     // Update the state
-  //     this.setState({
-  //       order: updateOrder,
-  //       total: updateTotal
-  //     });
-  //   }
-  // };
-
-  // Remove a sandwich from an order
-  // deleteSandwich = i => {
-  //   // Add the sandwich ingredients back to the stock
-  //   const inventory = this.props.inventory;
-  //   const sandwich = this.state.order[i];
-  //   const meats = sandwich.meat;
-  //   const toppings = sandwich.ingredients;
-
-  //   // Add ingredients back into the stock
-  //   meats.forEach(meat => {
-  //     let meatStock = inventory.find(
-  //       ingredient => ingredient.name === meat.name
-  //     );
-  //     meatStock.stock += meat.quantity;
-  //     console.log(meatStock.name, meatStock.stock);
-  //   });
-
-  //   toppings.forEach(topping => {
-  //     let ingredientStock = inventory.find(
-  //       ingredient => ingredient.name === topping
-  //     );
-  //     ingredientStock.stock++;
-  //     console.log(ingredientStock.name, ingredientStock.stock);
-  //   });
-
-  //   let updateOrder = this.state.order;
-  //   // If the sandwich being deleted is in the process of being customized, if it is last in the array
-  //   updateOrder.splice(i, 1);
-  //   this.setState({
-  //     order: updateOrder
-  //   });
-
-  //   // Conditions for returning to the first page after removing a sandwich from the order
-  //   // -When the user removes the sandwich they are customizing
-  //   // -When the order is emptied
-  //   if (
-  //     (i === this.state.order.length - 1 && this.state.orderPage < 4) ||
-  //     updateOrder.length === 0
-  //   ) {
-  //     // Display the first order page
-  //     this.setState({ orderPage: 0 });
-  //   }
-  // };
-  // Adds ingredient to the order
-  addIngredient = ingredient => {
-    let newOrder = this.state.order.slice();
-    const size = this.state.order.length - 1;
-
-    newOrder[size].ingredients.push(ingredient.name);
-    this.setState({ order: newOrder });
-  };
-  // Removes ingredient from the order by toggling off from the menu
-  removeIngredient = i => {
-    let newOrder = this.state.order.slice();
-    const size = this.state.order.length - 1;
-
-    newOrder[size].ingredients.splice(i, 1);
-    this.setState({ order: newOrder });
-  };
-  // UNUSED
-  // Removes ingredient from order by hitting delete button in the order panel
-  // deleteIngredient = (ingredient, i) => {
-  //   const j = this.state.order[i].ingredients.indexOf(ingredient);
-  //   let newOrder = this.state.order.slice();
-  //   newOrder[i].ingredients.splice(j, 1);
-  //   this.setState({ order: newOrder });
-  // };
 
   // Determine the price of the order
   calculateTotal = () => {
@@ -169,28 +45,31 @@ class Menu extends Component {
 
   // Submit an order
   checkout = () => {
-    const data = this.state.order;
+    const data = this.props.order;
+    this.props.sendOrderData(data);
+    // axios
+    //   .post("/api/order", data)
+    //   .then(response => {
+    //     console.log(response);
 
-    axios
-      .post("/api/order", data)
-      .then(response => {
-        console.log(response);
-
-        this.setState({ orderNumber: response.data.orderNumber });
-        this.props.getMenuData(() => {});
-        setTimeout(() => {
-          this.setState({ timeOver: true });
-        }, 5000);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    //     this.setState({ orderNumber: response.data.orderNumber });
+    //     // this.props.getMenuData(() => {});
+    //     setTimeout(() => {
+    //       this.setState({ timeOver: true });
+    //     }, 5000);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   render() {
-    if (this.state.timeOver === true) {
+     if (this.state.timeOver === true) {
       return <Redirect to="/" />;
     }
+    // if (this.state.timeOver === true) {
+    //   return <Redirect to="/" />;
+    // }
 
     return (
       <MenuLayout
@@ -198,12 +77,12 @@ class Menu extends Component {
           this.props.orderNumber === null ? (
             <MenuSelection
               checkout={this.checkout}
-              buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
+              // buttonDisplay={this.state.order.length === 0 ? "d-none" : ""}
               // addOrderItem={(sandwich, checkStock) =>
               //   this.addOrderItem(sandwich, checkStock)
               // }
               order={this.state.order}
-              ingredientToggle={ingredient => this.ingredientToggle(ingredient)}
+              // ingredientToggle={ingredient => this.ingredientToggle(ingredient)}
               {...this.props}
             />
           ) : (
@@ -234,4 +113,4 @@ class Menu extends Component {
   }
 }
 
-export default connect(mapStateToProps, { removeItem, addIngredient })(Menu);
+export default connect(mapStateToProps, { removeItem, addIngredient, removeIngredient, sendOrderData })(Menu);
