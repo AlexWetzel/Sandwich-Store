@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_MENU_DATA, ADD_ITEM, REMOVE_ITEM } from "../types";
+import { GET_MENU_DATA, ADD_ITEM, REMOVE_ITEM, ADD_INGREDIENT } from "../types";
 
 export const getMenuData = () => dispatch => {
   axios
@@ -16,12 +16,15 @@ export const getMenuData = () => dispatch => {
 }
 
 // Needs a stock check before this is invoked
-export const addItem = (sandwich) => dispatch => {
-  const newSandwich = {...sandwich, ingredients: []}
-
-  return dispatch({ type: ADD_ITEM, payload: newSandwich })
+export const addItem = sandwich => dispatch => {
+  const newSandwich = {...sandwich, ingredients: []};
+  return dispatch({ type: ADD_ITEM, payload: newSandwich });
 }
 
-export const removeItem = (index) => dispatch => {
-  return dispatch({ type: REMOVE_ITEM, payload: index })
+export const removeItem = index => dispatch => {
+  return dispatch({ type: REMOVE_ITEM, payload: index });
+}
+
+export const addIngredient = ingredient => dispatch => {
+  return dispatch({ type: ADD_INGREDIENT, payload: ingredient });
 }
