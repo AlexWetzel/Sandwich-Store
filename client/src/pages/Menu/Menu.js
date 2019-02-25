@@ -6,23 +6,21 @@ import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { removeItem } from "../../redux/actions"
+import { removeItem } from "../../redux/actions";
 
 const mapStateToProps = state => {
   return {
     data: state.data,
     inventory: state.inventory,
     orderNumber: state.orderNumber,
-    order: state.order,
-  }
-}
+    order: state.order
+  };
+};
 
 class Menu extends Component {
-
   state = {
-    timeOver: false,
+    timeOver: false
   };
-
 
   // Determine the price of the order
   calculateTotal = () => {
@@ -34,10 +32,8 @@ class Menu extends Component {
     return total.toFixed(2);
   };
 
-
-
   render() {
-     if (this.state.timeOver === true) {
+    if (this.state.timeOver === true) {
       return <Redirect to="/" />;
     }
     // if (this.state.timeOver === true) {
@@ -48,8 +44,7 @@ class Menu extends Component {
       <MenuLayout
         menuSelection={
           this.props.orderNumber === null ? (
-            <MenuSelection
-            />
+            <MenuSelection />
           ) : (
             <OrderNumber orderNumber={this.props.orderNumber} />
           )
@@ -78,4 +73,7 @@ class Menu extends Component {
   }
 }
 
-export default connect(mapStateToProps, { removeItem })(Menu);
+export default connect(
+  mapStateToProps,
+  { removeItem }
+)(Menu);

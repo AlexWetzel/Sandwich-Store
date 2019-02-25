@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import { connect } from "react-redux";
-import { sendOrderData, addItem, removeItem, addIngredient, removeIngredient } from "../../redux/actions"
+import {
+  sendOrderData,
+  addItem,
+  removeItem,
+  addIngredient,
+  removeIngredient
+} from "../../redux/actions";
 
 const menuMachine = {
   sandwichPage: {
@@ -28,8 +34,8 @@ const mapStateToProps = state => {
     ingredients: state.data.ingredients,
     inventory: state.inventory,
     order: state.order
-  }
-}
+  };
+};
 
 class MenuSelection extends Component {
   state = {
@@ -39,7 +45,7 @@ class MenuSelection extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // When all sandwiches get removed from the order, reset the menu page
-    if (this.props.order.length === 0 && prevState.page !== 'sandwichPage') {
+    if (this.props.order.length === 0 && prevState.page !== "sandwichPage") {
       this.setState({ page: "sandwichPage" });
     }
   }
@@ -61,7 +67,7 @@ class MenuSelection extends Component {
     // This may be moved later
     // Navigating back from the sauce page should remove the last sandwich
     if (this.state.page === "saucePage") {
-      this.props.removeItem(this.props.orderlength - 1)
+      this.props.removeItem(this.props.orderlength - 1);
     }
   };
 
@@ -89,7 +95,7 @@ class MenuSelection extends Component {
     } else {
       this.props.removeIngredient(i);
     }
-  }
+  };
 
   nameToImgSrc = name => {
     let src = name;
@@ -99,7 +105,6 @@ class MenuSelection extends Component {
     return src;
   };
 
-  
   isSelected = ingredientName => {
     const order = this.props.order;
     const orderSize = order.length;
@@ -108,20 +113,17 @@ class MenuSelection extends Component {
       return false;
     }
 
-    if (order[orderSize-1].ingredients.indexOf(ingredientName) > -1) {
+    if (order[orderSize - 1].ingredients.indexOf(ingredientName) > -1) {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
   ingredientsRender = props => {
     return (
-      <IngredientWrapper
-        next={this.nextPage}
-        previous={this.previousPage}
-      >
-        {props.ingredients.map(ingredient => {          
+      <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
+        {props.ingredients.map(ingredient => {
           return (
             <Ingredient
               key={ingredient.name}
@@ -131,7 +133,7 @@ class MenuSelection extends Component {
               isSelected={this.isSelected(ingredient.name)}
               onClick={() => this.toggleIngredient(ingredient)}
             />
-          )          
+          );
         })}
       </IngredientWrapper>
     );
@@ -155,12 +157,7 @@ class MenuSelection extends Component {
                   price={sandwich.price}
                   isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
-                  addOrderItem={() =>
-                    this.props.addItem(sandwich)
-                  }
-                  // addOrderItem={() =>
-                  //   this.props.addOrderItem(sandwich, checkStock)
-                  // }
+                  addOrderItem={() => this.props.addItem(sandwich)}
                   nextPage={this.nextPage}
                 />
               );
@@ -192,4 +189,7 @@ class MenuSelection extends Component {
   }
 }
 
-export default connect( mapStateToProps, { sendOrderData, addItem, removeItem, addIngredient, removeIngredient })(MenuSelection);
+export default connect(
+  mapStateToProps,
+  { sendOrderData, addItem, removeItem, addIngredient, removeIngredient }
+)(MenuSelection);

@@ -2,7 +2,16 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import LoginForm from "../../components/LoginForm";
 import ControlPanel from "../../components/ControlPanel";
+import { IngredientTable } from "../../components/IngredientTable";
+import { connect } from "react-redux";
+import { sendInventoryUpdate } from "../../redux/actions";
 import axios from "axios";
+
+const matchStateToProps = state => {
+  return {
+    inventory: state.inventory
+  }
+}
 
 const AuthState = {
   isAuthenticated: false,
@@ -24,6 +33,8 @@ class Admin extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleInventorySubmit = this.handleInventorySubmit.bind(this);
+    this.handleInventoryChange = this.handleInventoryChange.bind(this);
+    // this.submit = this.submit.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -33,29 +44,34 @@ class Admin extends Component {
     counter: 0,
     allowInvSubmit: true,
     redirect: false,
-    message: ""
+    message: "",
+    inventoryForm: []
   };
 
   componentDidMount() {
-    axios
-      .get("/user/")
-      .then(res => {
-        console.log(res.data.user);
-        if (res.data.user) {
-          this.login();
-        }
-      })
-      .catch(err => console.log(err));
+    // MUST HAVE DATA BEFORE THIS IS CALLED
+    this.ingredientFormFields();
+
+    // axios
+    //   .get("/user/")
+    //   .then(res => {
+    //     console.log(res.data.user);
+    //     if (res.data.user) {
+    //       this.login();
+    //     }
+    //   })
+    //   .catch(err => console.log(err));
   }
 
-  cloneInventory = ingredients => {
-    const ingrClone = ingredients.map(ingredient => {
-      let newObj = Object.assign({}, ingredient);
-      newObj.newStock = ingredient.stock;
-      return newObj;
-    });
-    return ingrClone;
-  };
+  ingredientFormFields() {
+    console.log("inventory:", this.props.inventory);
+    const inventory = this.props.inventory.map( ingredient => {
+        return { ...ingredient, newStock: ingredient.stock }
+      }   
+    );
+
+    this.setState({ inventoryForm: inventory });
+  }
 
   handleInputChange(event) {
     const target = event.target;
@@ -98,23 +114,28 @@ class Admin extends Component {
   }
 
   handleInventorySubmit(event) {
+    console.log("Submit")
     event.preventDefault();
+    const inventory = this.state.inventoryForm;
+    this.props.sendInventoryUpdate(inventory);
+  }
 
-    const inventory = this.props.inventory;
+  handleInventoryChange(event) {
+    const value = event.target.value;
+    const name = event.target.name;
+    const inventory = this.state.inventoryForm;
 
-    axios
-      .post("/api/inventory", {
-        inventory: inventory
-      })
-      .then(res => {
-        console.log(res.data.message);
-        if (res.status === 200) {
-          this.props.getMenuData(function() {
-            console.log("Data update complete");
-          });
-        }
-      })
-      .catch(err => console.log(err));
+    const newInventory = inventory.map(ingredient => {
+      if (ingredient.name === name) {
+        return { ...ingredient, newStock: value };
+      } else {
+        return ingredient;
+      }
+    });
+
+    this.setState({
+      inventoryForm: newInventory
+    });
   }
 
   login = () => {
@@ -150,16 +171,27 @@ class Admin extends Component {
             handleLoginSubmit={e => this.handleLoginSubmit(e)}
           />
         ) : (
+          // <ControlPanel
+          //   {...this.props}
+          //   logOut={this.logOut}
+          //   submit={e => this.handleInventorySubmit(e)}
+          //   allowInvSubmit={this.state.allowInvSubmit}
+          // />
           <ControlPanel
             {...this.props}
             logOut={this.logOut}
-            submit={e => this.handleInventorySubmit(e)}
-            allowInvSubmit={this.state.allowInvSubmit}
-          />
+          >
+            <IngredientTable
+              inventory={this.state.inventoryForm}
+              allowInvSubmit={this.state.allowInvSubmit}
+              handleInventoryChange={e => this.handleInventoryChange(e)}
+              submit={e => this.handleInventorySubmit(e)}
+            />
+          </ControlPanel>
         )}
       </div>
     );
   }
 }
 
-export default Admin;
+export default connect(matchStateToProps, { sendInventoryUpdate })(Admin);

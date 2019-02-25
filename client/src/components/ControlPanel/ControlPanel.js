@@ -1,5 +1,4 @@
 import React from "react";
-import { IngredientTable } from "../../components/IngredientTable";
 
 function ControlPanel(props) {
   return (
@@ -17,12 +16,7 @@ function ControlPanel(props) {
       </div>
 
       <div className="row">
-        <IngredientTable
-          inventory={props.inventory}
-          allowInvSubmit={props.allowInvSubmit}
-          handleInventoryChange={props.handleInventoryChange}
-          submit={props.submit}
-        />
+        {props.children}
       </div>
     </div>
   );

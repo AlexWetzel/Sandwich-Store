@@ -1,11 +1,20 @@
-import { RESET_ORDER, GET_MENU_DATA, SEND_ORDER_DATA, ADD_ITEM, REMOVE_ITEM, ADD_INGREDIENT, REMOVE_INGREDIENT } from "../types";
+import {
+  RESET_ORDER,
+  GET_MENU_DATA,
+  SEND_ORDER_DATA,
+  SEND_INVENTORY_UPDATE,
+  ADD_ITEM,
+  REMOVE_ITEM,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT
+} from "../types";
 
 const initialState = {
   data: null,
   inventory: [],
   order: [],
   orderNumber: null
-}
+};
 
 function rootReducer(state = initialState, action) {
   let newOrder;
@@ -30,12 +39,13 @@ function rootReducer(state = initialState, action) {
         ...state,
         orderNumber: action.payload
       };
-
+    case SEND_INVENTORY_UPDATE:
+      return state;
 
     case ADD_ITEM:
       return {
         ...state,
-        order: [ ...state.order, action.payload ]
+        order: [...state.order, action.payload]
       };
     case REMOVE_ITEM:
       newOrder = [...state.order];
@@ -49,26 +59,23 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         order: state.order.map((orderItem, index) => {
-          if(index !== size) {
+          if (index !== size) {
             return orderItem;
           }
           return {
             ...state.order[index],
-            ingredients: [
-              ...state.order[size].ingredients,
-              action.payload
-            ]
+            ingredients: [...state.order[size].ingredients, action.payload]
           };
         })
       };
     case REMOVE_INGREDIENT:
       size = state.order.length - 1;
-      const newIngredients = [...state.order[size].ingredients]
+      const newIngredients = [...state.order[size].ingredients];
       newIngredients.splice(action.payload, 1);
-    return {
+      return {
         ...state,
         order: state.order.map((orderItem, index) => {
-          if(index !== size) {
+          if (index !== size) {
             return orderItem;
           }
           return {
