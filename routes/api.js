@@ -158,7 +158,13 @@ router.post("/inventory", (req, res) => {
       // Send the updates into Promise.all to send the response after each update completes
       Promise.all(updates).then(() => {
         console.log("sending response...");
-        res.status(200).send({ message: "Data Update Successful!" });
+        db.Ingredient.findAll({
+          attributes: ["name", "type", "stock"]
+        })
+        .then(data => {
+          // console.log(data);
+          res.status(200).send({ message: "Data Update Successful!", inventory: data });
+        })
       });
     })
     .then(() => {})

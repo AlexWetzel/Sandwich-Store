@@ -48,13 +48,13 @@ export const sendInventoryUpdate = data => dispatch => {
       inventory: data
     })
     .then(res => {
-      console.log(res.data.message);
+      // console.log(res.data.inventory);
       // if (res.status === 200) {
       //   this.props.getMenuData(function() {
       //     console.log("Data update complete");
       //   });
       // }
-      return dispatch({ type: SEND_INVENTORY_UPDATE });
+      return dispatch({ type: SEND_INVENTORY_UPDATE, payload: res.data.inventory });
     })
     .catch(err => console.log(err));
 }

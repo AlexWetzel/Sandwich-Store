@@ -40,7 +40,14 @@ function rootReducer(state = initialState, action) {
         orderNumber: action.payload
       };
     case SEND_INVENTORY_UPDATE:
-      return state;
+      return {
+        ...state,
+        data: {
+          ...state.sandwiches,
+          ingredients: action.payload
+        },
+        inventory: action.payload
+      };
 
     case ADD_ITEM:
       return {

@@ -16,10 +16,7 @@ function IngredientTable(props) {
             </tr>
           </thead>
           <tbody>
-            <IngredientTableRow
-              inventory={props.inventory}
-              handleInventoryChange={props.handleInventoryChange}
-            />
+            {props.children}
           </tbody>
         </table>
       </div>

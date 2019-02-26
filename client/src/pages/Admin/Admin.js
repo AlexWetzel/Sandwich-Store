@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import LoginForm from "../../components/LoginForm";
 import ControlPanel from "../../components/ControlPanel";
-import { IngredientTable } from "../../components/IngredientTable";
+import { IngredientTable, IngredientTableRow } from "../../components/IngredientTable";
 import { connect } from "react-redux";
-import { sendInventoryUpdate } from "../../redux/actions";
+import { getMenuData, sendInventoryUpdate } from "../../redux/actions";
 import axios from "axios";
 
 const matchStateToProps = state => {
@@ -114,10 +114,14 @@ class Admin extends Component {
   }
 
   handleInventorySubmit(event) {
-    console.log("Submit")
     event.preventDefault();
+
     const inventory = this.state.inventoryForm;
     this.props.sendInventoryUpdate(inventory);
+    // const getData = this.props.getMenuData;
+
+    // Promise.resolve(sendUpdate(inventory)).then(getData())
+    
   }
 
   handleInventoryChange(event) {
@@ -160,6 +164,10 @@ class Admin extends Component {
       .catch(err => console.log(err));
   };
 
+  mapFormToRow = ingrName => {
+
+  }
+
   render() {
     return (
       <div>
@@ -183,10 +191,20 @@ class Admin extends Component {
           >
             <IngredientTable
               inventory={this.state.inventoryForm}
-              allowInvSubmit={this.state.allowInvSubmit}
-              handleInventoryChange={e => this.handleInventoryChange(e)}
+              allowInvSubmit={this.state.allowInvSubmit}              
               submit={e => this.handleInventorySubmit(e)}
-            />
+            >
+              {this.props.inventory.map((ingredient, index) => {
+                return <IngredientTableRow
+                  name={ingredient.name}
+                  key={ingredient.name}
+                  type={ingredient.type}
+                  stock={ingredient.stock}
+                  newStock={this.state.inventoryForm[index].newStock}
+                  handleInventoryChange={e => this.handleInventoryChange(e)}
+                />
+              })}
+            </IngredientTable>
           </ControlPanel>
         )}
       </div>
@@ -194,4 +212,4 @@ class Admin extends Component {
   }
 }
 
-export default connect(matchStateToProps, { sendInventoryUpdate })(Admin);
+export default connect(matchStateToProps, { sendInventoryUpdate, getMenuData })(Admin);
