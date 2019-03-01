@@ -6,7 +6,7 @@ import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { removeItem } from "../../redux/actions";
+import { removeItem, removeFromStock } from "../../redux/actions";
 
 const mapStateToProps = state => {
   return {
@@ -18,10 +18,61 @@ const mapStateToProps = state => {
   };
 };
 
+// const menuMachine = {
+//   sandwichPage: {
+//     NEXT_PAGE: "saucePage"
+//   },
+//   saucePage: {
+//     NEXT_PAGE: "cheesePage",
+//     PREVIOUS_PAGE: "sandwichPage"
+//   },
+//   cheesePage: {
+//     NEXT_PAGE: "veggiesPage",
+//     PREVIOUS_PAGE: "saucePage"
+//   },
+//   veggiesPage: {
+//     NEXT_PAGE: "sandwichPage",
+//     PREVIOUS_PAGE: "cheesePage"
+//   }
+// };
+
 class Menu extends Component {
   state = {
-    timeOver: false
+    timeOver: false,
+    page: "sandwichPage"
   };
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   // When all sandwiches get removed from the order, reset the menu page
+  //   if (this.props.order.length === 0 && prevState.page !== "sandwichPage") {
+  //     this.setState({ page: "sandwichPage" });
+  //   }
+  // }
+
+  // transition(action) {
+  //   const currentPage = this.state.page;
+  //   const nextPage = menuMachine[currentPage][action.type];
+  //   if (nextPage) {
+  //     this.setState({ page: nextPage });
+  //   }
+  // }
+
+  // nextPage = () => {
+  //   this.transition({ type: "NEXT_PAGE" });
+  //   // Remove ingredients ffrom the stock after customizing a sandwich
+  //   if (this.state.page === "veggiesPage") {
+  //     this.props.removeFromStock();
+  //   }
+  // };
+
+  // previousPage = () => {
+  //   this.transition({ type: "PREVIOUS_PAGE" });
+  //   // This may be moved later
+  //   // Navigating back from the sauce page should remove the last sandwich
+  //   if (this.state.page === "saucePage") {
+  //     this.props.removeItem(this.props.orderlength - 1);
+  //   }
+  // };
 
   // Determine the price of the order
   calculateTotal = () => {
@@ -37,15 +88,16 @@ class Menu extends Component {
     if (this.state.timeOver === true) {
       return <Redirect to="/" />;
     }
-    // if (this.state.timeOver === true) {
-    //   return <Redirect to="/" />;
-    // }
 
     return (
       <MenuLayout
         menuSelection={
           this.props.orderNumber === null ? (
-            <MenuSelection />
+            <MenuSelection 
+              // nextPage={this.nextPage}
+              // previousPage={this.previousPage}
+              // page={this.state.page}
+            />
           ) : (
             <OrderNumber orderNumber={this.props.orderNumber} />
           )
@@ -59,7 +111,7 @@ class Menu extends Component {
                   name={sandwich.type}
                   key={sandwich.type + index}
                   price={sandwich.price.toFixed(2)}
-                  delete={() => this.props.removeItem(index, this.props.orderSize)}
+                  delete={() => this.props.removeItem(sandwich, index, this.props.orderSize)}
                 >
                   {ingredients.map(ingredient => {
                     return <OrderCustom key={ingredient} name={ingredient} />;
@@ -76,5 +128,5 @@ class Menu extends Component {
 
 export default connect(
   mapStateToProps,
-  { removeItem }
+  { removeItem, removeFromStock }
 )(Menu);

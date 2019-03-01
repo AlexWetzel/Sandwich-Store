@@ -61,7 +61,7 @@ function rootReducer(state = initialState, action) {
       };
     case REMOVE_ITEM:
       newOrder = [...state.order];
-      newOrder.splice(action.index, 1);
+      newOrder.splice(action.payload, 1);
       return {
         ...state,
         order: newOrder
@@ -96,12 +96,13 @@ function rootReducer(state = initialState, action) {
           };
         })
       };
+
     case REMOVE_FROM_STOCK:
       size = state.order.length - 1;
       newInventory = state.inventory.map(ingredient => {
         return {...ingredient};
       });
-      sandwich = state.order[size];      
+      sandwich = state.order[size];
       // Remove sandwich meats from stock
       sandwich.meat.forEach( meat => {
         const newStock = newInventory.find(ingredient => 
@@ -122,11 +123,13 @@ function rootReducer(state = initialState, action) {
         inventory: newInventory,
         orderSize: state.orderSize + 1
       };
+
     case ADD_BACK_STOCK:
       newInventory = state.inventory.map(ingredient => {
         return {...ingredient};
       });
-      sandwich = state.order[action.payload];      
+      sandwich = action.payload;
+      console.log("Sandwich:", sandwich);
       // Remove sandwich meats from stock
       sandwich.meat.forEach( meat => {
         const newStock = newInventory.find(ingredient => 

@@ -34,14 +34,14 @@ const mapStateToProps = state => {
     sandwiches: state.data.sandwiches,
     ingredients: state.data.ingredients,
     inventory: state.inventory,
-    order: state.order
+    order: state.order,
+    orderSize: state.orderSize
   };
 };
 
 class MenuSelection extends Component {
   state = {
-    page: "sandwichPage",
-    orderPage: 0
+    page: "sandwichPage"
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,9 +62,9 @@ class MenuSelection extends Component {
   nextPage = () => {
     this.transition({ type: "NEXT_PAGE" });
     // Remove ingredients ffrom the stock after customizing a sandwich
-    if (this.state.page === "veggiesPage") {
-      this.props.removeFromStock();
-    }
+    // if (this.state.page === "veggiesPage") {
+    //   this.props.removeFromStock();
+    // }
   };
 
   previousPage = () => {
@@ -128,6 +128,7 @@ class MenuSelection extends Component {
   ingredientsRender = props => {
     return (
       <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
+      {/* // <IngredientWrapper next={this.props.nextPage} previous={this.props.previousPage}> */}
         {props.ingredients.map(ingredient => {
           return (
             <Ingredient
@@ -145,7 +146,12 @@ class MenuSelection extends Component {
   };
 
   render() {
+    // if(this.props.orderSize === 0 && this.state.page !== "sandwichPage") {
+    //   this.setState({ page: "sandwichPage" });
+    // };
+
     let ingredients;
+    // switch (this.props.page) {
     switch (this.state.page) {
       case "sandwichPage":
         return (
@@ -164,6 +170,7 @@ class MenuSelection extends Component {
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() => this.props.addItem(sandwich)}
                   nextPage={this.nextPage}
+                  // nextPage={this.props.nextPage}
                 />
               );
             })}
