@@ -6,7 +6,8 @@ import {
   ADD_ITEM,
   REMOVE_ITEM,
   ADD_INGREDIENT,
-  REMOVE_INGREDIENT
+  REMOVE_INGREDIENT,
+  REMOVE_FROM_STOCK
 } from "../types";
 
 const initialState = {
@@ -90,6 +91,54 @@ function rootReducer(state = initialState, action) {
             ingredients: newIngredients
           };
         })
+      };
+    case REMOVE_FROM_STOCK:
+      size = state.order.length - 1;
+      let newInventory = state.inventory.map(ingredient => {
+        return {...ingredient};
+      });
+      const sandwich = state.order[size];      
+      // Remove sandwich meats from stock
+      sandwich.meat.forEach( meat => {
+        const newStock = newInventory.find(ingredient => 
+          ingredient.name === meat.name          
+        );
+        newStock.stock -= meat.quantity;
+      });
+      // Remove sandwich toppings from stock
+      sandwich.ingredients.forEach(ingredient => {
+        const newStock = newInventory.find(invIngred => 
+          invIngred.name === ingredient          
+        );
+        newStock.stock -= 1;
+      });
+      return {
+        ...state,
+        inventory: newInventory
+      };
+    case ADD_BACK_STOCK:
+      size = state.order.length - 1;
+      let newInventory = state.inventory.map(ingredient => {
+        return {...ingredient};
+      });
+      const sandwich = state.order[size];      
+      // Remove sandwich meats from stock
+      sandwich.meat.forEach( meat => {
+        const newStock = newInventory.find(ingredient => 
+          ingredient.name === meat.name          
+        );
+        newStock.stock -= meat.quantity;
+      });
+      // Remove sandwich toppings from stock
+      sandwich.ingredients.forEach(ingredient => {
+        const newStock = newInventory.find(invIngred => 
+          invIngred.name === ingredient          
+        );
+        newStock.stock -= 1;
+      });
+      return {
+        ...state,
+        inventory: newInventory
       };
     default:
       return state;

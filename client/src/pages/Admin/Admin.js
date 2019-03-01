@@ -16,7 +16,6 @@ const matchStateToProps = state => {
 const AuthState = {
   isAuthenticated: false,
   login(cb) {
-    console.log("Authorize state: true");
     this.isAuthenticated = true;
     return cb();
   },
@@ -34,7 +33,6 @@ class Admin extends Component {
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleInventorySubmit = this.handleInventorySubmit.bind(this);
     this.handleInventoryChange = this.handleInventoryChange.bind(this);
-    // this.submit = this.submit.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 

@@ -7,7 +7,8 @@ import {
   addItem,
   removeItem,
   addIngredient,
-  removeIngredient
+  removeIngredient,
+  removeFromStock
 } from "../../redux/actions";
 
 const menuMachine = {
@@ -60,6 +61,10 @@ class MenuSelection extends Component {
 
   nextPage = () => {
     this.transition({ type: "NEXT_PAGE" });
+    // Remove ingredients ffrom the stock after customizing a sandwich
+    if (this.state.page === "veggiesPage") {
+      this.props.removeFromStock();
+    }
   };
 
   previousPage = () => {
@@ -191,5 +196,5 @@ class MenuSelection extends Component {
 
 export default connect(
   mapStateToProps,
-  { sendOrderData, addItem, removeItem, addIngredient, removeIngredient }
+  { sendOrderData, addItem, removeItem, addIngredient, removeIngredient, removeFromStock }
 )(MenuSelection);

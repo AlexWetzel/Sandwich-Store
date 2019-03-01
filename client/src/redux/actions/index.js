@@ -7,7 +7,8 @@ import {
   ADD_ITEM,
   REMOVE_ITEM,
   ADD_INGREDIENT,
-  REMOVE_INGREDIENT
+  REMOVE_INGREDIENT,
+  REMOVE_FROM_STOCK
 } from "../types";
 
 export const resetOrder = () => dispatch => {
@@ -76,3 +77,7 @@ export const addIngredient = ingredient => dispatch => {
 export const removeIngredient = index => dispatch => {
   return dispatch({ type: REMOVE_INGREDIENT, payload: index });
 };
+
+export const removeFromStock = () => dispatch => {
+  return dispatch({ type: REMOVE_FROM_STOCK });
+}
