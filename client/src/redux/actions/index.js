@@ -8,7 +8,8 @@ import {
   REMOVE_ITEM,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  REMOVE_FROM_STOCK
+  REMOVE_FROM_STOCK,
+  ADD_BACK_STOCK
 } from "../types";
 
 export const resetOrder = () => dispatch => {
@@ -66,8 +67,15 @@ export const addItem = sandwich => dispatch => {
   return dispatch({ type: ADD_ITEM, payload: newSandwich });
 };
 
-export const removeItem = index => dispatch => {
-  return dispatch({ type: REMOVE_ITEM, payload: index });
+export const removeItem = (index, orderSize)=> dispatch => {
+  dispatch({ type: REMOVE_ITEM, payload: index });
+  // This next action needs to check the index, 
+  console.log("index:",index);
+  console.log("size:",orderSize);
+  if(index < orderSize) {
+    console.log("test");
+    dispatch({ type: ADD_BACK_STOCK, payload: index });
+  } 
 };
 
 export const addIngredient = ingredient => dispatch => {
@@ -80,4 +88,8 @@ export const removeIngredient = index => dispatch => {
 
 export const removeFromStock = () => dispatch => {
   return dispatch({ type: REMOVE_FROM_STOCK });
-}
+};
+
+// export const addBackStock = index => dispatch => {
+//   return dispatch({ type: ADD_BACK_STOCK, payload: index });
+// }

@@ -13,7 +13,8 @@ const mapStateToProps = state => {
     data: state.data,
     inventory: state.inventory,
     orderNumber: state.orderNumber,
-    order: state.order
+    order: state.order,
+    orderSize: state.orderSize
   };
 };
 
@@ -58,7 +59,7 @@ class Menu extends Component {
                   name={sandwich.type}
                   key={sandwich.type + index}
                   price={sandwich.price.toFixed(2)}
-                  delete={() => this.props.removeItem(index)}
+                  delete={() => this.props.removeItem(index, this.props.orderSize)}
                 >
                   {ingredients.map(ingredient => {
                     return <OrderCustom key={ingredient} name={ingredient} />;

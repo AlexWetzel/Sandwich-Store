@@ -7,17 +7,21 @@ import {
   REMOVE_ITEM,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  REMOVE_FROM_STOCK
+  REMOVE_FROM_STOCK,
+  ADD_BACK_STOCK
 } from "../types";
 
 const initialState = {
   data: null,
   inventory: [],
   order: [],
+  orderSize: 0,
   orderNumber: null
 };
 
 function rootReducer(state = initialState, action) {
+  let sandwich;
+  let newInventory;
   let newOrder;
   // For add/remove ingredient
   let size;
@@ -94,10 +98,10 @@ function rootReducer(state = initialState, action) {
       };
     case REMOVE_FROM_STOCK:
       size = state.order.length - 1;
-      let newInventory = state.inventory.map(ingredient => {
+      newInventory = state.inventory.map(ingredient => {
         return {...ingredient};
       });
-      const sandwich = state.order[size];      
+      sandwich = state.order[size];      
       // Remove sandwich meats from stock
       sandwich.meat.forEach( meat => {
         const newStock = newInventory.find(ingredient => 
@@ -112,33 +116,36 @@ function rootReducer(state = initialState, action) {
         );
         newStock.stock -= 1;
       });
+
       return {
         ...state,
-        inventory: newInventory
+        inventory: newInventory,
+        orderSize: state.orderSize + 1
       };
     case ADD_BACK_STOCK:
-      size = state.order.length - 1;
-      let newInventory = state.inventory.map(ingredient => {
+      newInventory = state.inventory.map(ingredient => {
         return {...ingredient};
       });
-      const sandwich = state.order[size];      
+      sandwich = state.order[action.payload];      
       // Remove sandwich meats from stock
       sandwich.meat.forEach( meat => {
         const newStock = newInventory.find(ingredient => 
           ingredient.name === meat.name          
         );
-        newStock.stock -= meat.quantity;
+        newStock.stock += meat.quantity;
       });
       // Remove sandwich toppings from stock
       sandwich.ingredients.forEach(ingredient => {
         const newStock = newInventory.find(invIngred => 
           invIngred.name === ingredient          
         );
-        newStock.stock -= 1;
+        newStock.stock += 1;
       });
+
       return {
         ...state,
-        inventory: newInventory
+        inventory: newInventory,
+        orderSize: state.orderSize - 1
       };
     default:
       return state;
