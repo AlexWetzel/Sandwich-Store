@@ -48,7 +48,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         data: {
-          ...state.sandwiches,
+          ...state.data,
           ingredients: action.payload
         },
         inventory: action.payload

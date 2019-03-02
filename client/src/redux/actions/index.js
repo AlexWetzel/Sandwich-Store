@@ -72,10 +72,10 @@ export const removeItem = (sandwich, index, orderSize)=> dispatch => {
   // This next action needs to check the index, 
   console.log("index:",index);
   console.log("size:",orderSize);
-  // if(index < orderSize) {
-  //   console.log("test");
-  //   dispatch({ type: ADD_BACK_STOCK, payload: sandwich });
-  // }
+  if(index < orderSize) {
+    console.log("test");
+    dispatch({ type: ADD_BACK_STOCK, payload: sandwich });
+  }
   dispatch({ type: REMOVE_ITEM, payload: index });
 };
 
