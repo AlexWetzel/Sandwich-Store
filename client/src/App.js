@@ -15,10 +15,6 @@ const mapStateToProps = state => {
 }
 
 class App extends Component {
-  state = {
-    counter: 0
-  };
-
   componentDidMount() {
     this.props.getMenuData();
   }

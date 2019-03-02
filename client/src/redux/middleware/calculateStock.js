@@ -22,7 +22,6 @@ export function formatArticles({ dispatch }) {
           });
 
           action.payload =  formattedArticles;
-          // console.log(action.payload);
         }
       }
       return next(action);

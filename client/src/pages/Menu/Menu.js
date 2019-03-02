@@ -118,7 +118,6 @@ class Menu extends Component {
                   name={sandwich.type}
                   key={sandwich.type + index}
                   price={sandwich.price.toFixed(2)}
-                  // delete={() => this.props.removeItem(sandwich, index, this.props.orderSize)}
                   delete={() => this.removeSandwich(sandwich, index)}
                 >
                   {ingredients.map(ingredient => {

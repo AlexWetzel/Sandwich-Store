@@ -49,16 +49,6 @@ class Admin extends Component {
   componentDidMount() {
     // MUST HAVE DATA BEFORE THIS IS CALLED
     this.ingredientFormFields();
-
-    // axios
-    //   .get("/user/")
-    //   .then(res => {
-    //     console.log(res.data.user);
-    //     if (res.data.user) {
-    //       this.login();
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
   }
 
   ingredientFormFields() {
@@ -116,10 +106,6 @@ class Admin extends Component {
 
     const inventory = this.state.inventoryForm;
     this.props.sendInventoryUpdate(inventory);
-    // const getData = this.props.getMenuData;
-
-    // Promise.resolve(sendUpdate(inventory)).then(getData())
-    
   }
 
   handleInventoryChange(event) {
@@ -177,12 +163,6 @@ class Admin extends Component {
             handleLoginSubmit={e => this.handleLoginSubmit(e)}
           />
         ) : (
-          // <ControlPanel
-          //   {...this.props}
-          //   logOut={this.logOut}
-          //   submit={e => this.handleInventorySubmit(e)}
-          //   allowInvSubmit={this.state.allowInvSubmit}
-          // />
           <ControlPanel
             {...this.props}
             logOut={this.logOut}

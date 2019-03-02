@@ -11,24 +11,6 @@ import {
   removeFromStock
 } from "../../redux/actions";
 
-// const menuMachine = {
-//   sandwichPage: {
-//     NEXT_PAGE: "saucePage"
-//   },
-//   saucePage: {
-//     NEXT_PAGE: "cheesePage",
-//     PREVIOUS_PAGE: "sandwichPage"
-//   },
-//   cheesePage: {
-//     NEXT_PAGE: "veggiesPage",
-//     PREVIOUS_PAGE: "saucePage"
-//   },
-//   veggiesPage: {
-//     NEXT_PAGE: "sandwichPage",
-//     PREVIOUS_PAGE: "cheesePage"
-//   }
-// };
-
 const mapStateToProps = state => {
   return {
     sandwiches: state.data.sandwiches,
@@ -40,42 +22,7 @@ const mapStateToProps = state => {
 };
 
 class MenuSelection extends Component {
-  // state = {
-  //   page: "sandwichPage"
-  // };
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   // When all sandwiches get removed from the order, reset the menu page
-  //   if (this.props.order.length === 0 && prevState.page !== "sandwichPage") {
-  //     this.setState({ page: "sandwichPage" });
-  //   }
-  // }
-
-  // transition(action) {
-  //   const currentPage = this.state.page;
-  //   const nextPage = menuMachine[currentPage][action.type];
-  //   if (nextPage) {
-  //     this.setState({ page: nextPage });
-  //   }
-  // }
-
-  // nextPage = () => {
-  //   this.transition({ type: "NEXT_PAGE" });
-  //   // Remove ingredients ffrom the stock after customizing a sandwich
-  //   if (this.state.page === "veggiesPage") {
-  //     this.props.removeFromStock();
-  //   }
-  // };
-
-  // previousPage = () => {
-  //   this.transition({ type: "PREVIOUS_PAGE" });
-  //   // This may be moved later
-  //   // Navigating back from the sauce page should remove the last sandwich
-  //   if (this.state.page === "saucePage") {
-  //     this.props.removeItem(this.props.orderlength - 1);
-  //   }
-  // };
-
+ 
   sandwichStock = meats => {
     let check = true;
     meats.forEach(requiredMeat => {
@@ -127,7 +74,6 @@ class MenuSelection extends Component {
 
   ingredientsRender = props => {
     return (
-      // <IngredientWrapper next={this.nextPage} previous={this.previousPage}>
       <IngredientWrapper next={this.props.nextPage} previous={this.props.previousPage}>
         {props.ingredients.map(ingredient => {
           return (
@@ -146,13 +92,8 @@ class MenuSelection extends Component {
   };
 
   render() {
-    // if(this.props.orderSize === 0 && this.state.page !== "sandwichPage") {
-    //   this.setState({ page: "sandwichPage" });
-    // };
-
     let ingredients;
     switch (this.props.page) {
-    // switch (this.state.page) {
       case "sandwichPage":
         return (
           <ItemWrapper
@@ -169,7 +110,6 @@ class MenuSelection extends Component {
                   isInStock={checkStock}
                   imgSrc={this.nameToImgSrc(sandwich.type)}
                   addOrderItem={() => this.props.addItem(sandwich)}
-                  // nextPage={this.nextPage}
                   nextPage={this.props.nextPage}
                 />
               );
