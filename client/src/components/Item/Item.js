@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import style from "./Item.module.css";
 
 function Item(props) {
@@ -25,6 +26,13 @@ function Item(props) {
       </div>
     </div>
   );
+}
+
+Item.propTypes = {
+  isInStock: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  imgSrc: PropTypes.string.isRequired
 }
 
 export { Item };
