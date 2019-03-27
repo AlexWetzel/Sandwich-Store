@@ -18,6 +18,7 @@ const mapStateToProps = state => {
   };
 };
 
+// Finite state for menu page
 const menuMachine = {
   sandwichPage: {
     NEXT_PAGE: "saucePage"
@@ -59,7 +60,7 @@ class Menu extends Component {
 
   nextPage = () => {
     this.transition({ type: "NEXT_PAGE" });
-    // Remove ingredients ffrom the stock after customizing a sandwich
+    // Remove ingredients from the stock after customizing a sandwich
     if (this.state.page === "veggiesPage") {
       this.props.removeFromStock();
     }
@@ -67,7 +68,6 @@ class Menu extends Component {
 
   previousPage = () => {
     this.transition({ type: "PREVIOUS_PAGE" });
-    // This may be moved later
     // Navigating back from the sauce page should remove the last sandwich
     if (this.state.page === "saucePage") {
       this.props.removeItem(this.props.orderlength - 1);
@@ -76,7 +76,7 @@ class Menu extends Component {
 
   removeSandwich = (sandwich, index) => {
     this.props.removeItem(sandwich, index, this.props.orderSize)
-    if (index = this.props.orderSize && this.state.page !== "sandwichPage") {
+    if (index === this.props.orderSize && this.state.page !== "sandwichPage") {
       this.setState({ page: "sandwichPage" });
     };
   }

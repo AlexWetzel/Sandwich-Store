@@ -9,7 +9,8 @@ import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   REMOVE_FROM_STOCK,
-  ADD_BACK_STOCK
+  ADD_BACK_STOCK,
+  HANDLE_ERROR
 } from "../types";
 
 export const resetOrder = () => dispatch => {
@@ -25,8 +26,7 @@ export const getMenuData = () => dispatch => {
     })
     .catch(err => {
       console.log(err);
-      // Dispatch error handler
-      // return dispatch({ type: DISPLAY_ERROR, payload: err});
+      return dispatch({ type: HANDLE_ERROR, payload: err});
     });
 };
 
@@ -39,8 +39,7 @@ export const sendOrderData = data => dispatch => {
     })
     .catch(err => {
       console.log(err);
-      // Dispatch error handler
-      // return dispatch({ type: DISPLAY_ERROR, payload: err});
+      return dispatch({ type: HANDLE_ERROR, payload: err});
     });
 };
 
@@ -50,15 +49,12 @@ export const sendInventoryUpdate = data => dispatch => {
       inventory: data
     })
     .then(res => {
-      // console.log(res.data.inventory);
-      // if (res.status === 200) {
-      //   this.props.getMenuData(function() {
-      //     console.log("Data update complete");
-      //   });
-      // }
       return dispatch({ type: SEND_INVENTORY_UPDATE, payload: res.data.inventory });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      return dispatch({ type: HANDLE_ERROR, payload: err});
+    });
 }
 
 // Needs a stock check before this is invoked
@@ -90,7 +86,3 @@ export const removeIngredient = index => dispatch => {
 export const removeFromStock = () => dispatch => {
   return dispatch({ type: REMOVE_FROM_STOCK });
 };
-
-// export const addBackStock = index => dispatch => {
-//   return dispatch({ type: ADD_BACK_STOCK, payload: index });
-// }

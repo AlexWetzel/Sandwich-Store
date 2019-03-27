@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 function LoginForm(props) {
@@ -67,5 +68,13 @@ function Message(props) {
     </div>
   ) : null;
 };
+
+LoginForm.propTypes = {
+  message: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  pin: PropTypes.string,
+  handleLoginSubmit: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired
+}
 
 export default LoginForm;

@@ -14,3 +14,5 @@ export const REMOVE_FROM_STOCK = "REMOVE_FROM_STOCK";
 export const REMOVE_MEAT_STOCK = "REMOVE_FROM_STOCK";
 export const REMOVE_INGREDIENT_STOCK = "REMOVE_FROM_STOCK";
 export const ADD_BACK_STOCK = "ADD_BACK_STOCK";
+// Error Handler
+export const HANDLE_ERROR = "HANDLE_ERROR";

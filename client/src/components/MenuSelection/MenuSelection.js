@@ -23,6 +23,7 @@ const mapStateToProps = state => {
 
 class MenuSelection extends Component {
  
+  // Check if there is sufficient stock to order a sandwich
   sandwichStock = meats => {
     let check = true;
     meats.forEach(requiredMeat => {
@@ -38,6 +39,7 @@ class MenuSelection extends Component {
     return check;
   };
 
+  // Toggle the ingredient for a sandwich
   toggleIngredient = ingredient => {
     const size = this.props.order.length - 1;
     const i = this.props.order[size].ingredients.indexOf(ingredient.name);

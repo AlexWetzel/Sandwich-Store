@@ -8,7 +8,8 @@ import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   REMOVE_FROM_STOCK,
-  ADD_BACK_STOCK
+  ADD_BACK_STOCK,
+  HANDLE_ERROR
 } from "../types";
 
 const initialState = {
@@ -16,8 +17,11 @@ const initialState = {
   inventory: [],
   order: [],
   orderSize: 0,
-  orderNumber: null
+  orderNumber: null,
+  menuError: ""
 };
+
+//TODO: Refactor into different reducers
 
 function rootReducer(state = initialState, action) {
   let sandwich;
@@ -25,6 +29,8 @@ function rootReducer(state = initialState, action) {
   let newOrder;
   // For add/remove ingredient
   let size;
+
+
   switch (action.type) {
     case RESET_ORDER:
       return {
@@ -33,6 +39,7 @@ function rootReducer(state = initialState, action) {
         orderNumber: null
       };
 
+    //============= API reducers ==============
     case GET_MENU_DATA:
       return {
         ...state,
@@ -53,7 +60,14 @@ function rootReducer(state = initialState, action) {
         },
         inventory: action.payload
       };
-
+    case HANDLE_ERROR:
+      console.log(action.payload);
+      return {
+        ...state,
+        menuError: "There was an error processing the request"
+      };
+    
+    //============ Order reducers ============
     case ADD_ITEM:
       return {
         ...state,
@@ -96,7 +110,8 @@ function rootReducer(state = initialState, action) {
           };
         })
       };
-
+    
+    //=============== Stock Reducers ==============
     case REMOVE_FROM_STOCK:
       size = state.order.length - 1;
       newInventory = state.inventory.map(ingredient => {
@@ -144,6 +159,8 @@ function rootReducer(state = initialState, action) {
         );
         newStock.stock += 1;
       });
+
+      
 
       return {
         ...state,
