@@ -91,11 +91,21 @@ class Menu extends Component {
     return total.toFixed(2);
   };
 
-  render() {
+  // redirectToHome = () => {
+  //   setTimeout( () => this.setState({timeOver = true}), 5000 );
+  // }
+
+  submitThenRedirect = () => {
+    setTimeout( () => this.setState({timeOver: true}), 5000 );
+
     if (this.state.timeOver === true) {
       return <Redirect to="/" />;
     }
+ 
+    return <OrderNumber orderNumber={this.props.orderNumber} />;
+  }
 
+  render() {
     return (
       <MenuLayout
         menuSelection={
@@ -106,7 +116,7 @@ class Menu extends Component {
               page={this.state.page}
             />
           ) : (
-            <OrderNumber orderNumber={this.props.orderNumber} />
+            <this.submitThenRedirect />
           )
         }
         order={

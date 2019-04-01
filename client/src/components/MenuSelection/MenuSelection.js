@@ -100,7 +100,7 @@ class MenuSelection extends Component {
         return (
           <ItemWrapper
             buttonDisplay={this.props.order.length === 0 ? "d-none" : ""}
-            checkout={() => this.props.sendOrderData(this.state.order)}
+            checkout={() => this.props.sendOrderData(this.props.order)}
           >
             {this.props.sandwiches.map(sandwich => {
               let checkStock = this.sandwichStock(sandwich.meat);
