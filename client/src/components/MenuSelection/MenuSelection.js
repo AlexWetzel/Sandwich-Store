@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Item, ItemWrapper } from "./../../components/Item";
 import { Ingredient, IngredientWrapper } from "./../../components/Ingredient";
 import { connect } from "react-redux";
@@ -142,6 +143,50 @@ class MenuSelection extends Component {
     }
   }
 }
+
+MenuSelection.propTypes ={
+  sandwiches: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      price: PropTypes.number,
+      meats: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        quantity: PropTypes.number
+      }))
+    })
+  ),
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+      stock: PropTypes.number
+    })
+  ),
+  inventory: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+      stock: PropTypes.number
+    })
+  ),
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      type: PropTypes.string,
+      price: PropTypes.number,
+      meat: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          quantity: PropTypes.number
+        })
+      ),
+      ingredients: PropTypes.arrayOf(PropTypes.string)
+    })
+  ),
+  orderSize: PropTypes.number
+}
+
 
 export default connect(
   mapStateToProps,
