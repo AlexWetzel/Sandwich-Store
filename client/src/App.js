@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Start from "./pages/Start";
 import Menu from "./pages/Menu";
 import Admin from "./pages/Admin";
+import PropTypes from "prop-types";
 import "./App.css";
 import { connect } from 'react-redux';
 import { getMenuData } from "./redux/actions";
@@ -10,7 +11,6 @@ import { getMenuData } from "./redux/actions";
 const mapStateToProps = state => {
   return {
     data: state.data,
-    inventory: state.inventory
   }
 }
 
@@ -19,7 +19,7 @@ class App extends Component {
     this.props.getMenuData();
   }
 
-  menuRender = props => {
+  menuRender = () => {
     if (this.props.data) {
       return (
         <Menu />
@@ -34,11 +34,35 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/admin" component={Admin} />
-          <Route exact path="/menu" render={props => this.menuRender(props)} />
+          <Route exact path="/menu" render={() => this.menuRender()} />
         </Switch>
       </Router>
     );
   }
+}
+
+App.propTypes = {
+  data: PropTypes.shape({
+    sandwiches: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        meats: PropTypes.arrayOf(PropTypes.shape({
+          name: PropTypes.string,
+          quantity: PropTypes.number
+        }))
+      })
+    ),
+    ingredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        type: PropTypes.string,
+        stock: PropTypes.number
+      })
+    ),
+  }),
+  getMenuData: PropTypes.func
 }
 
 export default connect(mapStateToProps, { getMenuData })(App);

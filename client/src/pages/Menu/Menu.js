@@ -71,7 +71,9 @@ class Menu extends Component {
     this.transition({ type: "PREVIOUS_PAGE" });
     // Navigating back from the sauce page should remove the last sandwich
     if (this.state.page === "saucePage") {
-      this.props.removeItem(this.props.orderlength - 1);
+      const i = this.props.orderSize;
+      const sandwich = this.props.order[i];
+      this.props.removeItem(sandwich, i, i);
     }
   };
 
@@ -91,10 +93,6 @@ class Menu extends Component {
 
     return total.toFixed(2);
   };
-
-  // redirectToHome = () => {
-  //   setTimeout( () => this.setState({timeOver = true}), 5000 );
-  // }
 
   submitThenRedirect = () => {
     setTimeout( () => this.setState({timeOver: true}), 5000 );
