@@ -144,7 +144,7 @@ class MenuSelection extends Component {
   }
 }
 
-MenuSelection.propTypes ={
+MenuSelection.propTypes = {
   sandwiches: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -184,9 +184,17 @@ MenuSelection.propTypes ={
       ingredients: PropTypes.arrayOf(PropTypes.string)
     })
   ),
-  orderSize: PropTypes.number
+  orderSize: PropTypes.number,
+  nextPage: PropTypes.func,
+  previousPage: PropTypes.func,
+  page: PropTypes.string,
+  sendOrderData: PropTypes.func,
+  addItem: PropTypes.func,
+  removeItem: PropTypes.func,
+  addIngredient: PropTypes.func,
+  removeIngredient: PropTypes.func,
+  removeFromStock: PropTypes.func,
 }
-
 
 export default connect(
   mapStateToProps,

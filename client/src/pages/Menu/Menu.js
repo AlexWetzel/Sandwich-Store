@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Order from "./../../components/Order";
 import MenuLayout from "./../../components/MenuLayout";
 import MenuSelection from "./../../components/MenuSelection";
@@ -141,6 +142,54 @@ class Menu extends Component {
       />
     );
   }
+}
+
+Menu.propType = {
+  data: PropTypes.shape({
+    sandwiches: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        meats: PropTypes.arrayOf(PropTypes.shape({
+          name: PropTypes.string,
+          quantity: PropTypes.number
+        }))
+      })
+    ),
+    ingredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        type: PropTypes.string,
+        stock: PropTypes.number
+      })
+    ),
+  }),
+  inventory: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+      stock: PropTypes.number
+    })
+  ),
+  orderNumber: PropTypes.number,
+  order:  PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      type: PropTypes.string,
+      price: PropTypes.number,
+      meat: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          quantity: PropTypes.number
+        })
+      ),
+      ingredients: PropTypes.arrayOf(PropTypes.string)
+    })
+  ),
+  orderSize: PropTypes.number,
+  removeItem: PropTypes.func,
+  removeFromStock: PropTypes.func
 }
 
 export default connect(
