@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import style from "./IngredientWrapper.module.css";
 
 function IngredientWrapper(props) {
@@ -6,7 +7,9 @@ function IngredientWrapper(props) {
     <div>
       <h1 className="m-3 text-center display-4">Choose Your Ingredients</h1>
       <div className="p-2">
-        <div className="row">{props.children}</div>
+        <div className="row">
+          {props.children}
+        </div>
       </div>
       <div className="row">
         <div className="col-3 offset-3">
@@ -26,5 +29,10 @@ function IngredientWrapper(props) {
     </div>
   );
 };
+
+IngredientWrapper.propTypes = {
+  previous: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired
+}
 
 export { IngredientWrapper };

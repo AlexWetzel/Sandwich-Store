@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import style from "./Ingredient.module.css";
 
 function Ingredient(props) {
@@ -18,6 +19,14 @@ function Ingredient(props) {
       </div>
     </div>
   );
+}
+
+Ingredient.propTypes = {
+  name: PropTypes.string.isRequired,
+  imgSrc: PropTypes.string.isRequired,
+  stock: PropTypes.number.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export { Ingredient };

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import style from "./ItemWrapper.module.css";
 
@@ -30,6 +31,10 @@ function ItemWrapper(props) {
       </div>
     </div>
   );
+}
+
+ItemWrapper.propTypes = {
+  checkout: PropTypes.func
 }
 
 export { ItemWrapper };
