@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import style from './Order.module.css';
 
 class Order extends Component {
@@ -28,5 +29,9 @@ class Order extends Component {
     )
   }
 };
+
+Order.propTypes = {
+  total: PropTypes.number
+}
 
 export default Order;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 function OrderCustom(props) {
   return(
@@ -6,6 +7,10 @@ function OrderCustom(props) {
       {props.name}
     </li>
   )
+}
+
+OrderCustom.propTypes = {
+  name: PropTypes.string
 }
 
 export { OrderCustom };

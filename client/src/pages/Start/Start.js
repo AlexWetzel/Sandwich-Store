@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import style from "./Start.module.css";
 import { connect } from "react-redux";
@@ -28,6 +29,10 @@ class Start extends Component {
       </div>
     );
   }
+}
+
+Start.propTypes = {
+  resetorder: PropTypes.func
 }
 
 export default connect(null, { resetOrder })(Start);

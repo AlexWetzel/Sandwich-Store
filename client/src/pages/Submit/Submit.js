@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 
-
+// Unused
 class Submit extends Component {
 
   state = {
@@ -31,5 +31,6 @@ class Submit extends Component {
     )
   }
 }
+
 
 export default Submit;

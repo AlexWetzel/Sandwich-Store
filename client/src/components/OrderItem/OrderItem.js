@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./orderItem.css";
 
 function OrderItem(props) {
@@ -22,5 +23,11 @@ function OrderItem(props) {
     </div>
   );
 };
+
+OrderItem.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  delete: PropTypes.func
+}
 
 export { OrderItem };

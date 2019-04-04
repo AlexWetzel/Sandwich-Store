@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import LoginForm from "../../components/LoginForm";
 import ControlPanel from "../../components/ControlPanel";
@@ -188,6 +189,18 @@ class Admin extends Component {
       </div>
     );
   }
+}
+
+Admin.propTypes = {
+  inventory: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+      stock: PropTypes.number
+    })
+  ),
+  sendInventoryUpdate: PropTypes.func,
+  getMenuData: PropTypes.func
 }
 
 export default connect(matchStateToProps, { sendInventoryUpdate, getMenuData })(Admin);

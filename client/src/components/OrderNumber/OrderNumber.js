@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import style from "./OrderNumber.module.css";
 
 function OrderNumber(props) {
@@ -13,6 +14,10 @@ function OrderNumber(props) {
       </div>
     </div>
   )
+}
+
+OrderNumber.propTypes = {
+  orderNumber: PropTypes.number
 }
 
 export default OrderNumber;
