@@ -10,7 +10,8 @@ import {
   REMOVE_INGREDIENT,
   REMOVE_FROM_STOCK,
   ADD_BACK_STOCK,
-  HANDLE_ERROR
+  HANDLE_ERROR,
+  SET_MENU_STATE
 } from "../types";
 
 export const resetOrder = () => dispatch => {
@@ -84,3 +85,7 @@ export const removeIngredient = index => dispatch => {
 export const removeFromStock = () => dispatch => {
   return dispatch({ type: REMOVE_FROM_STOCK });
 };
+
+export const setMenuState = nextPage => dispatch => {
+  return dispatch({ type: SET_MENU_STATE, payload: nextPage });
+}

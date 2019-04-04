@@ -9,7 +9,8 @@ import {
   REMOVE_INGREDIENT,
   REMOVE_FROM_STOCK,
   ADD_BACK_STOCK,
-  HANDLE_ERROR
+  HANDLE_ERROR,
+  SET_MENU_STATE
 } from "../types";
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
   order: [],
   orderSize: 0,
   orderNumber: null,
-  menuError: ""
+  menuError: "",
+  menuState: "sandwichPage"
 };
 
 //TODO: Refactor into different reducers
@@ -159,14 +161,16 @@ function rootReducer(state = initialState, action) {
         );
         newStock.stock += 1;
       });
-
-      
-
       return {
         ...state,
         inventory: newInventory,
         orderSize: state.orderSize - 1
       };
+    case SET_MENU_STATE:
+      return {
+        ...state,
+        menuState: action.payload
+      }
     default:
       return state;
   }

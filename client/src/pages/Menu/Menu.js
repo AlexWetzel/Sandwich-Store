@@ -7,7 +7,7 @@ import OrderNumber from "./../../components/OrderNumber";
 import { OrderItem, OrderCustom } from "./../../components/OrderItem";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { removeItem, removeFromStock } from "../../redux/actions";
+import { removeItem, removeFromStock, setMenuState } from "../../redux/actions";
 
 const mapStateToProps = state => {
   return {
@@ -15,7 +15,8 @@ const mapStateToProps = state => {
     inventory: state.inventory,
     orderNumber: state.orderNumber,
     order: state.order,
-    orderSize: state.orderSize
+    orderSize: state.orderSize,
+    menuState: state.menuState
   };
 };
 
@@ -44,25 +45,18 @@ class Menu extends Component {
     page: "sandwichPage"
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    // When all sandwiches get removed from the order, reset the menu page
-    if (this.props.order.length === 0 && prevState.page !== "sandwichPage") {
-      this.setState({ page: "sandwichPage" });
-    }
-  }
-
   transition(action) {
-    const currentPage = this.state.page;
+    const currentPage = this.props.menuState;
     const nextPage = menuMachine[currentPage][action.type];
     if (nextPage) {
-      this.setState({ page: nextPage });
+      this.props.setMenuState(nextPage);
     }
   }
 
   nextPage = () => {
     this.transition({ type: "NEXT_PAGE" });
     // Remove ingredients from the stock after customizing a sandwich
-    if (this.state.page === "veggiesPage") {
+    if (this.props.menuState === "veggiesPage") {
       this.props.removeFromStock();
     }
   };
@@ -70,18 +64,19 @@ class Menu extends Component {
   previousPage = () => {
     this.transition({ type: "PREVIOUS_PAGE" });
     // Navigating back from the sauce page should remove the last sandwich
-    if (this.state.page === "saucePage") {
+    if (this.props.menuState === "saucePage") {
       const i = this.props.orderSize;
       const sandwich = this.props.order[i];
       this.props.removeItem(sandwich, i, i);
     }
   };
 
-  removeSandwich = (sandwich, index) => {
-    this.props.removeItem(sandwich, index, this.props.orderSize)
-    if (index === this.props.orderSize && this.state.page !== "sandwichPage") {
-      this.setState({ page: "sandwichPage" });
+  removeSandwich = (sandwich, index) => {  
+    if (index === this.props.orderSize && this.props.menuState !== "sandwichPage") {
+      this.props.setMenuState("sandwichPage");
     };
+
+    this.props.removeItem(sandwich, index, this.props.orderSize)
   }
 
   // Determine the price of the order
@@ -112,7 +107,7 @@ class Menu extends Component {
             <MenuSelection 
               nextPage={this.nextPage}
               previousPage={this.previousPage}
-              page={this.state.page}
+              page={this.props.menuState}
             />
           ) : (
             <this.submitThenRedirect />
@@ -192,5 +187,5 @@ Menu.propType = {
 
 export default connect(
   mapStateToProps,
-  { removeItem, removeFromStock }
+  { removeItem, removeFromStock, setMenuState }
 )(Menu);
