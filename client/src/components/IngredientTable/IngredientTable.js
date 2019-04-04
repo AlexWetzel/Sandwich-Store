@@ -1,5 +1,5 @@
 import React from "react";
-import { IngredientTableRow } from "../../components/IngredientTable";
+import PropTypes from "prop-types";
 
 function IngredientTable(props) {
   return (
@@ -46,5 +46,10 @@ function InventoryButton(props) {
     </button>
   );
 };
+
+IngredientTable.propTypes = {
+  allowInvSubmit: PropTypes.bool,
+  submit: PropTypes.func
+}
 
 export { IngredientTable };
